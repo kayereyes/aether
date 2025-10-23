@@ -1,6 +1,4 @@
 import tailwindcss from '@tailwindcss/vite';
-/// <reference types="vitest/config" />
-import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vitest/config';
 import { sveltekit } from '@sveltejs/kit/vite';
 import path from 'node:path';

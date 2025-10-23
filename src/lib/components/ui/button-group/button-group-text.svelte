@@ -7,17 +7,26 @@
 		ref = $bindable(null),
 		class: className,
 		child,
+		variant = "bg",
 		...restProps
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
-		child?: Snippet<[{ props: Record<string, unknown> }]>;
+			child?: Snippet<[{ props: Record<string, unknown> }]>,
+			variant?: "bg" | "ghost" | string;
 	} = $props();
+
+	const variantBase = $derived(() => {
+		switch (variant) {
+			case "ghost":
+				return "bg-transparent shadow-none flex items-center gap-2 rounded-md px-3 text-sm font-medium";
+			case "bg":
+			default:
+				return "bg-muted shadow-xs flex items-center gap-2 rounded-md border px-4 text-sm font-medium [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none";
+		}
+	});
 
 	const mergedProps = $derived({
 		...restProps,
-		class: cn(
-			"bg-muted shadow-xs flex items-center gap-2 rounded-md border px-4 text-sm font-medium [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none",
-			className
-		),
+		class: cn(variantBase, className),
 	});
 </script>
 

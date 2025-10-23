@@ -4,6 +4,11 @@
 	export const buttonGroupVariants = tv({
 		base: "flex w-fit items-stretch has-[>[data-slot=button-group]]:gap-2 [&>*]:focus-visible:relative [&>*]:focus-visible:z-10 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
 		variants: {
+			variant: {
+				default: "bg",
+				ghost: "",
+				bg: "",
+			},
 			orientation: {
 				horizontal:
 					"[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
@@ -13,10 +18,12 @@
 		},
 		defaultVariants: {
 			orientation: "horizontal",
+			variant: "bg",
 		},
 	});
 
 	export type ButtonGroupOrientation = VariantProps<typeof buttonGroupVariants>["orientation"];
+	export type ButtonGroupVariant = VariantProps<typeof buttonGroupVariants>["variant"];
 </script>
 
 <script lang="ts">
@@ -28,9 +35,11 @@
 		class: className,
 		children,
 		orientation = "horizontal",
+		variant = "bg",
 		...restProps
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> & {
 		orientation?: ButtonGroupOrientation;
+		variant?: ButtonGroupVariant;
 	} = $props();
 </script>
 
@@ -39,7 +48,8 @@
 	role="group"
 	data-slot="button-group"
 	data-orientation={orientation}
-	class={cn(buttonGroupVariants({ orientation }), className)}
+	data-variant={variant}
+	class={cn(buttonGroupVariants({ orientation, variant }), className)}
 	{...restProps}
 >
 	{@render children?.()}
