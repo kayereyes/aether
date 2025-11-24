@@ -1,7 +1,7 @@
 <script module>
 	import { defineMeta } from "@storybook/addon-svelte-csf";
-	import { DropdownMenu } from "./index.js";
-	import {ChevronLeft, User, Settings, LogOut, Plus, Mail, UserPlus, MessageSquare, PlusCircle, FileText, Image, Video, Music, Share2, Copy, Download } from "@lucide/svelte";
+	import { DropdownMenu, Trigger } from "./index.js";
+	import {ChevronDown, User, Settings, LogOut, Plus, Mail, UserPlus, MessageSquare, PlusCircle, FileText, Image, Video, Music, Share2, Copy, Download } from "@lucide/svelte";
 	import { fn } from "storybook/test";
 
 	const { Story } = defineMeta({
@@ -275,3 +275,24 @@
 		},
 	]
 }} />
+	{#snippet trigger()}
+		<Trigger>
+			{#snippet child({ props })}
+				<div {...props} class="cursor-pointer hover:opacity-80 transition-opacity">
+					<div class="flex items-center gap-2">
+						<div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
+							JD
+						</div>
+						<span class="text-sm font-medium">John Doe</span>
+						<ChevronDown class="size-3 text-muted-foreground" />
+					</div>
+				</div>
+			{/snippet}
+		</Trigger>
+	{/snippet}
+
+<Story name="custom trigger" args={{items : basicItems, trigger: trigger}} />
+
+
+
+

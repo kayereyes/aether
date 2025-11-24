@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { DropdownMenu as DropdownMenuSimple} from "$lib/components/ui/dropdown-menu";
-	import { User, Settings, LogOut, Plus, Mail, UserPlus, MessageSquare, Bell, Shield, HelpCircle, Download, Upload, Trash2, Edit, Copy, Share2, FileText, Image, Video, Music, Folder, File } from "@lucide/svelte";
+	import * as DropdownMenuPrimitive from "$lib/components/ui/dropdown-menu/index";
+	import { User, Settings, ChevronDown, LogOut, Plus, Mail, UserPlus, MessageSquare, Bell, Shield, HelpCircle, Download, Upload, Trash2, Edit, Copy, Share2, FileText, Image, Video, Music, Folder, File } from "@lucide/svelte";
 
 	let statusBarChecked = $state(true);
 	let toolbarChecked = $state(true);
@@ -192,6 +193,28 @@
 		{ type: "separator" as const },
 		{ label: "Exit", variant: "destructive" as const, onSelect: () => console.log("Exit") },
 	];
+
+	// Custom trigger examples
+	const customTriggerMenuItems = [
+		{ label: "New Item", icon: Plus, shortcut: "⌘N", onSelect: () => console.log("New Item") },
+		{ label: "Edit", icon: Edit, shortcut: "⌘E", onSelect: () => console.log("Edit") },
+		{ label: "Duplicate", icon: Copy, shortcut: "⌘D", onSelect: () => console.log("Duplicate") },
+		{ type: "separator" as const },
+		{ label: "Share", icon: Share2, onSelect: () => console.log("Share") },
+		{ type: "separator" as const },
+		{ label: "Delete", icon: Trash2, variant: "destructive" as const, shortcut: "⌘⌫", onSelect: () => console.log("Delete") },
+	];
+
+	const labelTriggerMenuItems = [
+		{ label: "My Profile", icon: User, onSelect: () => console.log("Profile") },
+		{ label: "Account Settings", icon: Settings, onSelect: () => console.log("Settings") },
+		{ label: "Notifications", icon: Bell, onSelect: () => console.log("Notifications") },
+		{ type: "separator" as const },
+		{ label: "Privacy & Security", icon: Shield, onSelect: () => console.log("Privacy") },
+		{ label: "Help Center", icon: HelpCircle, onSelect: () => console.log("Help") },
+		{ type: "separator" as const },
+		{ label: "Sign Out", icon: LogOut, variant: "destructive" as const, onSelect: () => console.log("Sign Out") },
+	];
 </script>
 
 <div class="container mx-auto p-6 max-w-6xl">
@@ -363,6 +386,50 @@
 					items={nestedSubmenuItems}
 				/>
 
+			</div>
+		</section>
+
+		<!-- Custom Trigger Examples -->
+		<section>
+			<h2 class="text-2xl font-semibold mb-4">Custom Trigger</h2>
+			<p class="text-sm text-muted-foreground mb-4">
+				Use the <code class="text-xs bg-muted px-1 py-0.5 rounded">trigger</code> snippet prop to provide custom trigger elements like labels, avatars, or any custom component.
+			</p>
+			<div class="flex flex-wrap gap-6">
+				<!-- Label as Trigger -->
+				<DropdownMenuSimple items={labelTriggerMenuItems}>
+					{#snippet trigger()}
+						<DropdownMenuPrimitive.Trigger>
+							{#snippet child({ props })}
+								<div {...props} class="cursor-pointer hover:opacity-80 transition-opacity">
+									<div class="flex items-center gap-2">
+										<div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
+											JD
+										</div>
+										<span class="text-sm font-medium">John Doe</span>
+										<ChevronDown class="size-3 text-muted-foreground" />
+									</div>
+								</div>
+							{/snippet}
+						</DropdownMenuPrimitive.Trigger>
+					{/snippet}
+				</DropdownMenuSimple>
+
+				<!-- Text Label as Trigger -->
+				<DropdownMenuSimple items={customTriggerMenuItems}>
+					{#snippet trigger()}
+						<DropdownMenuPrimitive.Trigger>
+							{#snippet child({ props })}
+								<span
+									{...props}
+									class="text-sm font-medium text-primary hover:underline cursor-pointer"
+								>
+									Actions Menu ▼
+								</span>
+							{/snippet}
+						</DropdownMenuPrimitive.Trigger>
+					{/snippet}
+				</DropdownMenuSimple>
 			</div>
 		</section>
 	</div>
