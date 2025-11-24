@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Checkbox } from "$lib/components/ui/checkbox";
+	import { Checkbox } from "$core/components/ui/checkbox";
 
 	let basicChecked = $state(false);
 	let withLabelChecked = $state(false);

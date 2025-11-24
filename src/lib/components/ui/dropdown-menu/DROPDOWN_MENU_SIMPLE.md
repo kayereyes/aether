@@ -16,7 +16,7 @@ A simplified dropdown menu component that wraps all the complexity of the standa
 
 ```svelte
 <script>
-  import { DropdownMenuSimple } from "$lib/components/ui/dropdown-menu";
+  import { DropdownMenu } from "$core/components/ui/dropdown-menu";
   import { User, Settings, LogOut } from "@lucide/svelte";
 
   const items = [
@@ -27,7 +27,7 @@ A simplified dropdown menu component that wraps all the complexity of the standa
   ];
 </script>
 
-<DropdownMenuSimple
+<DropdownMenu
   triggerText="User Menu"
   {items}
 />
@@ -112,7 +112,7 @@ const items = [
 ### With Shortcuts
 
 ```svelte
-<DropdownMenuSimple
+<DropdownMenu
   triggerText="File"
   items={[
     { label: "New", icon: Plus, shortcut: "⌘N", onSelect: () => {} },
@@ -147,7 +147,7 @@ const items = [
   ];
 </script>
 
-<DropdownMenuSimple triggerText="View" {items} />
+<DropdownMenu triggerText="View" {items} />
 ```
 
 ### Radio Group for Theme
@@ -171,7 +171,7 @@ const items = [
   ];
 </script>
 
-<DropdownMenuSimple triggerText={`Theme: ${theme}`} {items} />
+<DropdownMenu triggerText={`Theme: ${theme}`} {items} />
 ```
 
 ### Complex Menu
@@ -221,7 +221,7 @@ const items = [
   ];
 </script>
 
-<DropdownMenuSimple triggerText="Account" {items} />
+<DropdownMenu triggerText="Account" {items} />
 ```
 
 ## Props
@@ -300,7 +300,7 @@ const items = [
 ### After (Simplified)
 
 ```svelte
-<DropdownMenuSimple
+<DropdownMenu
   triggerText="Open"
   items={[
     { label: "Profile", icon: User },

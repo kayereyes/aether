@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { DatePicker, DateRangePicker, DatePickerWithPresets, DateRangePickerWithPresets } from "$lib/components/ui/date-picker";
+	import { DatePicker, DateRangePicker, DatePickerWithPresets, DateRangePickerWithPresets } from "$core/components/ui/date-picker";
 	import { type DateValue, CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
 	import type { DateRange } from "bits-ui";
 

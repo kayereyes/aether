@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { FileInput, FileInputDragDrop, FileInputRegular, FileInputButton } from '$lib/components/ui/file-input';
+	import { FileInput, FileInputDragDrop, FileInputRegular, FileInputButton } from '$core/components/ui/file-input';
 
 	let dragDropFiles: FileList | null = $state(null);
 	let regularFiles: FileList | null = $state(null);

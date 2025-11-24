@@ -20,7 +20,7 @@ A unified Select component that combines all shadcn select functionality into a 
 
 ```svelte
 <script>
-  import { SelectUnified } from "$lib/components/ui/select";
+  import { SelectUnified } from "$core/components/ui/select";
   
   let value = $state("");
   

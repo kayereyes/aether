@@ -23,7 +23,7 @@ npm install bits-ui @lucide/svelte tailwind-variants
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
+  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
   
   let selectedValue = $state("option1");
 </script>
@@ -48,7 +48,7 @@ npm install bits-ui @lucide/svelte tailwind-variants
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
+  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
   
   let selectedPlan = $state("pro");
 </script>
@@ -83,7 +83,7 @@ npm install bits-ui @lucide/svelte tailwind-variants
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
+  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
   
   let theme = $state("auto");
 </script>
@@ -363,7 +363,7 @@ import type {
   RadioGroupSize,
   RadioGroupItemVariant,
   RadioGroupItemSize 
-} from "$lib/components/ui/radio-group";
+} from "$core/components/ui/radio-group";
 
 // Group variant and size types
 type GroupVariant = RadioGroupVariant; // "default" | "card" | "inline"
@@ -387,7 +387,7 @@ type ItemSize = RadioGroupItemSize; // "sm" | "default" | "lg"
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
+  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
   
   let formData = $state({
     plan: "free",

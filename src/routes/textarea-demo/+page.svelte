@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Textarea } from "$lib/components/ui/textarea";
-	import { Button } from "$lib/components/ui/button";
+	import { Textarea } from "$core/components/ui/textarea";
+	import { Button } from "$core/components/ui/button";
 
 	let defaultValue = $state("");
 	let outlineValue = $state("");

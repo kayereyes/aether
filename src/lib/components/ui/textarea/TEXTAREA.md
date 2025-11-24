@@ -20,7 +20,7 @@ A versatile textarea component with multiple variants, sizes, and advanced featu
 
 ```svelte
 <script>
-  import { Textarea } from "$lib/components/ui/textarea";
+  import { Textarea } from "$core/components/ui/textarea";
   
   let value = $state("");
 </script>
@@ -101,7 +101,7 @@ A versatile textarea component with multiple variants, sizes, and advanced featu
 
 ```svelte
 <script>
-  import { Textarea } from "$lib/components/ui/textarea";
+  import { Textarea } from "$core/components/ui/textarea";
   
   let message = $state("");
 </script>
@@ -170,7 +170,7 @@ import type {
   TextareaVariant, 
   TextareaSize, 
   TextareaResize 
-} from "$lib/components/ui/textarea";
+} from "$core/components/ui/textarea";
 ```
 
 ## Styling

@@ -1,7 +1,7 @@
 <script>
-  import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
-  import { Badge } from "$lib/components/ui/badge";
-  import { Button } from "$lib/components/ui/button";
+  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
+  import { Badge } from "$core/components/ui/badge";
+  import { Button } from "$core/components/ui/button";
 
   let selectedPlan = $state("pro");
   let notificationPreference = $state("email");

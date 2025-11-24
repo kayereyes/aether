@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Switch } from '$lib/components/ui/switch';
-	import type { SwitchVariant, SwitchSize } from '$lib/components/ui/switch';
+	import { Switch } from '$core/components/ui/switch';
+	import type { SwitchVariant, SwitchSize } from '$core/components/ui/switch';
 
 	let states = $state({
 		basicSwitch: false,

@@ -9,7 +9,7 @@ A simple date picker for selecting a single date.
 
 ```svelte
 <script>
-  import { DatePicker } from "$lib/components/ui/date-picker";
+  import { DatePicker } from "$core/components/ui/date-picker";
   let date = $state();
 </script>
 
@@ -21,7 +21,7 @@ A date range picker with two calendars for selecting start and end dates.
 
 ```svelte
 <script>
-  import { DateRangePicker } from "$lib/components/ui/date-picker";
+  import { DateRangePicker } from "$core/components/ui/date-picker";
   let range = $state();
 </script>
 
@@ -33,7 +33,7 @@ A date picker with quick preset options (Today, Tomorrow, In a week, etc.).
 
 ```svelte
 <script>
-  import { DatePickerWithPresets } from "$lib/components/ui/date-picker";
+  import { DatePickerWithPresets } from "$core/components/ui/date-picker";
   let date = $state();
 </script>
 
@@ -45,7 +45,7 @@ A date range picker with preset ranges (Last 7 days, Last 30 days, This month, e
 
 ```svelte
 <script>
-  import { DateRangePickerWithPresets } from "$lib/components/ui/date-picker";
+  import { DateRangePickerWithPresets } from "$core/components/ui/date-picker";
   let range = $state();
 </script>
 
@@ -139,7 +139,7 @@ The date picker uses `@internationalized/date` for date handling:
 
 ```svelte
 <script>
-  import { DatePicker } from "$lib/components/ui/date-picker";
+  import { DatePicker } from "$core/components/ui/date-picker";
   import { CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
   
   let date = $state();

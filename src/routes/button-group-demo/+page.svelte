@@ -1,7 +1,7 @@
 <script>
-  import { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from "$lib/components/ui/button-group";
-  import { Button } from "$lib/components/ui/button";
-  import { Badge } from "$lib/components/ui/badge";
+  import { ButtonGroup, ButtonGroupText, ButtonGroupSeparator } from "$core/components/ui/button-group";
+  import { Button } from "$core/components/ui/button";
+  import { Badge } from "$core/components/ui/badge";
 </script>
 
 <svelte:head>

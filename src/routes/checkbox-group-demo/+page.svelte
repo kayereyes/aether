@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { CheckboxGroup } from "$lib/components/ui/checkbox";
-	import type { CheckboxGroupOption } from "$lib/components/ui/checkbox";
+	import { CheckboxGroup } from "$core/components/ui/checkbox";
+	import type { CheckboxGroupOption } from "$core/components/ui/checkbox";
 
 	// Demo data
 	let basicValues = $state<string[]>([]);

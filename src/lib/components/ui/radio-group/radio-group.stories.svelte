@@ -1,6 +1,6 @@
 <script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-	import { RadioGroup, RadioGroupItem } from "$lib/components/ui/radio-group";
+	import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
   import { fn } from 'storybook/test';
 
   const { Story } = defineMeta({

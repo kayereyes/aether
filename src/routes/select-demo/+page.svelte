@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Select } from "$lib/components/ui/select";
-  import { Badge } from "$lib/components/ui/badge";
+  import { Select } from "$core/components/ui/select";
+  import { Badge } from "$core/components/ui/badge";
 
   let basicValue = $state("");
   let multiValue = $state<string[]>([]);

@@ -17,7 +17,7 @@ A powerful component for managing multiple related checkboxes with shared state 
 ### Simple Checkbox Group
 ```svelte
 <script>
-  import { CheckboxGroup } from "$lib/components/ui/checkbox";
+  import { CheckboxGroup } from "$core/components/ui/checkbox";
   
   let selectedValues = $state([]);
   

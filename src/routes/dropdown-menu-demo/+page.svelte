@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { DropdownMenu as DropdownMenuSimple} from "$lib/components/ui/dropdown-menu";
-	import * as DropdownMenuPrimitive from "$lib/components/ui/dropdown-menu/index";
+	import { DropdownMenu} from "$core/components/ui/dropdown-menu";
+	import * as DropdownMenuPrimitive from "$core/components/ui/dropdown-menu/index";
 	import { User, Settings, ChevronDown, LogOut, Plus, Mail, UserPlus, MessageSquare, Bell, Shield, HelpCircle, Download, Upload, Trash2, Edit, Copy, Share2, FileText, Image, Video, Music, Folder, File } from "@lucide/svelte";
 
 	let statusBarChecked = $state(true);
@@ -230,25 +230,25 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Basic Menus</h2>
 			<div class="flex flex-wrap gap-4">
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="User Menu"
 					items={basicMenuItems}
 				/>
 
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="File Actions"
 					triggerVariant="default"
 					items={fileMenuItems}
 				/>
 
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="With Icon"
 					triggerIcon={Plus}
 					triggerVariant="secondary"
 					items={basicMenuItems}
 				/>
 
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="No Chevron"
 					showChevron={false}
 					items={basicMenuItems}
@@ -261,7 +261,7 @@
 			<h2 class="text-2xl font-semibold mb-4">Interactive Menus</h2>
 			<div class="space-y-4">
 				<div class="flex flex-wrap gap-4">
-					<DropdownMenuSimple
+					<DropdownMenu
 						triggerText="View Options"
 						items={viewMenuItems}
 					/>
@@ -273,7 +273,7 @@
 				</div>
 
 				<div class="flex flex-wrap gap-4">
-					<DropdownMenuSimple
+					<DropdownMenu
 						triggerText={`Theme: ${theme}`}
 						items={themeMenuItems}
 					/>
@@ -283,7 +283,7 @@
 				</div>
 
 				<div class="flex flex-wrap gap-4">
-					<DropdownMenuSimple
+					<DropdownMenu
 						triggerText={`Plan: ${selectedPlan}`}
 						triggerVariant="outline"
 						items={planMenuItems}
@@ -299,7 +299,7 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Grouped Menu</h2>
 			<div>
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="Actions"
 					triggerVariant="outline"
 					items={groupedMenuItems}
@@ -311,7 +311,7 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Complex Combined Menu</h2>
 			<div class="space-y-4">
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="Account Settings"
 					triggerVariant="default"
 					items={complexMenuItems}
@@ -336,11 +336,11 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Trigger Variants</h2>
 			<div class="flex flex-wrap gap-4">
-				<DropdownMenuSimple triggerText="Default" triggerVariant="default" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Secondary" triggerVariant="secondary" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Outline" triggerVariant="outline" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Ghost" triggerVariant="ghost" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Destructive" triggerVariant="destructive" items={basicMenuItems} />
+				<DropdownMenu triggerText="Default" triggerVariant="default" items={basicMenuItems} />
+				<DropdownMenu triggerText="Secondary" triggerVariant="secondary" items={basicMenuItems} />
+				<DropdownMenu triggerText="Outline" triggerVariant="outline" items={basicMenuItems} />
+				<DropdownMenu triggerText="Ghost" triggerVariant="ghost" items={basicMenuItems} />
+				<DropdownMenu triggerText="Destructive" triggerVariant="destructive" items={basicMenuItems} />
 			</div>
 		</section>
 
@@ -348,9 +348,9 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Sizes</h2>
 			<div class="flex flex-wrap items-center gap-4">
-				<DropdownMenuSimple triggerText="Small" triggerSize="sm" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Default" triggerSize="default" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Large" triggerSize="lg" items={basicMenuItems} />
+				<DropdownMenu triggerText="Small" triggerSize="sm" items={basicMenuItems} />
+				<DropdownMenu triggerText="Default" triggerSize="default" items={basicMenuItems} />
+				<DropdownMenu triggerText="Large" triggerSize="lg" items={basicMenuItems} />
 			</div>
 		</section>
 
@@ -358,9 +358,9 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">Content Alignment</h2>
 			<div class="flex flex-wrap gap-4">
-				<DropdownMenuSimple triggerText="Align Start" align="start" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Align Center" align="center" items={basicMenuItems} />
-				<DropdownMenuSimple triggerText="Align End" align="end" items={basicMenuItems} />
+				<DropdownMenu triggerText="Align Start" align="start" items={basicMenuItems} />
+				<DropdownMenu triggerText="Align Center" align="center" items={basicMenuItems} />
+				<DropdownMenu triggerText="Align End" align="end" items={basicMenuItems} />
 			</div>
 		</section>
 
@@ -368,19 +368,19 @@
 		<section>
 			<h2 class="text-2xl font-semibold mb-4">With Submenu</h2>
 			<div class="flex flex-wrap gap-4">
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="Share Menu"
 					triggerIcon={Share2}
 					items={shareMenuItems}
 				/>
 
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="File Menu"
 					triggerVariant="outline"
 					items={fileMenuWithSubmenu}
 				/>
 
-				<DropdownMenuSimple
+				<DropdownMenu
 					triggerText="Nested Submenus"
 					triggerVariant="secondary"
 					items={nestedSubmenuItems}
@@ -397,7 +397,7 @@
 			</p>
 			<div class="flex flex-wrap gap-6">
 				<!-- Label as Trigger -->
-				<DropdownMenuSimple items={labelTriggerMenuItems}>
+				<DropdownMenu items={labelTriggerMenuItems}>
 					{#snippet trigger()}
 						<DropdownMenuPrimitive.Trigger>
 							{#snippet child({ props })}
@@ -413,10 +413,10 @@
 							{/snippet}
 						</DropdownMenuPrimitive.Trigger>
 					{/snippet}
-				</DropdownMenuSimple>
+				</DropdownMenu>
 
 				<!-- Text Label as Trigger -->
-				<DropdownMenuSimple items={customTriggerMenuItems}>
+				<DropdownMenu items={customTriggerMenuItems}>
 					{#snippet trigger()}
 						<DropdownMenuPrimitive.Trigger>
 							{#snippet child({ props })}
@@ -429,7 +429,7 @@
 							{/snippet}
 						</DropdownMenuPrimitive.Trigger>
 					{/snippet}
-				</DropdownMenuSimple>
+				</DropdownMenu>
 			</div>
 		</section>
 	</div>
