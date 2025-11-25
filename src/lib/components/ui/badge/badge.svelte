@@ -14,6 +14,7 @@
 		variant = "default",
 		color = "default",
 		size = "default",
+		shape = "rounded",
 		text,
 		dismissable = false,
 		clickable = false,
@@ -57,7 +58,8 @@
 		badgeVariants({ 
 			variant, 
 			color, 
-			size, 
+			size,
+			shape,
 			clickable: isClickable 
 		}), 
 		className

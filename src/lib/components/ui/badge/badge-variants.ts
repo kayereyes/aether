@@ -12,6 +12,11 @@ export const badgeVariants = tv({
 			outline: "bg-background",
 			dashed: "bg-background border-dashed",
 		},
+		shape: {
+			rounded: "rounded-md",
+			circle: "rounded-full",
+			square: "rounded-none",
+		},
 		color: {
 			default: "",
 			red: "",
@@ -357,6 +362,7 @@ export const badgeVariants = tv({
 		variant: "default",
 		color: "default",
 		size: "default",
+		shape: "rounded",
 		clickable: false,
 	},
 });
@@ -364,12 +370,14 @@ export const badgeVariants = tv({
 export type BadgeVariant = VariantProps<typeof badgeVariants>["variant"];
 export type BadgeColor = VariantProps<typeof badgeVariants>["color"];
 export type BadgeSize = VariantProps<typeof badgeVariants>["size"];
+export type BadgeShape = VariantProps<typeof badgeVariants>["shape"];
 
 export type BadgeProps = WithElementRef<HTMLAnchorAttributes> &
 	WithElementRef<HTMLButtonAttributes> & {
 		variant?: BadgeVariant;
 		color?: BadgeColor;
 		size?: BadgeSize;
+		shape?: BadgeShape;
 		text?: string;
 		dismissable?: boolean;
 		clickable?: boolean;

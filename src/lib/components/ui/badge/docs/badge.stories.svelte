@@ -18,6 +18,15 @@
           defaultValue: { summary: 'default' },
         },
       },
+      shape: {
+        control: { type: 'select' },
+        options: ['rounded', 'circle', 'square'],
+        description: 'Shape of the badge',
+        table: {
+          type: { summary: 'string' },
+          defaultValue: { summary: 'rounded' },
+        },
+      },
       color: {
         control: { type: 'select' },
         options: ['default', 'red', 'orange', 'yellow', 'green', 'blue', 'purple', 'pink', 'gray'],
