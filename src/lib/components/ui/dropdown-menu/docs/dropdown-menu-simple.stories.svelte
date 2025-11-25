@@ -1,6 +1,6 @@
 <script module>
 	import { defineMeta } from "@storybook/addon-svelte-csf";
-	import { DropdownMenu, Trigger } from "./index.js";
+	import { DropdownMenu, Trigger } from "../index.js";
 	import {ChevronDown, User, Settings, LogOut, Plus, Mail, UserPlus, MessageSquare, PlusCircle, FileText, Image, Video, Music, Share2, Copy, Download } from "@lucide/svelte";
 	import { fn } from "storybook/test";
 

@@ -1,6 +1,6 @@
-<script lang="ts" context="module">
+<script module>
 	import { defineMeta } from "@storybook/addon-svelte-csf";
-	import Combobox from "./combobox.svelte";
+	import Combobox from "../combobox.svelte";
 
 	const { Story } = defineMeta({
 		title: "Components/Combobox",

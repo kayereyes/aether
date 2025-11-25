@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { defineMeta } from '@storybook/addon-svelte-csf';
-  import { Select } from './index';
+  import { Select } from '../index';
 
   const { Story } = defineMeta({
     title: 'Components/Select',

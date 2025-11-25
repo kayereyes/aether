@@ -1,9 +1,9 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import FileInput from "./file-input.svelte";
-	import FileInputDragDrop from "./file-input-drag-drop.svelte";
-	import FileInputRegular from "./file-input-regular.svelte";
-	import FileInputButton from "./file-input-button.svelte";
+	import FileInput from "../file-input.svelte";
+	import FileInputDragDrop from "../file-input-drag-drop.svelte";
+	import FileInputRegular from "../file-input-regular.svelte";
+	import FileInputButton from "../file-input-button.svelte";
 
 	const { Story } = defineMeta({
 		title: 'Components/FileInput',

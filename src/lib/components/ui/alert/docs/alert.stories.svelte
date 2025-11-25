@@ -1,7 +1,7 @@
 <script context="module" lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import Alert from './alert.svelte';
-	import * as AlertPrimitive from './index';
+	import Alert from '../alert.svelte';
+	import * as AlertPrimitive from '../index';
 
 	const { Story } = defineMeta({
 		component: Alert,
