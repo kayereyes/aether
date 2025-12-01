@@ -68,6 +68,21 @@
                     defaultValue: { summary: 'undefined' },
                 },
             },
+            error: {
+                control: { type: 'boolean' },
+                description: 'Error state - when true, applies error styling via aria-invalid',
+                table: {
+                    type: { summary: 'boolean' },
+                    defaultValue: { summary: 'false' },
+                },
+            },
+            onError: {
+                control: false,
+                description: 'Callback function called when error state changes',
+                table: {
+                    type: { summary: '(error: boolean) => void' },
+                },
+            },
             
             // Hide unwanted props from controls
             class: {
@@ -127,6 +142,8 @@
 <!-- Basic States -->
 <Story name="Default" args={{}} />
 <Story name="Disabled" args={{ disabled: true, value: 'Cannot edit this', placeholder: 'Disabled input' }} />
+<Story name="Error State" args={{ error: true, placeholder: 'This field has an error' }} />
+<Story name="Error with Value" args={{ error: true, value: 'invalid@email', placeholder: 'Email address' }} />
 
 <!-- Variants -->
 <Story name="Default Variant" args={{ variant: 'default', placeholder: 'Default variant' }} />

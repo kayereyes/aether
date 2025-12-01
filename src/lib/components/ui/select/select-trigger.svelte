@@ -50,11 +50,28 @@
 		children,
 		size = "default",
 		variant = "default",
+		error = false,
+		onError,
 		...restProps
 	}: WithoutChild<SelectPrimitive.TriggerProps> & {
 		size?: SelectTriggerSize;
 		variant?: SelectTriggerVariant;
+		/**
+		 * Error state - when true, applies error styling via aria-invalid
+		 */
+		error?: boolean;
+		/**
+		 * Callback function called when an error state is detected
+		 */
+		onError?: (error: boolean) => void;
 	} = $props();
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 </script>
 
 <SelectPrimitive.Trigger
@@ -62,7 +79,12 @@
 	data-slot="select-trigger"
 	data-size={size}
 	data-variant={variant}
-	class={cn(selectTriggerVariants({ variant, size }), className)}
+	aria-invalid={error}
+	class={cn(
+		selectTriggerVariants({ variant, size }),
+		error && "border-destructive ring-destructive/20 ring-[3px]",
+		className
+	)}
 	{...restProps}
 >
 	{@render children?.()}

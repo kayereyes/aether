@@ -116,8 +116,23 @@
 
 				<div class="space-y-2">
 					<label class="text-sm font-medium">Error State</label>
-					<Textarea aria-invalid={true} placeholder="This field has an error..." />
+					<Textarea 
+						error={true}
+						placeholder="This field has an error..." 
+						onError={(err) => console.log('Error state:', err)}
+					/>
 					<p class="text-xs text-destructive">This field is required</p>
+				</div>
+
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Error with Character Count</label>
+					<Textarea 
+						error={true}
+						maxLength={100}
+						showCount
+						placeholder="Message exceeds limit..." 
+					/>
+					<p class="text-xs text-destructive">Message is too long</p>
 				</div>
 
 				<div class="space-y-2">

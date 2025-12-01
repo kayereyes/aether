@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Input, createMask, type InputVariant, type InputSize, type MaskType } from "$core/components/ui/input/index.js";
+	import * as Field from "$core/components/ui/field/index.js";
 	
 	let basicValue = $state("");
 	let phoneValue = $state("");
@@ -7,6 +8,12 @@
 	let creditCardValue = $state("");
 	let dateValue = $state("");
 	let timeValue = $state("");
+	let emailValue = $state("");
+	let usernameValue = $state("");
+	
+	// Error states
+	let emailError = $derived(emailValue.length > 0 && !emailValue.includes("@"));
+	let usernameError = $derived(usernameValue.length > 0 && usernameValue.length < 3);
 	
 	const variants: InputVariant[] = ["default", "outline", "filled", "ghost", "underline"];
 	const sizes: InputSize[] = ["sm", "default", "lg"];
@@ -26,7 +33,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 			{#each variants as variant}
 				<div class="space-y-2">
-					<label class="text-sm font-medium capitalize">{variant}</label>
+					<p class="text-sm font-medium capitalize">{variant}</p>
 					<Input 
 						{variant}
 						placeholder="Enter text..."
@@ -43,7 +50,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 			{#each sizes as size}
 				<div class="space-y-2">
-					<label class="text-sm font-medium capitalize">{size}</label>
+					<p class="text-sm font-medium capitalize">{size}</p>
 					<Input 
 						{size}
 						placeholder="Enter text..."
@@ -58,50 +65,108 @@
 	<section class="space-y-4">
 		<h2 class="text-2xl font-semibold">Masked Inputs</h2>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Phone Number</label>
+			<Field.Field label="Phone Number">
 				<Input 
 					mask="phone"
 					bind:value={phoneValue}
 				/>
-				<p class="text-xs text-muted-foreground">Value: {phoneValue}</p>
-			</div>
+				{#if phoneValue}
+					<Field.Description>Value: {phoneValue}</Field.Description>
+				{/if}
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Social Security Number</label>
+			<Field.Field label="Social Security Number">
 				<Input 
 					mask="ssn"
 					bind:value={ssnValue}
 				/>
-				<p class="text-xs text-muted-foreground">Value: {ssnValue}</p>
-			</div>
+				{#if ssnValue}
+					<Field.Description>Value: {ssnValue}</Field.Description>
+				{/if}
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Credit Card</label>
+			<Field.Field label="Credit Card">
 				<Input 
 					mask="creditCard"
 					bind:value={creditCardValue}
 				/>
-				<p class="text-xs text-muted-foreground">Value: {creditCardValue}</p>
-			</div>
+				{#if creditCardValue}
+					<Field.Description>Value: {creditCardValue}</Field.Description>
+				{/if}
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Date</label>
+			<Field.Field label="Date">
 				<Input 
 					mask="date"
 					bind:value={dateValue}
 				/>
-				<p class="text-xs text-muted-foreground">Value: {dateValue}</p>
-			</div>
+				{#if dateValue}
+					<Field.Description>Value: {dateValue}</Field.Description>
+				{/if}
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Time</label>
+			<Field.Field label="Time">
 				<Input 
 					mask="time"
 					bind:value={timeValue}
 				/>
-				<p class="text-xs text-muted-foreground">Value: {timeValue}</p>
-			</div>
+				{#if timeValue}
+					<Field.Description>Value: {timeValue}</Field.Description>
+				{/if}
+			</Field.Field>
+		</div>
+	</section>
+
+	<!-- Error States -->
+	<section class="space-y-4">
+		<h2 class="text-2xl font-semibold">Error States</h2>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+			<Field.Field 
+				label="Email Address"
+				error={emailError ? "Please enter a valid email address" : undefined}
+				required
+			>
+				<Input 
+					placeholder="Email address..."
+					bind:value={emailValue}
+					error={emailError}
+					type="email"
+				/>
+			</Field.Field>
+
+			<Field.Field 
+				label="Username"
+				error={usernameError ? "Username must be at least 3 characters" : undefined}
+				required
+			>
+				<Input 
+					variant="outline"
+					placeholder="Username..."
+					bind:value={usernameValue}
+					error={usernameError}
+				/>
+			</Field.Field>
+
+			<Field.Field 
+				label="Phone Number"
+				error="Invalid phone number format"
+			>
+				<Input 
+					mask="phone"
+					error={true}
+				/>
+			</Field.Field>
+
+			<Field.Field 
+				label="Large Input"
+				error="This field cannot be empty"
+			>
+				<Input 
+					size="lg"
+					placeholder="Large input with error..."
+					error={true}
+				/>
+			</Field.Field>
 		</div>
 	</section>
 
@@ -109,43 +174,39 @@
 	<section class="space-y-4">
 		<h2 class="text-2xl font-semibold">Combined Variants & Masks</h2>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Large Outlined Phone Input</label>
+			<Field.Field label="Large Outlined Phone Input">
 				<Input 
 					variant="outline"
 					size="lg"
 					mask="phone"
 					bind:value={phoneValue}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Small Filled Date Input</label>
+			<Field.Field label="Small Filled Date Input">
 				<Input 
 					variant="filled"
 					size="sm"
 					mask="date"
 					bind:value={dateValue}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Ghost SSN Input</label>
+			<Field.Field label="Ghost SSN Input">
 				<Input 
 					variant="ghost"
 					mask="ssn"
 					bind:value={ssnValue}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Underline Credit Card Input</label>
+			<Field.Field label="Underline Credit Card Input">
 				<Input 
 					variant="underline"
 					mask="creditCard"
 					bind:value={creditCardValue}
 				/>
-			</div>
+			</Field.Field>
 		</div>
 	</section>
 
@@ -153,32 +214,29 @@
 	<section class="space-y-4">
 		<h2 class="text-2xl font-semibold">States</h2>
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Disabled</label>
+			<Field.Field label="Disabled">
 				<Input 
 					placeholder="Disabled input"
 					disabled
 					value="Cannot edit this"
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Invalid (aria-invalid)</label>
+			<Field.Field label="Read-only">
 				<Input 
-					placeholder="Invalid input"
-					aria-invalid="true"
-					bind:value={basicValue}
+					placeholder="Read-only input"
+					readonly
+					value="Read-only value"
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Required</label>
+			<Field.Field label="Required" required>
 				<Input 
 					placeholder="Required input"
 					required
 					bind:value={basicValue}
 				/>
-			</div>
+			</Field.Field>
 		</div>
 	</section>
 
@@ -189,8 +247,10 @@
 			Examples of custom mask patterns for specialized input formats.
 		</p>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<div class="space-y-2">
-				<label class="text-sm font-medium">License Plate (ABC-1234)</label>
+			<Field.Field 
+				label="License Plate"
+				description="Format: ABC-1234"
+			>
 				<Input 
 					mask={{
 						pattern: /^[A-Z0-9\-\s]*$/,
@@ -202,10 +262,12 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Product Code (PROD-12345)</label>
+			<Field.Field 
+				label="Product Code"
+				description="Format: PROD-12345"
+			>
 				<Input 
 					mask={{
 						pattern: /^[A-Z0-9\-]*$/,
@@ -217,10 +279,12 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">Hex Color (#FF5733)</label>
+			<Field.Field 
+				label="Hex Color"
+				description="Format: #FF5733"
+			>
 				<Input 
 					mask={{
 						pattern: /^#[A-Fa-f0-9]*$/,
@@ -235,10 +299,12 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">IP Address (192.168.1.1)</label>
+			<Field.Field 
+				label="IP Address"
+				description="Format: 192.168.1.1"
+			>
 				<Input 
 					mask={{
 						pattern: /^[\d\.]*$/,
@@ -253,10 +319,12 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">MAC Address (AA:BB:CC:DD:EE:FF)</label>
+			<Field.Field 
+				label="MAC Address"
+				description="Format: AA:BB:CC:DD:EE:FF"
+			>
 				<Input 
 					mask={{
 						pattern: /^[A-Fa-f0-9:]*$/,
@@ -268,10 +336,12 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 
-			<div class="space-y-2">
-				<label class="text-sm font-medium">ISBN (978-0-123456-78-9)</label>
+			<Field.Field 
+				label="ISBN"
+				description="Format: 978-0-123456-78-9"
+			>
 				<Input 
 					mask={{
 						pattern: /^[\d\-]*$/,
@@ -287,7 +357,7 @@
 						}
 					}}
 				/>
-			</div>
+			</Field.Field>
 		</div>
 
 		<div class="mt-6 p-4 bg-muted rounded-lg">

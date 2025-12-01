@@ -58,4 +58,14 @@ export interface SwitchProps extends WithoutChildrenOrChild<SwitchPrimitive.Root
 	 * Callback when checked state changes
 	 */
 	onCheckedChange?: (checked: boolean) => void;
+	
+	/**
+	 * Error state - when true, applies error styling via aria-invalid
+	 */
+	error?: boolean;
+	
+	/**
+	 * Callback function called when an error state is detected
+	 */
+	onError?: (error: boolean) => void;
 }

@@ -50,6 +50,14 @@
 		label?: string;
 		description?: string;
 		lineThrough?: boolean;
+		/**
+		 * Error state - when true, applies error styling via aria-invalid
+		 */
+		error?: boolean;
+		/**
+		 * Callback function called when an error state is detected
+		 */
+		onError?: (error: boolean) => void;
 	};
 </script>
 
@@ -64,8 +72,17 @@
 		label,
 		description,
 		lineThrough = false,
+		error = false,
+		onError,
 		...restProps
 	}: CheckboxProps = $props();
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 </script>
 
 <div class="flex gap-3 items-center-safe">
@@ -75,6 +92,7 @@
 		class={cn(checkboxVariants({ size, variant }), className)}
 		bind:checked
 		bind:indeterminate
+		aria-invalid={error}
 		{...restProps}
 	>
 		{#snippet children({ checked, indeterminate })}

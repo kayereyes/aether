@@ -15,10 +15,19 @@
 		value,
 		required = false,
 		onCheckedChange,
+		error = false,
+		onError,
 		...restProps
 	}: SwitchProps = $props();
 
 	const variants = $derived(switchVariants({ variant, size }));
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 
 	// Handle checked change event
 	function handleCheckedChange(newChecked: boolean) {
@@ -35,6 +44,7 @@
 	{name}
 	{value}
 	{required}
+	aria-invalid={error}
 	data-slot="switch"
 	class={cn(variants.root(), className)}
 	{...restProps}

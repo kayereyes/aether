@@ -11,6 +11,8 @@
 		variant = "default",
 		size = "default",
 		mask,
+		error = false,
+		onError,
 		class: className,
 		"data-slot": dataSlot = "input",
 		...restProps
@@ -18,6 +20,13 @@
 
 	const classes = $derived(inputVariants({ variant, size }));
 	const { handleInput, getPlaceholder } = useMaskedInput(mask);
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 
 	// Handle masked input events
 	function onInput(event: Event) {
@@ -38,5 +47,6 @@
 	bind:value
 	placeholder={placeholderText()}
 	oninput={onInput}
+	aria-invalid={error}
 	{...restProps}
 />

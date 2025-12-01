@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Select } from "$core/components/ui/select";
   import { Badge } from "$core/components/ui/badge";
+    import {Field} from "$core/components/ui/field/";
 
   let basicValue = $state("");
   let multiValue = $state<string[]>([]);
@@ -127,6 +128,56 @@
           {#if groupedValue}
             <p class="text-sm text-muted-foreground mt-2">Selected: <Badge variant="secondary">{groupedValue}</Badge></p>
           {/if}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Variants -->
+  <section class="space-y-6">
+    <div>
+      <h2 class="text-2xl font-semibold mb-4">Error States</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Field
+						label="Username"
+						description="Choose a unique username for your account."
+						required
+						error={"This field is required"}
+					>
+						 <Select
+            options={fruits}
+            placeholder="Select a fruit..."
+            class="w-full"
+            error={true}
+          />
+					</Field>
+
+        <Field 
+          label="Outline with Error" 
+          error={"Please make a selection"}
+          required
+        >
+          
+          <Select
+            options={frameworks}
+            variant="outline"
+            placeholder="Select framework..."
+            class="w-full"
+            error={true}
+          />
+        </Field>
+
+
+        <div>
+          <span class="block text-sm font-medium mb-2">Large Error Select</span>
+          <Select
+            options={fruits}
+            size="lg"
+            placeholder="Large select..."
+            class="w-full"
+            error={true}
+          />
+          <p class="text-xs text-destructive mt-1">Invalid selection</p>
         </div>
       </div>
     </div>

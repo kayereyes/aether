@@ -17,6 +17,14 @@ export interface InputProps extends WithElementRef<Omit<HTMLInputAttributes, "ty
 	type?: InputType;
 	class?: string;
 	"data-slot"?: string;
+	/**
+	 * Error state - when true, applies error styling via aria-invalid
+	 */
+	error?: boolean;
+	/**
+	 * Callback function called when an error state is detected
+	 */
+	onError?: (error: boolean) => void;
 }
 
 // Re-export types from other modules for convenience

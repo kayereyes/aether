@@ -4,9 +4,10 @@
 	import { Textarea } from "$core/components/ui/textarea/index.js";
 	import { Checkbox } from "$core/components/ui/checkbox/index.js";
 	import { Switch } from "$core/components/ui/switch/index.js";
-	import * as Select from "$core/components/ui/select/index.js";
+	import {Select } from "$core/components/ui/select/index.js";
 	import * as Field from "$core/components/ui/field/index.js";
 	import {Card} from "$core/components/ui/card/index.js";
+    // import Select from "$core/components/ui/select/select.svelte";
 
 	// Form state
 	let username = $state("");
@@ -143,7 +144,7 @@
 						required
 						error={errors.username}
 					>
-						<Input id="username" bind:value={username} placeholder="johndoe" required />
+						<Input id="username" error={!!errors.username} bind:value={username} placeholder="johndoe" required />
 					</Field.Field>
 
 					<!-- Email Input -->
@@ -153,7 +154,7 @@
 						required
 						error={errors.email}
 					>
-						<Input id="email" type="email" bind:value={email} placeholder="you@example.com" required />
+						<Input id="email" error={!!errors.email} type="email" bind:value={email} placeholder="you@example.com" required />
 					</Field.Field>
 
 					<!-- Password Input -->
@@ -163,7 +164,7 @@
 						required
 						error={errors.password}
 					>
-						<Input id="password" type="password" bind:value={password} placeholder="••••••••" required />
+						<Input id="password" error={!!errors.password} type="password" bind:value={password} placeholder="••••••••" required />
 					</Field.Field>
 
 					<!-- Bio Textarea -->
@@ -183,20 +184,7 @@
 						required
 						error={errors.country}
 					>
-						<Select.Root type="single" bind:value={country} required>
-							<Select.Trigger id="country">
-								{#if country}
-									{countries.find((c) => c.value === country)?.label || "Select a country"}
-								{:else}
-									Select a country
-								{/if}
-							</Select.Trigger>
-							<Select.Content>
-								{#each countries as countryOption (countryOption.value)}
-									<Select.Item value={countryOption.value}>{countryOption.label}</Select.Item>
-								{/each}
-							</Select.Content>
-						</Select.Root>
+					 <Select bind:value={country} placeholder="Select a country..." options={countries} error={!!errors.country} />
 					</Field.Field>
 				</Field.Group>
 			</Field.Set>
@@ -238,20 +226,7 @@
 						required
 						error={errors.plan}
 					>
-						<Select.Root type="single" bind:value={plan} required>
-							<Select.Trigger id="plan">
-								{#if plan}
-									{plans.find((p) => p.value === plan)?.label || "Select a plan"}
-								{:else}
-									Select a plan
-								{/if}
-							</Select.Trigger>
-							<Select.Content>
-								{#each plans as planOption (planOption.value)}
-									<Select.Item value={planOption.value}>{planOption.label}</Select.Item>
-								{/each}
-							</Select.Content>
-						</Select.Root>
+					<Select bind:value={plan} required options={plans} placeholder="Select a plan..." error={!!errors.plan} />
 					</Field.Field>
 				</Field.Group>
 			</Field.Set>
@@ -741,15 +716,7 @@
 				<div class="space-y-4">
 					<div class="grid gap-4 md:grid-cols-2">
 						<Field.Field label="Plan Type">
-							<Select.Root type="single" value="pro">
-								<Select.Trigger id="plan-type">Pro - $29/month</Select.Trigger>
-								<Select.Content>
-									<Select.Item value="free">Free</Select.Item>
-									<Select.Item value="basic">Basic - $9/month</Select.Item>
-									<Select.Item value="pro">Pro - $29/month</Select.Item>
-									<Select.Item value="enterprise">Enterprise - $99/month</Select.Item>
-								</Select.Content>
-							</Select.Root>
+							<Select bind:value={plan} options={plans} placeholder="Select a plan..." />
 						</Field.Field>
 
 						<Field.Field label="Team Size">

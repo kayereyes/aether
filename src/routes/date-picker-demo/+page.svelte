@@ -93,6 +93,31 @@
 	<!-- Button Variants -->
 	<section class="space-y-4">
 		<div class="space-y-2">
+			<h2 class="text-2xl font-semibold">Error States</h2>
+			<p class="text-sm text-muted-foreground">
+				Date pickers with error styling.
+			</p>
+		</div>
+		<div class="grid gap-4 max-w-md">
+			<div>
+				<DatePicker 
+					error={true}
+					onError={(err) => console.log('Error state:', err)}
+				/>
+				<p class="text-xs text-destructive mt-1">Date is required</p>
+			</div>
+			<div>
+				<DatePickerWithPresets 
+					error={true}
+				/>
+				<p class="text-xs text-destructive mt-1">Please select a valid date</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Button Variants -->
+	<section class="space-y-4">
+		<div class="space-y-2">
 			<h2 class="text-2xl font-semibold">Button Variants</h2>
 			<p class="text-sm text-muted-foreground">
 				Different button styles for the date picker trigger.

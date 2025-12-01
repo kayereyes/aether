@@ -88,6 +88,21 @@
           defaultValue: { summary: 'false' },
         },
       },
+      error: {
+        control: { type: 'boolean' },
+        description: 'Error state - applies error styling via aria-invalid',
+        table: {
+          type: { summary: 'boolean' },
+          defaultValue: { summary: 'false' },
+        },
+      },
+      onError: {
+        control: false,
+        description: 'Callback function called when error state changes',
+        table: {
+          type: { summary: '(error: boolean) => void' },
+        },
+      },
       label: {
         control: { type: 'text' },
         description: 'Label for the checkbox group',
@@ -130,6 +145,7 @@
       options: basicOptions,
       values: [],
       onValuesChange: fn(),
+      onError: fn(),
     },
     
     // Disable automatic prop extraction
@@ -241,6 +257,36 @@
   label: "Todo List",
   description: "Completed items will be crossed out",
   values: ["task1", "task3"]
+}} />
+
+<!-- Error States -->
+<Story name="Error State" args={{ 
+  options: basicOptions,
+  label: "Required Selection",
+  description: "Please select at least one option",
+  error: true,
+  required: true
+}} />
+
+<Story name="Error with Values" args={{ 
+  options: [
+    { id: "e1", label: "Invalid Option 1", value: "e1" },
+    { id: "e2", label: "Invalid Option 2", value: "e2" },
+  ],
+  values: ["e1"],
+  label: "Invalid Selection",
+  description: "These selections contain errors",
+  error: true
+}} />
+
+<Story name="Error with Success Variant" args={{ 
+  options: todoOptions,
+  values: [],
+  label: "Required Tasks",
+  description: "You must complete at least one task",
+  error: true,
+  required: true,
+  variant: "success"
 }} />
 
 <!-- Complex Example -->

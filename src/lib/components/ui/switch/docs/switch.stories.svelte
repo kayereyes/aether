@@ -63,6 +63,21 @@
 					defaultValue: { summary: 'false' },
 				},
 			},
+			error: {
+				control: { type: 'boolean' },
+				description: 'Error state - when true, applies error styling via aria-invalid',
+				table: {
+					type: { summary: 'boolean' },
+					defaultValue: { summary: 'false' },
+				},
+			},
+			onError: {
+				control: false,
+				description: 'Callback function called when error state changes',
+				table: {
+					type: { summary: '(error: boolean) => void' },
+				},
+			},
 			
 			// Hide internal props from controls
 			class: {
@@ -103,6 +118,10 @@
 <Story name="Disabled" args={{ disabled: true }} />
 
 <Story name="Disabled Checked" args={{ disabled: true, checked: true }} />
+
+<Story name="Error State" args={{ error: true }} />
+
+<Story name="Error Checked" args={{ error: true, checked: true }} />
 
 
 

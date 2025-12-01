@@ -13,6 +13,14 @@ type DatePickerProps ={
         buttonVariant?: ButtonVariant;
         buttonClass?: string;
         calendarProps?: Record<string, any>;
+        /**
+         * Error state - when true, applies error styling
+         */
+        error?: boolean;
+        /**
+         * Callback function called when an error state is detected
+         */
+        onError?: (error: boolean) => void;
         
 }
 

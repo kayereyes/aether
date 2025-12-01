@@ -45,6 +45,8 @@
 		buttonVariant = "outline",
 		buttonClass,
 		calendarProps = {},
+		error = false,
+		onError,
 		presets = [
 			{ 
 				label: "Today", 
@@ -85,6 +87,13 @@
 
 	let open = $state(false);
 
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
+
 	$effect(() => {
 		if (value?.start && !placeholder) placeholder = value.start;
 		if (value?.start && value?.end) open = false;
@@ -105,8 +114,10 @@
 					class={cn(
 						"w-full justify-start text-left font-normal",
 						!value && "text-muted-foreground",
+						error && "border-destructive ring-destructive/20 ring-[3px]",
 						buttonClass
 					)}
+					aria-invalid={error}
 					{disabled}
 				>
 					<CalendarIcon class="mr-2 size-4" />

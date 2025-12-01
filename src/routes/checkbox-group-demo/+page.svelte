@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { CheckboxGroup } from "$core/components/ui/checkbox";
 	import type { CheckboxGroupOption } from "$core/components/ui/checkbox";
+	import * as Field from "$core/components/ui/field";
 
 	// Demo data
 	let basicValues = $state<string[]>([]);
@@ -8,6 +9,12 @@
 	let preferencesValues = $state<string[]>([]);
 	let todosValues = $state<string[]>(["task1"]);
 	let settingsValues = $state<string[]>(["notifications"]);
+	let termsValues = $state<string[]>([]);
+	let errorValues = $state<string[]>([]);
+	
+	// Error states
+	let termsError = $derived(termsValues.length === 0);
+	let customError = $state(true);
 
 	const basicOptions: CheckboxGroupOption[] = [
 		{ id: "1", label: "Option 1", value: "option1" },
@@ -211,6 +218,81 @@
 				required={true}
 				variant="destructive"
 			/>
+		</div>
+	</section>
+
+	<section class="space-y-6">
+		<h2 class="text-2xl font-semibold">Error States</h2>
+		<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<div>
+				<h3 class="text-lg font-medium mb-4">Simple Error State</h3>
+				<CheckboxGroup
+					options={[
+						{ id: "e1", label: "Option 1", value: "e1" },
+						{ id: "e2", label: "Option 2", value: "e2" },
+						{ id: "e3", label: "Option 3", value: "e3" },
+					]}
+					bind:values={errorValues}
+					label="Select at least one option"
+					description="This field is required"
+					error={customError}
+					required
+				/>
+				<button
+					class="mt-2 text-sm text-primary underline"
+					onclick={() => customError = !customError}
+				>
+					Toggle error state
+				</button>
+			</div>
+			
+			<div>
+				<h3 class="text-lg font-medium mb-4">Conditional Error (Required)</h3>
+				<CheckboxGroup
+					options={[
+						{ id: "terms2", label: "I agree to the terms", value: "terms2" },
+						{ id: "privacy2", label: "I agree to the privacy policy", value: "privacy2" },
+					]}
+					bind:values={termsValues}
+					label="Required Agreements"
+					description="You must accept at least one agreement"
+					error={termsError}
+					required
+				/>
+				<p class="mt-2 text-sm text-muted-foreground">
+					{termsError ? "❌ Please select at least one option" : "✓ Valid"}
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="space-y-6">
+		<h2 class="text-2xl font-semibold">With Field Component</h2>
+		<div class="space-y-6">
+			<Field.Field
+				label="Skills Selection"
+				description="Select all technologies you're proficient in"
+				required
+			>
+				<CheckboxGroup
+					options={skillsOptions}
+					bind:values={skillsValues}
+					checkboxSize="lg"
+				/>
+			</Field.Field>
+
+			<Field.Field
+				label="Notification Preferences"
+				error={preferencesValues.length === 0 ? "Please select at least one notification method" : undefined}
+				required
+			>
+				<CheckboxGroup
+					options={preferencesOptions}
+					bind:values={preferencesValues}
+					orientation="horizontal"
+					error={preferencesValues.length === 0}
+				/>
+			</Field.Field>
 		</div>
 	</section>
 

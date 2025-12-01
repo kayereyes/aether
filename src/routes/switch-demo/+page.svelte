@@ -137,6 +137,46 @@
 			</div>
 		</section>
 
+		<!-- Error States -->
+		<section class="space-y-4">
+			<h2 class="text-2xl font-semibold">Error States</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Switch with Error</label>
+					<div class="flex items-center space-x-2">
+						<Switch
+							error={true}
+							onError={(err) => console.log('Error state:', err)}
+						/>
+						<span class="text-xs text-destructive">Required</span>
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Error with Variant</label>
+					<div class="flex items-center space-x-2">
+						<Switch
+							variant="danger"
+							error={true}
+							checked={true}
+						/>
+						<span class="text-xs text-destructive">Invalid state</span>
+					</div>
+				</div>
+
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Large Error Switch</label>
+					<div class="flex items-center space-x-2">
+						<Switch
+							size="lg"
+							error={true}
+						/>
+						<span class="text-xs text-destructive">Confirmation required</span>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<!-- Variant & Size Combinations -->
 		<section class="space-y-4">
 			<h2 class="text-2xl font-semibold">Variant & Size Combinations</h2>

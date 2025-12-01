@@ -38,6 +38,14 @@
         control: { type: 'text' },
         description: 'Placeholder text when no option is selected',
       },
+      error: {
+        control: { type: 'boolean' },
+        description: 'Error state - when true, applies error styling via aria-invalid',
+      },
+      onError: {
+        control: false,
+        description: 'Callback function called when error state changes',
+      },
     },
     args: {
       variant: 'default',
@@ -45,7 +53,8 @@
       multiple: false,
       disabled: false,
       required: false,
-      placeholder: 'Select an option...'
+      placeholder: 'Select an option...',
+      error: false
     }
   });
 
@@ -185,4 +194,27 @@
     ],
     class: "w-[200px]",
     placeholder: "Some options disabled"
+  }} />
+
+<Story name="Error State" args={{ 
+    options: fruits,
+    error: true,
+    class: "w-[200px]",
+    placeholder: "This field has an error"
+  }} />
+
+<Story name="Error with Outline" args={{ 
+    options: fruits,
+    variant: "outline",
+    error: true,
+    class: "w-[200px]",
+    placeholder: "Outline with error"
+  }} />
+
+<Story name="Error Large" args={{ 
+    options: fruits,
+    size: "lg",
+    error: true,
+    class: "w-[200px]",
+    placeholder: "Large select with error"
   }} />

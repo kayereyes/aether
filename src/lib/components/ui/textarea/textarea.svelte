@@ -15,6 +15,8 @@
 		autoResize = false,
 		minRows,
 		maxRows,
+		error = false,
+		onError,
 		class: className,
 		"data-slot": dataSlot = "textarea",
 		...restProps
@@ -22,6 +24,13 @@
 
 	const classes = $derived(textareaVariants({ variant, size, resize: autoResize ? "none" : resize }));
 	const characterCount = $derived(getCharacterCount(typeof value === 'string' ? value : undefined, maxLength));
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 
 	// Auto-resize effect
 	let cleanup: (() => void) | undefined;
@@ -39,6 +48,7 @@
 		class={cn(classes, showCount && maxLength && "pb-6", className)}
 		bind:value
 		maxlength={maxLength}
+		aria-invalid={error}
 		{...restProps}
 	></textarea>
 	

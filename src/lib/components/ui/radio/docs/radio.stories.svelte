@@ -1,18 +1,25 @@
-<script module>
-  import { defineMeta } from '@storybook/addon-svelte-csf';
-	import  Checkbox  from "../checkbox.svelte";
-  import { fn } from 'storybook/test';
+<script context="module" lang="ts">
+  import { defineMeta} from '@storybook/addon-svelte-csf';
+	import { Radio , type RadioProps} from "$core/components/ui/radio";
 
+    type Args = {
+        size?: RadioProps["size"];
+        variant?: RadioProps["variant"];
+        disabled?: RadioProps["disabled"];
+        label?: RadioProps["label"];
+        description?: RadioProps["description"];
+        error?: RadioProps["error"];
+    };
   const { Story } = defineMeta({
-    title: 'Components/Checkbox/Single',
-    component: Checkbox,
+    title: 'Components/Radio/Single',
+    // component: Radio,
     tags: ['autodocs'],
     argTypes: {
       // Main props we want to control
       size: {
         control: { type: 'select' },
         options: ['sm', 'default', 'lg', 'xl'],
-        description: 'Size of the checkbox',
+        description: 'Size of the radio button',
         table: {
           type: { summary: 'string' },
           defaultValue: { summary: 'default' },
@@ -21,39 +28,15 @@
       variant: {
         control: { type: 'select' },
         options: ['default', 'destructive', 'success', 'warning'],
-        description: 'Visual variant of the checkbox',
+        description: 'Visual variant of the radio button',
         table: {
           type: { summary: 'string' },
           defaultValue: { summary: 'default' },
         },
       },
-      checked: {
-        control: { type: 'boolean' },
-        description: 'Whether the checkbox is checked',
-        table: {
-          type: { summary: 'boolean' },
-          defaultValue: { summary: 'false' },
-        },
-      },
-      indeterminate: {
-        control: { type: 'boolean' },
-        description: 'Whether the checkbox is in indeterminate state',
-        table: {
-          type: { summary: 'boolean' },
-          defaultValue: { summary: 'false' },
-        },
-      },
-      lineThrough: {
-        control: { type: 'boolean' },
-        description: 'Whether to apply line-through style when checked',
-        table: {
-          type: { summary: 'boolean' },
-          defaultValue: { summary: 'false' },
-        },
-      },
       disabled: {
         control: { type: 'boolean' },
-        description: 'Whether the checkbox is disabled',
+        description: 'Whether the radio button is disabled',
         table: {
           type: { summary: 'boolean' },
           defaultValue: { summary: 'false' },
@@ -61,7 +44,7 @@
       },
       label: {
         control: { type: 'text' },
-        description: 'Label text for the checkbox',
+        description: 'Label text for the radio button',
         table: {
           type: { summary: 'string' },
           defaultValue: { summary: 'undefined' },
@@ -112,29 +95,15 @@
         control: false,
         table: { disable: true },
       },
-      required: {
-        control: false,
-        table: { disable: true },
-      },
-      onCheckedChange: {
-        control: false,
-        table: { disable: true },
-      },
       // Hide any other internal props
-      children: {
-        control: false,
-        table: { disable: true },
-      },
     },
     args: {
-      checked: false,
-      indeterminate: false,
-      lineThrough: false,
       disabled: false,
       size: 'default',
       variant: 'default',
       label: undefined,
       description: undefined,
+      error: false,
     },
     
     parameters: {
@@ -145,62 +114,75 @@
   });
 </script>
 
+{#snippet template(args: Args )}
+    <Radio {...args} />
+{/snippet}
+
 <!-- Basic States -->
-<Story name="Default" args={{ }} />
-<Story name="Checked" args={{ checked: true }} />
-<Story name="Indeterminate" args={{ indeterminate: true }} />
-<Story name="Error State" args={{ error: true, label: "Accept terms", description: "This field is required" }} />
-<Story name="Error Checked" args={{ error: true, checked: true, label: "Invalid selection" }} />
+<Story name="Default"  {template} />
+<Story name="Error State" {template} args={{ error: true, label: "Select option", description: "This field is required" }} />
+<Story name="Error Checked" {template} args={{ error: true, label: "Invalid selection" }} />
 
 <!-- With Labels -->
-<Story name="With Label" args={{ label: "Accept terms and conditions" }} />
-<Story name="With Description" args={{ 
+<Story name="With Label" {template} args={{ label: "Accept terms and conditions" }} />
+<Story name="With Description" {template} args={{ 
   label: "Enable notifications", 
   description: "Get notified about updates and new features" 
 }} />
 
 <!-- Sizes -->
-<Story name="Small" args={{ size: 'sm', label: 'Small checkbox' }} />
-<Story name="Large" args={{ size: 'lg', label: 'Large checkbox' }} />
-<Story name="Extra Large" args={{ size: 'xl', label: 'Extra large checkbox' }} />
+<Story name="Small" {template} args={{ size: 'sm', label: 'Small radio button' }} />
+<Story name="Large" {template} args={{ size: 'lg', label: 'Large radio button' }} />
+<Story name="Extra Large" {template} args={{ size: 'xl', label: 'Extra large radio button' }} />
 
 <!-- Variants -->
-<Story name="Destructive" args={{ 
+<Story name="Destructive" {template} args={{ 
   variant: 'destructive', 
   label: 'Delete all data',
   description: 'This action cannot be undone'
 }} />
-<Story name="Success" args={{ 
+<Story name="Success" {template} args={{ 
   variant: 'success', 
   label: 'Mark as completed',
   description: 'This will mark the task as done'
 }} />
-<Story name="Warning" args={{ 
+<Story name="Warning" {template} args={{ 
   variant: 'warning', 
   label: 'Proceed with caution',
   description: 'This action requires attention'
 }} />
 
-
-<Story name="Line Through Checked" args={{ 
-  checked: true,
-  lineThrough: true,
-  label: 'Completed task',
-  description: 'This text is crossed out'
-}} />
-
-
-<Story name="Disabled Checked" args={{ 
-  checked: true,
+<Story name="Disabled Checked" {template} args={{ 
   disabled: true,
   label: 'Disabled checked',
-  description: 'This checkbox is disabled and checked'
+  description: 'This radio button is disabled and checked'
 }} />
 
 <!-- Complex Example -->
-<Story name="Todo Item" args={{ 
+<Story name="Option Item" {template} args={{ 
   size: 'default',
-  lineThrough: true,
-  label: 'Complete project documentation',
-  description: 'Write comprehensive docs for all components'
+  label: 'Premium Plan',
+  description: 'All features included for $29/month'
 }} />
+
+<!-- <Story name="All Sizes Comparison">
+  {#snippet template()}
+    <div class="space-y-4">
+      <Radio size="sm" label="Small" description="Size: sm" />
+      <Radio size="default" label="Default" description="Size: default" />
+      <Radio size="lg" label="Large" description="Size: lg" />
+      <Radio size="xl" label="Extra Large" description="Size: xl" />
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="All Variants Comparison">
+  {#snippet template()}
+    <div class="space-y-4">
+      <Radio variant="default" label="Default Variant"  />
+      <Radio variant="destructive" label="Destructive Variant"  />
+      <Radio variant="success" label="Success Variant"  />
+      <Radio variant="warning" label="Warning Variant"  />
+    </div>
+  {/snippet}
+</Story> -->

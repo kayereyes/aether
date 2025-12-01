@@ -140,6 +140,30 @@
 	</section>
 
 	<section class="space-y-6">
+		<h2 class="text-2xl font-semibold">Error States</h2>
+		<div class="space-y-4">
+			<Checkbox 
+				error={true}
+				label="Checkbox with Error"
+				description="This checkbox must be checked"
+				onError={(err) => console.log('Error state:', err)}
+			/>
+			<Checkbox 
+				variant="destructive"
+				error={true}
+				checked={true}
+				label="Error with Destructive Variant"
+				description="Invalid selection detected"
+			/>
+			<Checkbox 
+				size="lg"
+				error={true}
+				label="Large Error Checkbox"
+			/>
+		</div>
+	</section>
+
+	<section class="space-y-6">
 		<h2 class="text-2xl font-semibold">Disabled States</h2>
 		<div class="space-y-4">
 			<Checkbox 

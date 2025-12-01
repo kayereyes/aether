@@ -11,4 +11,12 @@ export type TextareaProps = WithoutChildren<WithElementRef<HTMLTextareaAttribute
 	autoResize?: boolean;
 	minRows?: number;
 	maxRows?: number;
+	/**
+	 * Error state - when true, applies error styling via aria-invalid
+	 */
+	error?: boolean;
+	/**
+	 * Callback function called when an error state is detected
+	 */
+	onError?: (error: boolean) => void;
 };

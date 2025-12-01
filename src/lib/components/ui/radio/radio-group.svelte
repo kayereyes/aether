@@ -1,9 +1,9 @@
 <script lang="ts" module>
 	import { cn } from "$core/utils.js";
 	import { type VariantProps, tv } from "tailwind-variants";
-	import type { CheckboxSize, CheckboxVariant } from "./checkbox.svelte";
+	import type { RadioSize, RadioVariant } from "./radio.svelte";
 
-	export const checkboxGroupVariants = tv({
+	export const radioGroupVariants = tv({
 		base: "space-y-2",
 		variants: {
 			orientation: {
@@ -22,10 +22,10 @@
 		},
 	});
 
-	export type CheckboxGroupOrientation = VariantProps<typeof checkboxGroupVariants>["orientation"];
-	export type CheckboxGroupSize = VariantProps<typeof checkboxGroupVariants>["size"];
+	export type RadioGroupOrientation = VariantProps<typeof radioGroupVariants>["orientation"];
+	export type RadioGroupSize = VariantProps<typeof radioGroupVariants>["size"];
 
-	export interface CheckboxGroupOption {
+	export interface RadioGroupOption {
 		id: string;
 		label: string;
 		value: string;
@@ -33,14 +33,13 @@
 		disabled?: boolean;
 	}
 
-	export type CheckboxGroupProps = {
-		options: CheckboxGroupOption[];
-		values?: string[];
-		orientation?: CheckboxGroupOrientation;
-		size?: CheckboxGroupSize;
-		checkboxSize?: CheckboxSize;
-		variant?: CheckboxVariant;
-		lineThrough?: boolean;
+	export type RadioGroupProps = {
+		options: RadioGroupOption[];
+		value?: string;
+		orientation?: RadioGroupOrientation;
+		size?: RadioGroupSize;
+		radioSize?: RadioSize;
+		variant?: RadioVariant;
 		disabled?: boolean;
 		class?: string;
 		label?: string;
@@ -54,21 +53,21 @@
 		 * Callback function called when error state changes
 		 */
 		onError?: (error: boolean) => void;
-		onValuesChange?: (values: string[]) => void;
+		onValueChange?: (value: string) => void;
 	};
 </script>
 
 <script lang="ts">
-	import Checkbox from "./checkbox.svelte";
+	import { RadioGroup as RadioGroupPrimitive } from "bits-ui";
+	import Radio from "./radio.svelte";
 
 	let {
 		options,
-		values = $bindable([]),
+		value = $bindable(""),
 		orientation = "vertical",
 		size = "default",
-		checkboxSize = "default",
+		radioSize = "default",
 		variant = "default",
-		lineThrough = false,
 		disabled = false,
 		class: className,
 		label,
@@ -76,9 +75,9 @@
 		required = false,
 		error = false,
 		onError,
-		onValuesChange,
+		onValueChange,
 		...restProps
-	}: CheckboxGroupProps = $props();
+	}: RadioGroupProps = $props();
 
 	// Track error state and notify parent
 	$effect(() => {
@@ -87,30 +86,16 @@
 		}
 	});
 
-	// Handle individual checkbox changes
-	function handleCheckboxChange(optionValue: string, checked: boolean) {
-		if (checked) {
-			// Add value if not already present
-			if (!values.includes(optionValue)) {
-				values = [...values, optionValue];
-			}
-		} else {
-			// Remove value
-			values = values.filter(v => v !== optionValue);
+	// Handle value changes
+	$effect(() => {
+		if (onValueChange && value) {
+			onValueChange(value);
 		}
-		
-		// Call callback if provided
-		onValuesChange?.(values);
-	}
-
-	// Determine if an option is checked
-	function isOptionChecked(optionValue: string): boolean {
-		return values.includes(optionValue);
-	}
+	});
 
 	// Generate unique IDs for accessibility
-	function getOptionId(option: CheckboxGroupOption): string {
-		return `checkbox-group-${option.id}`;
+	function getOptionId(option: RadioGroupOption): string {
+		return `radio-group-${option.id}`;
 	}
 </script>
 
@@ -140,20 +125,23 @@
 		</p>
 	{/if}
 
-	<div class={checkboxGroupVariants({ orientation, size })}>
+	<RadioGroupPrimitive.Root
+		bind:value
+		data-slot="radio-group"
+		class={radioGroupVariants({ orientation, size })}
+		{disabled}
+	>
 		{#each options as option (option.id)}
-			<Checkbox
+			<Radio
 				id={getOptionId(option)}
-				checked={isOptionChecked(option.value)}
-				size={checkboxSize}
+				value={option.value}
+				size={radioSize}
 				{variant}
-				{lineThrough}
 				{error}
 				disabled={disabled || option.disabled}
 				label={option.label}
 				description={option.description}
-				onCheckedChange={(checked) => handleCheckboxChange(option.value, checked)}
 			/>
 		{/each}
-	</div>
+	</RadioGroupPrimitive.Root>
 </fieldset>

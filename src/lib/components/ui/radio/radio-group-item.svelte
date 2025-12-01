@@ -35,11 +35,28 @@
 		class: className,
 		variant = "default",
 		size = "default",
+		error = false,
+		onError,
 		...restProps
 	}: WithoutChildrenOrChild<RadioGroupPrimitive.ItemProps> & {
 		variant?: RadioGroupItemVariant;
 		size?: RadioGroupItemSize;
+		/**
+		 * Error state - when true, applies error styling via aria-invalid
+		 */
+		error?: boolean;
+		/**
+		 * Callback function called when an error state is detected
+		 */
+		onError?: (error: boolean) => void;
 	} = $props();
+
+	// Track error state and notify parent
+	$effect(() => {
+		if (onError) {
+			onError(error);
+		}
+	});
 
 
 </script>
@@ -49,6 +66,7 @@
 	data-slot="radio-group-item"
 	data-variant={variant}
 	data-size={size}
+	aria-invalid={error}
 	class={cn(radioGroupItemVariants({ variant, size }), className)}
 	{...restProps}
 >
