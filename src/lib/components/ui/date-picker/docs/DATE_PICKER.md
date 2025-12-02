@@ -66,6 +66,8 @@ A date range picker with preset ranges (Last 7 days, Last 30 days, This month, e
 | `buttonClass` | `string` | `undefined` | Additional CSS classes for the button |
 | `calendarProps` | `object` | `{}` | Props to pass to the underlying Calendar/RangeCalendar |
 | `format` | `function` | Default formatter | Custom date formatting function |
+| `error` | `boolean` | `false` | Error state with visual feedback |
+| `onError` | `(error: boolean) => void` | `undefined` | Callback when error state changes |
 
 ### Preset Props
 
@@ -187,6 +189,57 @@ The date picker uses `@internationalized/date` for date handling:
 <DatePicker disabled />
 ```
 
+## Error States
+
+### Basic Error State
+```svelte
+<script>
+  let date = $state();
+  let hasError = $derived(!date);
+</script>
+
+<DatePicker 
+  bind:value={date}
+  error={hasError}
+/>
+```
+
+### With Field Component
+```svelte
+<script>
+  import * as Field from "$core/components/ui/field";
+  
+  let startDate = $state();
+</script>
+
+<Field.Field
+  label="Start Date"
+  description="Select the project start date"
+  error={!startDate ? "Please select a start date" : undefined}
+  required
+>
+  <DatePicker 
+    bind:value={startDate}
+    error={!startDate}
+  />
+</Field.Field>
+```
+
+### Error Callback
+```svelte
+<script>
+  function handleError(hasError: boolean) {
+    console.log('Date picker error state:', hasError);
+  }
+</script>
+
+<DatePicker 
+  bind:value={date}
+  error={!date}
+  onError={handleError}
+/>
+```
+
 ## Features
 
 - ✅ Single date selection
@@ -194,6 +247,8 @@ The date picker uses `@internationalized/date` for date handling:
 - ✅ Preset options for quick selection
 - ✅ Custom date formatting
 - ✅ Multiple button variants
+- ✅ Error handling with visual feedback
+- ✅ Field component integration
 - ✅ Disabled state
 - ✅ Fully typed with TypeScript
 - ✅ Accessible with keyboard navigation

@@ -7,6 +7,8 @@ A powerful component for managing multiple related checkboxes with shared state 
 - ✅ **Multiple Selection Management**: Handles arrays of selected values
 - ✅ **Flexible Layout**: Vertical or horizontal orientation
 - ✅ **Rich Options**: Support for labels, descriptions, and disabled states
+- ✅ **Error Handling**: Built-in error state with visual feedback and aria-invalid
+- ✅ **Field Integration**: Works seamlessly with Field component for form structure
 - ✅ **Consistent Styling**: Inherits all checkbox variants and sizes
 - ✅ **Accessibility**: Proper fieldset/legend structure and ARIA support
 - ✅ **TypeScript Support**: Comprehensive type definitions
@@ -93,6 +95,67 @@ A powerful component for managing multiple related checkboxes with shared state 
 />
 ```
 
+## Error States
+
+### Basic Error State
+```svelte
+<script>
+  let selectedOptions = $state([]);
+  let hasError = $derived(selectedOptions.length === 0);
+</script>
+
+<CheckboxGroup 
+  options={termsOptions}
+  bind:values={selectedOptions}
+  error={hasError}
+  required
+  label="Terms and Conditions"
+  description="Please accept the terms to continue"
+/>
+```
+
+### With Field Component
+```svelte
+<script>
+  import * as Field from "$core/components/ui/field";
+  
+  let interests = $state([]);
+</script>
+
+<Field.Field
+  label="Select Your Interests"
+  description="Choose at least one interest"
+  error={interests.length === 0 ? "Please select at least one interest" : undefined}
+  required
+>
+  <CheckboxGroup 
+    options={interestOptions}
+    bind:values={interests}
+    error={interests.length === 0}
+  />
+</Field.Field>
+```
+
+### Error Callback
+```svelte
+<script>
+  let values = $state([]);
+  
+  function handleError(hasError: boolean) {
+    console.log('Error state:', hasError);
+    // Perform side effects when error state changes
+  }
+</script>
+
+<CheckboxGroup 
+  {options}
+  bind:values
+  error={values.length === 0}
+  onError={handleError}
+  label="Required Checkboxes"
+/>
+```
+
 ## Variants and Styling
 
 ### Success Variant (Great for Todo Lists)
@@ -150,11 +213,13 @@ interface CheckboxGroupOption {
 | `variant` | `'default' \| 'destructive' \| 'success' \| 'warning'` | `'default'` | Visual variant |
 | `lineThrough` | `boolean` | `false` | Strike through text when checked |
 | `disabled` | `boolean` | `false` | Disable entire group |
+| `error` | `boolean` | `false` | Error state with visual feedback |
 | `label` | `string` | `undefined` | Group label |
 | `description` | `string` | `undefined` | Group description |
 | `required` | `boolean` | `false` | Whether field is required |
 | `class` | `string` | `undefined` | Additional CSS classes |
 | `onValuesChange` | `(values: string[]) => void` | `undefined` | Callback when values change |
+| `onError` | `(error: boolean) => void` | `undefined` | Callback when error state changes |
 
 ## Examples
 

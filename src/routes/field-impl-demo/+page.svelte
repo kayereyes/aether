@@ -2,7 +2,10 @@
 	import { Button } from "$core/components/ui/button/index.js";
 	import { Input } from "$core/components/ui/input/index.js";
 	import { Textarea } from "$core/components/ui/textarea/index.js";
-	import { Checkbox } from "$core/components/ui/checkbox/index.js";
+	import { Checkbox, CheckboxGroup } from "$core/components/ui/checkbox/index.js";
+	import type { CheckboxGroupOption } from "$core/components/ui/checkbox/index.js";
+	import { RadioGroup } from "$core/components/ui/radio/index.js";
+	import type { RadioGroupOption } from "$core/components/ui/radio/index.js";
 	import { Switch } from "$core/components/ui/switch/index.js";
 	import {Select } from "$core/components/ui/select/index.js";
 	import * as Field from "$core/components/ui/field/index.js";
@@ -26,8 +29,91 @@
 	let agreeToTerms = $state(false);
 	let darkMode = $state(false);
 
+	// CheckboxGroup state
+	let selectedFeatures = $state<string[]>([]);
+	let selectedPreferences = $state<string[]>(["email"]);
+	let selectedPermissions = $state<string[]>([]);
+
+	// RadioGroup state
+	let selectedPlan = $state("basic");
+	let selectedTheme = $state("light");
+	let selectedNotification = $state("email");
+	let selectedPayment = $state("");
+	let selectedSize = $state("medium");
+	let selectedCluster = $state("kubernetes");
+
 	// Validation state
 	let errors = $state<Record<string, string>>({});
+
+	// CheckboxGroup options
+	const featureOptions: CheckboxGroupOption[] = [
+		{ id: 'feature-api', label: 'API Access', value: 'api', description: 'Access to REST API' },
+		{ id: 'feature-analytics', label: 'Analytics Dashboard', value: 'analytics', description: 'View detailed analytics' },
+		{ id: 'feature-export', label: 'Data Export', value: 'export', description: 'Export data to CSV/JSON' },
+		{ id: 'feature-webhooks', label: 'Webhooks', value: 'webhooks', description: 'Real-time event notifications' },
+	];
+
+	const preferenceOptions: CheckboxGroupOption[] = [
+		{ id: 'pref-email', label: 'Email Updates', value: 'email' },
+		{ id: 'pref-sms', label: 'SMS Notifications', value: 'sms' },
+		{ id: 'pref-push', label: 'Push Notifications', value: 'push' },
+		{ id: 'pref-newsletter', label: 'Monthly Newsletter', value: 'newsletter' },
+	];
+
+	const interestOptions: CheckboxGroupOption[] = [
+		{ id: 'int-tech', label: '💻 Technology', value: 'technology' },
+		{ id: 'int-design', label: '🎨 Design', value: 'design' },
+		{ id: 'int-business', label: '📊 Business', value: 'business' },
+		{ id: 'int-marketing', label: '📢 Marketing', value: 'marketing' },
+	];
+
+	const permissionOptions: CheckboxGroupOption[] = [
+		{ id: 'perm-read', label: 'Read', value: 'read', description: 'View content' },
+		{ id: 'perm-write', label: 'Write', value: 'write', description: 'Create and edit content' },
+		{ id: 'perm-delete', label: 'Delete', value: 'delete', description: 'Remove content', disabled: true },
+		{ id: 'perm-admin', label: 'Admin', value: 'admin', description: 'Full system access' },
+	];
+
+	// RadioGroup options
+	const planRadioOptions: RadioGroupOption[] = [
+		{ id: 'radio-plan-free', label: 'Free Plan', value: 'free', description: 'Basic features for personal use - $0/month' },
+		{ id: 'radio-plan-basic', label: 'Basic Plan', value: 'basic', description: 'Essential features for small teams - $9/month' },
+		{ id: 'radio-plan-pro', label: 'Pro Plan', value: 'pro', description: 'Advanced features for professionals - $29/month' },
+		{ id: 'radio-plan-enterprise', label: 'Enterprise Plan', value: 'enterprise', description: 'Full features for large organizations - $99/month' },
+	];
+
+	const themeRadioOptions: RadioGroupOption[] = [
+		{ id: 'radio-theme-light', label: '☀️ Light Theme', value: 'light', description: 'Bright and clear appearance' },
+		{ id: 'radio-theme-dark', label: '🌙 Dark Theme', value: 'dark', description: 'Easy on the eyes at night' },
+		{ id: 'radio-theme-auto', label: '🔄 Auto Theme', value: 'auto', description: 'Matches your system preferences' },
+	];
+
+	const notificationRadioOptions: RadioGroupOption[] = [
+		{ id: 'radio-notify-email', label: 'Email', value: 'email' },
+		{ id: 'radio-notify-sms', label: 'SMS', value: 'sms' },
+		{ id: 'radio-notify-push', label: 'Push', value: 'push' },
+		{ id: 'radio-notify-none', label: 'None', value: 'none' },
+	];
+
+	const paymentRadioOptions: RadioGroupOption[] = [
+		{ id: 'radio-pay-credit', label: 'Credit Card', value: 'credit', description: 'Visa, Mastercard, Amex' },
+		{ id: 'radio-pay-paypal', label: 'PayPal', value: 'paypal', description: 'Secure PayPal payment' },
+		{ id: 'radio-pay-bank', label: 'Bank Transfer', value: 'bank', description: 'Direct bank transfer', disabled: true },
+		{ id: 'radio-pay-crypto', label: 'Cryptocurrency', value: 'crypto', description: 'Bitcoin, Ethereum' },
+	];
+
+	const sizeRadioOptions: RadioGroupOption[] = [
+		{ id: 'radio-size-xs', label: 'Extra Small', value: 'xs' },
+		{ id: 'radio-size-sm', label: 'Small', value: 'small' },
+		{ id: 'radio-size-md', label: 'Medium', value: 'medium' },
+		{ id: 'radio-size-lg', label: 'Large', value: 'large' },
+		{ id: 'radio-size-xl', label: 'Extra Large', value: 'xl' },
+	];
+
+	const clusterRadioOptions: RadioGroupOption[] = [
+		{ id: 'cluster-k8s', label: 'Kubernetes', value: 'kubernetes', description: 'Run GPU workloads on a K8s configured cluster.' },
+		{ id: 'cluster-vm', label: 'Virtual Machine', value: 'vm', description: 'Access a VM configured cluster to run GPU workloads.' },
+	];
 
 	// Form submission
 	function handleSubmit(event: Event) {
@@ -458,6 +544,260 @@
 		</div>
 	</section>
 
+	<!-- CheckboxGroup Examples Section -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">CheckboxGroup with Field Component</h2>
+			<p class="text-muted-foreground">Multiple checkbox selection with Field wrapper for labels, descriptions, and error handling</p>
+		</div>
+
+		<div class="space-y-8">
+			<!-- Basic CheckboxGroup -->
+			<Card>
+				<Field.Field
+					label="Select Features"
+					description="Choose the features you want to enable for your account."
+				>
+					<CheckboxGroup
+						options={featureOptions}
+						bind:values={selectedFeatures}
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedFeatures.length > 0 ? selectedFeatures.join(', ') : 'None'}</p>
+				</div>
+			</Card>
+
+			<!-- CheckboxGroup Orientations -->
+			<div class="grid gap-6 md:grid-cols-2">
+				<Card>
+					<Field.Field
+						label="Vertical Layout"
+						description="Default vertical orientation"
+					>
+						<CheckboxGroup
+							options={interestOptions}
+							values={[]}
+							orientation="vertical"
+						/>
+					</Field.Field>
+				</Card>
+
+				<Card>
+					<Field.Field
+						label="Horizontal Layout"
+						description="Horizontal orientation for inline display"
+					>
+						<CheckboxGroup
+							options={interestOptions}
+							values={[]}
+							orientation="horizontal"
+						/>
+					</Field.Field>
+				</Card>
+			</div>
+
+			<!-- CheckboxGroup with Error State -->
+			<Card>
+				<Field.Field
+					label="User Permissions"
+					description="Select at least one permission to continue."
+					required
+					error={selectedPermissions.length === 0 ? "Please select at least one permission" : undefined}
+				>
+					<CheckboxGroup
+						options={permissionOptions}
+						bind:values={selectedPermissions}
+						error={selectedPermissions.length === 0}
+						required
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedPermissions.length > 0 ? selectedPermissions.join(', ') : 'None'}</p>
+				</div>
+			</Card>
+
+
+			<!-- CheckboxGroup in Form Context -->
+			<Card class="bg-muted/50">
+				<Field.Set>
+					<Field.Legend>Account Setup</Field.Legend>
+					<Field.Description>Configure your account features and preferences</Field.Description>
+					
+					<Field.Separator />
+					
+					<Field.Group class="gap-6">
+						<Field.Field
+							label="Enable Features"
+							description="Select the features you want to use"
+						>
+							<CheckboxGroup
+								options={featureOptions}
+								bind:values={selectedFeatures}
+								size="default"
+							/>
+						</Field.Field>
+
+						<Field.Field
+							label="Communication Preferences"
+							description="How should we contact you?"
+						>
+							<CheckboxGroup
+								options={preferenceOptions}
+								bind:values={selectedPreferences}
+								variant="default"
+							/>
+						</Field.Field>
+					</Field.Group>
+				</Field.Set>
+			</Card>
+		</div>
+	</section>
+
+	<!-- RadioGroup Examples Section -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">RadioGroup with Field Component</h2>
+			<p class="text-muted-foreground">Single selection radio groups with Field wrapper for labels, descriptions, and error handling</p>
+		</div>
+
+		<div class="space-y-8">
+			<!-- Basic RadioGroup -->
+			<Card>
+				<Field.Field
+					label="Choose Your Plan"
+					description="Select the subscription plan that best fits your needs."
+				>
+					<RadioGroup
+						options={planRadioOptions}
+						bind:value={selectedPlan}
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedPlan || 'None'}</p>
+				</div>
+			</Card>
+
+			<!-- RadioGroup with Default Value -->
+			<Card>
+				<Field.Field
+					label="Theme Preference"
+					description="Choose your preferred color theme."
+				>
+					<RadioGroup
+						options={themeRadioOptions}
+						bind:value={selectedTheme}
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedTheme}</p>
+				</div>
+			</Card>
+
+			<!-- RadioGroup Orientations -->
+			<div class="grid gap-6 md:grid-cols-2">
+				<Card>
+					<Field.Field
+						label="Vertical Layout"
+						description="Default vertical orientation"
+					>
+						<RadioGroup
+							options={themeRadioOptions}
+							value="light"
+							orientation="vertical"
+						/>
+					</Field.Field>
+				</Card>
+
+				<Card>
+					<Field.Field
+						label="Horizontal Layout"
+						description="Horizontal orientation for inline display"
+					>
+						<RadioGroup
+							options={notificationRadioOptions}
+							value="email"
+							orientation="horizontal"
+						/>
+					</Field.Field>
+				</Card>
+			</div>
+
+			<!-- RadioGroup with Error State -->
+			<Card>
+				<Field.Field
+					label="Payment Method"
+					description="Select your preferred payment method."
+					required
+					error={!selectedPayment ? "Please select a payment method" : undefined}
+				>
+					<RadioGroup
+						options={paymentRadioOptions}
+						bind:value={selectedPayment}
+						error={!selectedPayment}
+						required
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedPayment || 'None'}</p>
+				</div>
+			</Card>
+
+
+			<!-- RadioGroup in Form Context -->
+			<Card class="bg-muted/50">
+				<Field.Set>
+					<Field.Legend>Product Configuration</Field.Legend>
+					<Field.Description>Configure your product preferences</Field.Description>
+					
+					<Field.Separator />
+					
+					<Field.Group class="gap-6">
+						<Field.Field
+							label="Select Size"
+							description="Choose your preferred size"
+						>
+							<RadioGroup
+								options={sizeRadioOptions}
+								bind:value={selectedSize}
+								radioSize="default"
+							/>
+						</Field.Field>
+
+						<Field.Field
+							label="Notification Method"
+							description="How would you like to be notified?"
+						>
+							<RadioGroup
+								options={notificationRadioOptions}
+								bind:value={selectedNotification}
+								variant="default"
+							/>
+						</Field.Field>
+					</Field.Group>
+				</Field.Set>
+			</Card>
+
+			<!-- Card-Style RadioGroup Example -->
+			<Card>
+				<Field.Field
+					label="Select Cluster Type"
+					description="Choose how you want to run your GPU workloads."
+				>
+					<RadioGroup
+						options={clusterRadioOptions}
+						bind:value={selectedCluster}
+						isCard={true}
+						radioSize="default"
+					/>
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {selectedCluster}</p>
+				</div>
+			</Card>
+		</div>
+	</section>
+
 	<!-- Switch Variants and Sizes Section -->
 	<section class="space-y-6">
 		<div>
@@ -586,70 +926,6 @@
 			<p class="text-muted-foreground">Different visual styles and configurations for the Card component</p>
 		</div>
 
-		<!-- Variant Types -->
-		<div>
-			<h3 class="text-xl font-semibold mb-4">Card Variants</h3>
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				<Card title="Default Card" description="Standard card style with border">
-					<p class="text-sm">This is the default card variant with a subtle border and shadow.</p>
-				</Card>
-
-				<Card variant="outline" title="Outline Card" description="Emphasized border style">
-					<p class="text-sm">This card uses a thicker border for more emphasis.</p>
-				</Card>
-
-				<Card variant="ghost" title="Ghost Card" description="Minimal styling">
-					<p class="text-sm">This card has no border or shadow, appearing more subtle.</p>
-				</Card>
-
-				<Card variant="elevated" title="Elevated Card" description="Enhanced shadow">
-					<p class="text-sm">This card has a larger shadow for a lifted appearance.</p>
-				</Card>
-
-				<Card variant="filled" title="Filled Card" description="Background filled style">
-					<p class="text-sm">This card uses a filled background color.</p>
-				</Card>
-			</div>
-		</div>
-
-		<!-- Padding Options -->
-		<div>
-			<h3 class="text-xl font-semibold mb-4">Card Padding</h3>
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-				<Card padding="none" title="No Padding">
-					<div class="bg-muted p-2 rounded">
-						<p class="text-xs">Content with no card padding</p>
-					</div>
-				</Card>
-
-				<Card padding="sm" title="Small Padding">
-					<p class="text-sm">Compact card with small padding</p>
-				</Card>
-
-				<Card padding="default" title="Default Padding">
-					<p class="text-sm">Standard card padding</p>
-				</Card>
-
-				<Card padding="lg" title="Large Padding">
-					<p class="text-sm">Spacious card with large padding</p>
-				</Card>
-			</div>
-		</div>
-
-		<!-- Interactive Cards -->
-		<div>
-			<h3 class="text-xl font-semibold mb-4">Interactive Cards</h3>
-			<div class="grid gap-6 md:grid-cols-2">
-				<Card hover title="Hover Effect" description="Hover over this card">
-					<p class="text-sm">This card has a hover effect with enhanced shadow and border color.</p>
-				</Card>
-
-				<Card interactive title="Interactive Card" description="Click this card">
-					<p class="text-sm">This card is fully interactive with scale and shadow transitions.</p>
-				</Card>
-			</div>
-		</div>
-
 		<!-- Card with Header Actions -->
 		<div>
 			<h3 class="text-xl font-semibold mb-4">Cards with Actions</h3>
@@ -683,7 +959,7 @@
 						Deleting your account will permanently remove all your data from our servers.
 					</p>
 					{#snippet footer()}
-						<Button variant="outline" size="sm">Cancel</Button>
+						<Button variant="outline" size="sm" class="mr-2">Cancel</Button>
 						<Button variant="destructive" size="sm">Delete Account</Button>
 					{/snippet}
 				</Card>
@@ -733,7 +1009,7 @@
 					<div class="flex-1">
 						<p class="text-xs text-muted-foreground">Next billing date: Dec 1, 2025</p>
 					</div>
-					<Button variant="outline" size="sm">View Invoice</Button>
+					<Button variant="outline" size="sm" class="mr-2"> View Invoice</Button>
 					<Button size="sm">Update Plan</Button>
 				{/snippet}
 			</Card>

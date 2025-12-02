@@ -4,9 +4,13 @@ A flexible radio group component that allows users to select one option from a s
 
 ## Features
 
-- **Variants**: Multiple visual styles (default, card, inline)
+- **Options Pattern**: Data-driven approach with options array
+- **Card Style UI**: Optional card-style layout with clickable cards (`isCard` prop)
+- **Variants**: Multiple visual styles (default, destructive, success, warning)
 - **Sizes**: Three size options (sm, default, lg) 
 - **Flexible Layout**: Supports vertical and horizontal arrangements
+- **Error Handling**: Built-in error state with visual feedback
+- **Field Integration**: Works seamlessly with Field component
 - **Accessibility**: Full keyboard navigation and screen reader support
 - **TypeScript**: Complete type safety with exported types
 - **Responsive**: Adapts to different screen sizes and contexts
@@ -23,169 +27,177 @@ npm install bits-ui @lucide/svelte tailwind-variants
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
+  import { RadioGroup } from "$core/components/ui/radio";
+  import type { RadioGroupOption } from "$core/components/ui/radio";
   
   let selectedValue = $state("option1");
+  
+  const options: RadioGroupOption[] = [
+    { id: "1", label: "Option 1", value: "option1" },
+    { id: "2", label: "Option 2", value: "option2" },
+    { id: "3", label: "Option 3", value: "option3" },
+  ];
 </script>
 
-<RadioGroup bind:value={selectedValue}>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem value="option1" id="opt1" />
-    <label for="opt1" class="text-sm font-medium">Option 1</label>
-  </div>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem value="option2" id="opt2" />
-    <label for="opt2" class="text-sm font-medium">Option 2</label>
-  </div>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem value="option3" id="opt3" />
-    <label for="opt3" class="text-sm font-medium">Option 3</label>
-  </div>
-</RadioGroup>
+<RadioGroup 
+  {options}
+  bind:value={selectedValue}
+  label="Choose an option"
+/>
 ```
 
-### Card Variant for Complex Options
+### Card Style for Prominent Selections
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
+  import { RadioGroup } from "$core/components/ui/radio";
   
   let selectedPlan = $state("pro");
+  
+  const planOptions = [
+    { 
+      id: "free", 
+      label: "Free Plan", 
+      value: "free", 
+      description: "Basic features for personal use - $0/month" 
+    },
+    { 
+      id: "pro", 
+      label: "Pro Plan", 
+      value: "pro", 
+      description: "Advanced features for professionals - $29/month" 
+    },
+  ];
 </script>
 
-<RadioGroup variant="card" bind:value={selectedPlan}>
-  <div class="flex items-center space-x-3 p-4">
-    <RadioGroupItem variant="card" value="free" id="plan-free" />
-    <div class="grid gap-1.5 leading-none">
-      <label for="plan-free" class="text-sm font-medium cursor-pointer">
-        Free Plan
-      </label>
-      <p class="text-xs text-muted-foreground">
-        Basic features for personal use
-      </p>
-    </div>
-  </div>
-  <div class="flex items-center space-x-3 p-4">
-    <RadioGroupItem variant="card" value="pro" id="plan-pro" />
-    <div class="grid gap-1.5 leading-none">
-      <label for="plan-pro" class="text-sm font-medium cursor-pointer">
-        Pro Plan
-      </label>
-      <p class="text-xs text-muted-foreground">
-        Advanced features for professionals
-      </p>
-    </div>
-  </div>
-</RadioGroup>
+<RadioGroup 
+  options={planOptions}
+  bind:value={selectedPlan}
+  isCard={true}
+  label="Choose Your Plan"
+  description="Select the plan that best fits your needs"
+/>
 ```
 
-### Inline Variant for Compact Choices
+### Horizontal Layout for Compact Choices
 
 ```svelte
 <script>
-  import { RadioGroup, RadioGroupItem } from "$core/components/ui/radio-group";
+  import { RadioGroup } from "$core/components/ui/radio";
   
   let theme = $state("auto");
+  
+  const themeOptions = [
+    { id: "light", label: "Light", value: "light" },
+    { id: "dark", label: "Dark", value: "dark" },
+    { id: "auto", label: "Auto", value: "auto" },
+  ];
 </script>
 
-<RadioGroup variant="inline" bind:value={theme}>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem variant="inline" value="light" id="theme-light" />
-    <label for="theme-light" class="text-sm font-medium cursor-pointer">Light</label>
-  </div>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem variant="inline" value="dark" id="theme-dark" />
-    <label for="theme-dark" class="text-sm font-medium cursor-pointer">Dark</label>
-  </div>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem variant="inline" value="auto" id="theme-auto" />
-    <label for="theme-auto" class="text-sm font-medium cursor-pointer">Auto</label>
-  </div>
-</RadioGroup>
+<RadioGroup 
+  options={themeOptions}
+  bind:value={theme}
+  orientation="horizontal"
+  label="Theme Selection"
+/>
 ```
 
 ### Different Sizes
 
 ```svelte
+<script>
+  const options = [
+    { id: "1", label: "Option 1", value: "option1" },
+    { id: "2", label: "Option 2", value: "option2" },
+  ];
+</script>
+
 <!-- Small -->
-<RadioGroup variant="default" size="sm" bind:value={selection}>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem size="sm" value="small1" id="small1" />
-    <label for="small1" class="text-xs font-medium">Small Option</label>
-  </div>
-</RadioGroup>
+<RadioGroup 
+  {options}
+  radioSize="sm"
+  label="Small Radio Group"
+/>
 
 <!-- Large -->
-<RadioGroup variant="default" size="lg" bind:value={selection}>
-  <div class="flex items-center space-x-2">
-    <RadioGroupItem size="lg" value="large1" id="large1" />
-    <label for="large1" class="text-base font-medium">Large Option</label>
-  </div>
-</RadioGroup>
+<RadioGroup 
+  {options}
+  radioSize="lg"
+  label="Large Radio Group"
+/>
 ```
 
 ## Components
 
 ### RadioGroup
 
-The main container component that manages the radio group state and layout.
+The main component that manages radio group state using an options array pattern.
 
 #### Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
+| `options` | `RadioGroupOption[]` | `[]` | Array of radio options |
 | `value` | `string` | `""` | Currently selected value (bindable) |
-| `variant` | `"default" \| "card" \| "inline"` | `"default"` | Visual variant of the radio group |
-| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Size of the radio group and spacing |
-| `class` | `string` | `undefined` | Additional CSS classes |
+| `orientation` | `"vertical" \| "horizontal"` | `"vertical"` | Layout direction |
+| `radioSize` | `"sm" \| "default" \| "lg"` | `"default"` | Size of individual radio buttons |
+| `variant` | `"default" \| "destructive" \| "success" \| "warning"` | `"default"` | Visual variant |
+| `isCard` | `boolean` | `false` | Enable card-style layout with clickable cards |
 | `disabled` | `boolean` | `false` | Disable the entire radio group |
-
-#### Data Attributes
-
-- `data-slot="radio-group"` - Identifies the radio group container
-- `data-variant` - Current variant value
-- `data-size` - Current size value
-
-### RadioGroupItem
-
-Individual radio button component within the group.
-
-#### Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `value` | `string` | Required | Value for this radio option |
-| `variant` | `"default" \| "card" \| "inline"` | `"default"` | Visual variant matching the group |
-| `size` | `"sm" \| "default" \| "lg"` | `"default"` | Size of the radio button |
-| `id` | `string` | `undefined` | HTML id for label association |
-| `disabled` | `boolean` | `false` | Disable this specific option |
+| `error` | `boolean` | `false` | Error state with visual feedback |
+| `label` | `string` | `undefined` | Group label |
+| `description` | `string` | `undefined` | Group description |
+| `required` | `boolean` | `false` | Whether field is required |
 | `class` | `string` | `undefined` | Additional CSS classes |
+| `onValueChange` | `(value: string) => void` | `undefined` | Callback when value changes |
+| `onError` | `(error: boolean) => void` | `undefined` | Callback when error state changes |
 
-#### Data Attributes
+#### Option Structure
 
-- `data-slot="radio-group-item"` - Identifies the radio item
-- `data-variant` - Current variant value
-- `data-size` - Current size value
+```typescript
+interface RadioGroupOption {
+  id: string;           // Unique identifier
+  label: string;        // Display text
+  value: string;        // Value to be selected
+  description?: string; // Optional description text
+  disabled?: boolean;   // Whether this specific option is disabled
+}
+```
+
+## Layout Modes
+
+### Regular Mode (`isCard={false}`, default)
+- Standard radio button layout
+- Radio button with label/description
+- Compact and familiar interface
+- Best for most form applications
+
+### Card Mode (`isCard={true}`)
+- Card-style layout with clickable cards
+- Radio button positioned on the right
+- Enhanced visual hierarchy
+- Perfect for options with descriptions
+- Hover and selected states with border highlights
+- Ideal for prominent selections (plans, cluster types, etc.)
 
 ## Variants
 
 ### Default (`default`)
-- Standard vertical layout with basic styling
+- Standard styling with primary color
 - Clean, minimal appearance
-- Best for most form applications
-- Grid layout with consistent spacing
+- Best for most use cases
 
-### Card (`card`)
-- Card-style layout with background and border
-- Enhanced visual grouping
-- Perfect for options with descriptions or complex content
-- Rounded corners and padding for emphasis
+### Destructive (`destructive`)
+- Red color scheme for dangerous actions
+- Use for delete confirmations or warnings
 
-### Inline (`inline`)
-- Horizontal layout for compact options
-- Grid flow in columns with auto-sizing
-- Ideal for simple choices that fit on one line
-- Increased horizontal spacing between options
+### Success (`success`)
+- Green color scheme for positive actions
+- Good for confirmations or approvals
+
+### Warning (`warning`)
+- Yellow/orange color scheme for caution
+- Use for actions requiring attention
 
 ## Sizes
 
@@ -206,6 +218,94 @@ Individual radio button component within the group.
 - Increased spacing (16px / gap-4)
 - Bigger indicator icon (10px / size-2.5)
 - Better for accessibility and touch interfaces
+
+## Advanced Features
+
+### Card Style Examples
+
+#### Cluster Selection
+```svelte
+<script>
+  let clusterType = $state("kubernetes");
+  
+  const clusterOptions = [
+    { 
+      id: "k8s", 
+      label: "Kubernetes", 
+      value: "kubernetes", 
+      description: "Run GPU workloads on a K8s configured cluster." 
+    },
+    { 
+      id: "vm", 
+      label: "Virtual Machine", 
+      value: "vm", 
+      description: "Access a VM configured cluster to run GPU workloads." 
+    },
+  ];
+</script>
+
+<RadioGroup 
+  options={clusterOptions}
+  bind:value={clusterType}
+  isCard={true}
+  radioSize="lg"
+  label="Select Cluster Type"
+  description="Choose how you want to run your workloads"
+/>
+```
+
+#### Card Style with Variants
+```svelte
+<RadioGroup 
+  options={planOptions}
+  bind:value={selectedPlan}
+  isCard={true}
+  variant="success"
+  label="Choose Your Plan"
+/>
+```
+
+### Error States
+
+```svelte
+<script>
+  let selection = $state("");
+  let hasError = $derived(!selection);
+</script>
+
+<RadioGroup 
+  {options}
+  bind:value={selection}
+  error={hasError}
+  required
+  label="Required Selection"
+  description="Please select an option"
+/>
+```
+
+### With Field Component
+
+```svelte
+<script>
+  import * as Field from "$core/components/ui/field";
+  
+  let cluster = $state("");
+</script>
+
+<Field.Field
+  label="Cluster Configuration"
+  description="Select your cluster type"
+  error={!cluster ? "Please select a cluster type" : undefined}
+  required
+>
+  <RadioGroup 
+    options={clusterOptions}
+    bind:value={cluster}
+    error={!cluster}
+    isCard={true}
+  />
+</Field.Field>
+```
 
 ## Examples
 

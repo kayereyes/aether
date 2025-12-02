@@ -11,6 +11,8 @@
   let deliveryMethod = $state("standard");
   let paymentMethod = $state("credit");
   let errorSelection = $state("");
+  let clusterType = $state("kubernetes");
+  let cardPlan = $state("pro");
   
   // Error states
   let planError = $derived(!selectedPlan);
@@ -39,6 +41,42 @@
     { id: "light", label: "Light", value: "light" },
     { id: "dark", label: "Dark", value: "dark" },
     { id: "auto", label: "Auto", value: "auto" },
+  ];
+
+  const clusterOptions: RadioGroupOption[] = [
+    { 
+      id: "kubernetes", 
+      label: "Kubernetes", 
+      value: "kubernetes", 
+      description: "Run GPU workloads on a K8s configured cluster." 
+    },
+    { 
+      id: "vm", 
+      label: "Virtual Machine", 
+      value: "vm", 
+      description: "Access a VM configured cluster to run GPU workloads." 
+    },
+  ];
+
+  const cardPlanOptions: RadioGroupOption[] = [
+    { 
+      id: "card-free", 
+      label: "Free Plan", 
+      value: "free", 
+      description: "Basic features for personal use - $0/month" 
+    },
+    { 
+      id: "card-pro", 
+      label: "Pro Plan", 
+      value: "pro", 
+      description: "Advanced features for professionals - $29/month" 
+    },
+    { 
+      id: "card-enterprise", 
+      label: "Enterprise Plan", 
+      value: "enterprise", 
+      description: "Full features with priority support - $99/month" 
+    },
   ];
 </script>
 
@@ -280,5 +318,102 @@
       description="This group is disabled"
       disabled
     />
+  </section>
+
+  <!-- Card Style -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold">Card Style</h2>
+    <p class="text-muted-foreground">
+      Use the card style for more prominent selections with clickable cards.
+    </p>
+    
+    <div class="grid gap-8">
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">Cluster Type Selection</h3>
+        <RadioGroup
+          options={clusterOptions}
+          bind:value={clusterType}
+          label="Select Cluster Type"
+          description="Choose how you want to run your workloads"
+          isCard={true}
+          radioSize="lg"
+        />
+        <p class="text-sm text-muted-foreground">
+          Selected: <Badge variant="secondary">{clusterType}</Badge>
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <h3 class="text-lg font-medium">Subscription Plans (Card Style)</h3>
+        <RadioGroup
+          options={cardPlanOptions}
+          bind:value={cardPlan}
+          label="Choose Your Plan"
+          description="Select the plan that best fits your needs"
+          isCard={true}
+        />
+        <p class="text-sm text-muted-foreground">
+          Selected: <Badge variant="secondary">{cardPlan}</Badge>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Card Style vs Regular Comparison -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold">Card Style vs Regular</h2>
+    <p class="text-muted-foreground">
+      Comparison between card style and regular radio group layouts.
+    </p>
+    
+    <div class="grid gap-8 md:grid-cols-2">
+      <div>
+        <h3 class="text-lg font-medium mb-4">Regular Style</h3>
+        <RadioGroup
+          options={clusterOptions}
+          value="kubernetes"
+          label="Cluster Type"
+          description="Regular radio button layout"
+          isCard={false}
+        />
+      </div>
+
+      <div>
+        <h3 class="text-lg font-medium mb-4">Card Style</h3>
+        <RadioGroup
+          options={clusterOptions}
+          value="kubernetes"
+          label="Cluster Type"
+          description="Card-based layout (clickable cards)"
+          isCard={true}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Card Style with Variants -->
+  <section class="space-y-6">
+    <h2 class="text-2xl font-semibold">Card Style with Variants</h2>
+    
+    <div class="grid gap-8 md:grid-cols-2">
+      <RadioGroup
+        options={cardPlanOptions.slice(0, 2)}
+        value="pro"
+        label="Success Variant"
+        isCard={true}
+        variant="success"
+      />
+
+      <RadioGroup
+        options={[
+          { id: "soft-del", label: "Soft Delete", value: "soft", description: "Move items to trash (recoverable)" },
+          { id: "perm-del", label: "Permanent Delete", value: "permanent", description: "Delete permanently (cannot be undone)" },
+        ]}
+        value="soft"
+        label="Warning Variant"
+        isCard={true}
+        variant="warning"
+      />
+    </div>
   </section>
 </div>

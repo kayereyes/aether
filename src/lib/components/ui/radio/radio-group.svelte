@@ -35,6 +35,7 @@
 
 	export type RadioGroupProps = {
 		options: RadioGroupOption[];
+		isCard?: boolean;
 		value?: string;
 		orientation?: RadioGroupOrientation;
 		size?: RadioGroupSize;
@@ -63,6 +64,7 @@
 
 	let {
 		options,
+		isCard = false,
 		value = $bindable(""),
 		orientation = "vertical",
 		size = "default",
@@ -128,20 +130,63 @@
 	<RadioGroupPrimitive.Root
 		bind:value
 		data-slot="radio-group"
-		class={radioGroupVariants({ orientation, size })}
+		class={cn(
+			isCard ? "space-y-3" : radioGroupVariants({ orientation, size })
+		)}
 		{disabled}
 	>
 		{#each options as option (option.id)}
-			<Radio
-				id={getOptionId(option)}
-				value={option.value}
-				size={radioSize}
-				{variant}
-				{error}
-				disabled={disabled || option.disabled}
-				label={option.label}
-				description={option.description}
-			/>
+			{#if isCard}
+				<!-- Card Style UI -->
+				<label
+					for={getOptionId(option)}
+					class={cn(
+						"relative flex items-start gap-4 rounded-lg border p-4 cursor-pointer transition-all",
+						"hover:border-primary/50",
+						value === option.value ? "border-primary bg-primary/5" : "border-border bg-background",
+						(disabled || option.disabled) && "opacity-50 cursor-not-allowed pointer-events-none",
+						error && "border-destructive"
+					)}
+				>
+					<div class="flex-1 space-y-1">
+						<p class={cn(
+							"text-sm font-medium leading-none",
+							(disabled || option.disabled) && "text-muted-foreground"
+						)}>
+							{option.label}
+						</p>
+						{#if option.description}
+							<p class={cn(
+								"text-sm text-muted-foreground",
+								(disabled || option.disabled) && "opacity-70"
+							)}>
+								{option.description}
+							</p>
+						{/if}
+					</div>
+					<Radio
+						id={getOptionId(option)}
+						value={option.value}
+						size={radioSize}
+						{variant}
+						{error}
+						disabled={disabled || option.disabled}
+						class="mt-0.5"
+					/>
+				</label>
+			{:else}
+				<!-- Regular Style UI -->
+				<Radio
+					id={getOptionId(option)}
+					value={option.value}
+					size={radioSize}
+					{variant}
+					{error}
+					disabled={disabled || option.disabled}
+					label={option.label}
+					description={option.description}
+				/>
+			{/if}
 		{/each}
 	</RadioGroupPrimitive.Root>
 </fieldset>

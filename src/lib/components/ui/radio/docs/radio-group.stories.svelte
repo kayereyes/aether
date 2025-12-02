@@ -5,6 +5,7 @@
 
   type Args = {
     options: RadioGroupOption[];
+    isCard?: boolean;
     value: string;
     label?: string;
     description?: string;
@@ -18,7 +19,7 @@
   };
 
   const { Story } = defineMeta({
-    title: 'Components/Radio/Group',
+    title: 'Components/RadioGroup',
     // component: RadioGroup,
     tags: ['autodocs'],
     argTypes: {
@@ -105,7 +106,14 @@
           defaultValue: { summary: 'false' },
         },
       },
-
+      isCard: {
+        control: { type: 'boolean' },
+        description: 'Whether to display radio options in card style',
+        table: {
+          type: { summary: 'boolean' },
+          defaultValue: { summary: 'false' },
+        },
+      },
       class: {
         control: { type: 'text' },
         description: 'Additional CSS classes',
@@ -125,6 +133,7 @@
     },
     args: {
       options: [],
+      isCard: false,
       value: '',
       orientation: 'vertical',
       radioSize: 'default',
@@ -389,6 +398,68 @@
       value="option1"
       label="Mixed Availability"
       description="Some options are disabled"
+    />
+  {/snippet}
+</Story>
+
+<Story name="Card Style">
+  {#snippet template(args: Args)}
+    <RadioGroup
+      options={[
+        { id: 'card-k8s', label: 'Kubernetes', value: 'kubernetes', description: 'Run GPU workloads on a K8s configured cluster.' },
+        { id: 'card-vm', label: 'Virtual Machine', value: 'vm', description: 'Access a VM configured cluster to run GPU workloads.' },
+      ]}
+      value="kubernetes"
+      label="Select Cluster Type"
+      description="Choose how you want to run your workloads"
+      isCard={true}
+    />
+  {/snippet}
+</Story>
+
+<Story name="Card Style with Variants">
+  {#snippet template(args: Args)}
+    <div class="space-y-8">
+      <div>
+        <h3 class="mb-4 text-sm font-medium">Success Variant</h3>
+        <RadioGroup
+          options={[
+            { id: 'card-free', label: 'Free Plan', value: 'free', description: 'Basic features for personal use - $0/month' },
+            { id: 'card-pro', label: 'Pro Plan', value: 'pro', description: 'Advanced features for professionals - $29/month' },
+          ]}
+          value="free"
+          isCard={true}
+          variant="success"
+        />
+      </div>
+      <div>
+        <h3 class="mb-4 text-sm font-medium">Warning Variant</h3>
+        <RadioGroup
+          options={[
+            { id: 'card-delete', label: 'Soft Delete', value: 'soft', description: 'Move items to trash (recoverable)' },
+            { id: 'card-permanent', label: 'Permanent Delete', value: 'permanent', description: 'Delete permanently (cannot be undone)' },
+          ]}
+          value="soft"
+          isCard={true}
+          variant="warning"
+        />
+      </div>
+    </div>
+  {/snippet}
+</Story>
+
+<Story name="Card Style Disabled">
+  {#snippet template(args: Args)}
+    <RadioGroup
+      options={[
+        { id: 'card-dis-1', label: 'Option 1', value: 'option1', description: 'First option is selected and disabled' },
+        { id: 'card-dis-2', label: 'Option 2', value: 'option2', description: 'Second option is disabled' },
+        { id: 'card-dis-3', label: 'Option 3', value: 'option3', description: 'Third option is disabled' },
+      ]}
+      value="option1"
+      label="Disabled Card Style"
+      isCard={true}
+      disabled
     />
   {/snippet}
 </Story>

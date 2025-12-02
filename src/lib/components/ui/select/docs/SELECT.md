@@ -179,7 +179,9 @@ A unified Select component that combines all shadcn select functionality into a 
 | `itemClass` | `string` | `undefined` | Additional CSS classes for individual items |
 | `sideOffset` | `number` | `4` | Offset distance from the trigger |
 | `portalProps` | `SelectPrimitive.PortalProps` | `undefined` | Props for the portal element |
+| `error` | `boolean` | `false` | Error state with visual feedback |
 | `onSelectionChange` | `(value) => void` | `undefined` | Callback fired when selection changes |
+| `onError` | `(error: boolean) => void` | `undefined` | Callback when error state changes |
 
 ## Types
 
@@ -245,6 +247,61 @@ type SelectSize = "sm" | "default" | "lg";
 - ✅ Use **Select** when you want type safety and clean API
 - ⚠️ Use **composed components** when you need completely custom item rendering
 - ⚠️ Use **composed components** when you have very complex nested structures
+
+## Error States
+
+### Basic Error State
+```svelte
+<script>
+  let value = $state("");
+  let hasError = $derived(!value);
+</script>
+
+<Select
+  {options}
+  bind:value
+  error={hasError}
+  required
+  placeholder="Please select an option..."
+/>
+```
+
+### With Field Component
+```svelte
+<script>
+  import * as Field from "$core/components/ui/field";
+  
+  let framework = $state("");
+</script>
+
+<Field.Field
+  label="Framework Selection"
+  description="Choose your preferred framework"
+  error={!framework ? "Please select a framework" : undefined}
+  required
+>
+  <Select
+    {options}
+    bind:value={framework}
+    error={!framework}
+  />
+</Field.Field>
+```
+
+### Error Callback
+```svelte
+<script>
+  function handleError(hasError: boolean) {
+    console.log('Select error state:', hasError);
+  }
+</script>
+
+<Select
+  {options}
+  error={!value}
+  onError={handleError}
+/>
+```
 
 ## Advanced Customization
 
