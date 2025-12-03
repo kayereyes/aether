@@ -8,6 +8,70 @@
 		title: "Components/Dropdown Menu",
 		component: DropdownMenu,
 		tags: ["autodocs"],
+		argTypes:{
+			triggerVariant: {
+				control: "select",
+				options: ["default", "primary", "secondary"],
+				description: "Variant of the trigger button",
+				table: {
+					type: { summary: "default | primary | secondary" },
+					defaultValue: { summary: "default" },
+				},
+			},
+			triggerSize: {
+				control: "select",
+				options: ["sm", "md", "lg"],
+				description: "Size of the trigger button",
+				table: {
+					type: { summary: "sm | md | lg" },
+					defaultValue: { summary: "md" },
+				},
+			},
+			triggerText: {
+				control: "text",
+				description: "Text of the trigger button",
+				table: {
+					type: { summary: "string" },
+					defaultValue: { summary: "Open Menu" },
+				},
+			},
+			showChevron: {
+				control: "boolean",
+				description: "Whether to show the chevron icon",
+				table: {
+					type: { summary: "boolean" },
+					defaultValue: { summary: "true" },
+				},
+			},
+			side: {
+				control: "select",
+				options: ["top", "right", "bottom", "left"],
+				description: "Side on which the dropdown menu appears",
+				table: {
+					type: { summary: "top | right | bottom | left" },
+					defaultValue: { summary: "bottom" },
+				},
+			},
+			open: {
+				control: "boolean",
+				description: "Whether the dropdown menu is open",
+				table: {
+					type: { summary: "boolean" },
+					defaultValue: { summary: "false" },
+				},
+			},
+			align:{
+				control: "select",
+				options: ["start", "center", "end"],
+				description: "Alignment of the dropdown menu",
+				table: {
+					type: { summary: "start | center | end" },
+					defaultValue: { summary: "start" },
+				},
+			}
+
+
+		},
 		parameters: {
 			layout: "centered",
 			docs: {
@@ -275,23 +339,33 @@
 		},
 	]
 }} />
-	{#snippet trigger()}
-		<Trigger>
-			{#snippet child({ props })}
-				<div {...props} class="cursor-pointer hover:opacity-80 transition-opacity">
-					<div class="flex items-center gap-2">
-						<div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
-							JD
-						</div>
-						<span class="text-sm font-medium">John Doe</span>
-						<ChevronDown class="size-3 text-muted-foreground" />
-					</div>
-				</div>
-			{/snippet}
-		</Trigger>
-	{/snippet}
 
-<Story name="custom trigger" args={{items : basicItems, trigger: trigger}} />
+<Story name="Custom Trigger">
+	{#snippet template()}
+		<DropdownMenu items={[
+		{ label: "Profile", icon: User, onSelect: fn() },
+		{ label: "Settings", icon: Settings, onSelect: fn() },
+		{ type: "separator" },
+		{ label: "Logout", icon: LogOut, variant: "destructive", onSelect: fn() },
+	]}>
+			{#snippet trigger()}
+				<Trigger>
+					{#snippet child({ props })}
+						<div {...props} class="cursor-pointer hover:opacity-80 transition-opacity">
+							<div class="flex items-center gap-2">
+								<div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white text-sm font-semibold">
+									JD
+								</div>
+								<span class="text-sm font-medium">John Doe</span>
+								<ChevronDown class="size-3 text-muted-foreground" />
+							</div>
+						</div>
+					{/snippet}
+				</Trigger>
+			{/snippet}
+		</DropdownMenu>
+	{/snippet}
+</Story>
 
 
 

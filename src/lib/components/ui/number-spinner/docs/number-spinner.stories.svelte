@@ -122,6 +122,12 @@
 			required: false,
 			error: false,
 		},
+		parameters: {
+            layout: 'centered',
+            docs: {
+                extractArgTypes: false, // Disable automatic prop extraction
+            },
+        },
 	});
 
 	type Args = {
