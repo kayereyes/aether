@@ -18,8 +18,8 @@ importers:
         specifier: ^3.8.1
         version: 3.10.0
       '@lucide/svelte':
-        specifier: ^0.544.0
-        version: 0.544.0(svelte@5.39.12)
+        specifier: ^0.561.0
+        version: 0.561.0(svelte@5.39.12)
       '@playwright/test':
         specifier: ^1.55.1
         version: 1.56.0
@@ -50,6 +50,9 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.13
         version: 4.1.14(vite@7.1.9(@types/node@22.18.10)(jiti@2.6.1)(lightningcss@1.30.1))
+      '@tanstack/table-core':
+        specifier: ^8.21.3
+        version: 8.21.3
       '@types/node':
         specifier: ^22
         version: 22.18.10
@@ -65,6 +68,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      mode-watcher:
+        specifier: ^1.1.0
+        version: 1.1.0(svelte@5.39.12)
       playwright:
         specifier: ^1.56.0
         version: 1.56.0
@@ -77,6 +83,9 @@ importers:
       svelte-check:
         specifier: ^4.3.2
         version: 4.3.3(picomatch@4.0.3)(svelte@5.39.12)(typescript@5.9.3)
+      svelte-sonner:
+        specifier: ^1.0.7
+        version: 1.0.7(svelte@5.39.12)
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
@@ -392,8 +401,8 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
-  '@lucide/svelte@0.544.0':
-    resolution: {integrity: sha512-9f9O6uxng2pLB01sxNySHduJN3HTl5p0HDu4H26VR51vhZfiMzyOMe9Mhof3XAk4l813eTtl+/DYRvGyoRR+yw==}
+  '@lucide/svelte@0.561.0':
+    resolution: {integrity: sha512-vofKV2UFVrKE6I4ewKJ3dfCXSV6iP6nWVmiM83MLjsU91EeJcEg7LoWUABLp/aOTxj1HQNbJD1f3g3L0JQgH9A==}
     peerDependencies:
       svelte: ^5
 
@@ -750,6 +759,10 @@ packages:
     resolution: {integrity: sha512-BoFUoU0XqgCUS1UXWhmDJroKKhNXeDzD7/XwabjkDIAbMnc4ULn5e2FuEuBbhZ6ENZoSYzKlzvZ44Yr6EUDUSA==}
     peerDependencies:
       vite: ^5.2.0 || ^6 || ^7
+
+  '@tanstack/table-core@8.21.3':
+    resolution: {integrity: sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg==}
+    engines: {node: '>=12'}
 
   '@testing-library/dom@10.4.1':
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
@@ -1279,6 +1292,11 @@ packages:
     resolution: {integrity: sha512-KZxYo1BUkWD2TVFLr0MQoM8vUUigWD3LlD83a/75BqC+4qE0Hb1Vo5v1FgcfaNXvfXzr+5EhQ6ing/CaBijTlw==}
     engines: {node: '>= 18'}
 
+  mode-watcher@1.1.0:
+    resolution: {integrity: sha512-mUT9RRGPDYenk59qJauN1rhsIMKBmWA3xMF+uRwE8MW/tjhaDSCCARqkSuDTq8vr4/2KcAxIGVjACxTjdk5C3g==}
+    peerDependencies:
+      svelte: ^5.27.0
+
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
     engines: {node: '>=4'}
@@ -1374,6 +1392,21 @@ packages:
     resolution: {integrity: sha512-CLEVl+MnPAiKh5pl4dEWSyMTpuflgNQiLGhMv8ezD5W/qP8AKvmYpCOKRRNOh7oRKnauBZ4SyeYkMS+1VSyKwQ==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
+
+  runed@0.23.4:
+    resolution: {integrity: sha512-9q8oUiBYeXIDLWNK5DfCWlkL0EW3oGbk845VdKlPeia28l751VpfesaB/+7pI6rnbx1I6rqoZ2fZxptOJLxILA==}
+    peerDependencies:
+      svelte: ^5.7.0
+
+  runed@0.25.0:
+    resolution: {integrity: sha512-7+ma4AG9FT2sWQEA0Egf6mb7PBT2vHyuHail1ie8ropfSjvZGtEAx8YTmUjv/APCsdRRxEVvArNjALk9zFSOrg==}
+    peerDependencies:
+      svelte: ^5.7.0
+
+  runed@0.28.0:
+    resolution: {integrity: sha512-k2xx7RuO9hWcdd9f+8JoBeqWtYrm5CALfgpkg2YDB80ds/QE4w0qqu34A7fqiAwiBBSBQOid7TLxwxVC27ymWQ==}
+    peerDependencies:
+      svelte: ^5.7.0
 
   runed@0.29.2:
     resolution: {integrity: sha512-0cq6cA6sYGZwl/FvVqjx9YN+1xEBu9sDDyuWdDW1yWX7JF2wmvmVKfH+hVCZs+csW+P3ARH92MjI3H9QTagOQA==}
@@ -1492,11 +1525,22 @@ packages:
       svelte: ^4.0.0 || ^5.0.0-next.0
       typescript: '>=5.0.0'
 
+  svelte-sonner@1.0.7:
+    resolution: {integrity: sha512-1EUFYmd7q/xfs2qCHwJzGPh9n5VJ3X6QjBN10fof2vxgy8fYE7kVfZ7uGnd7i6fQaWIr5KvXcwYXE/cmTEjk5A==}
+    peerDependencies:
+      svelte: ^5.0.0
+
   svelte-toolbelt@0.10.5:
     resolution: {integrity: sha512-8e+eWTgxw1aiLxhDE8Rb1X6AoLitqpJz+WhAul2W7W58C8KoLoJQf1TgQdFPBiCPJ0Jg5y0Zi1uyua9em4VS0w==}
     engines: {node: '>=18', pnpm: '>=8.7.0'}
     peerDependencies:
       svelte: ^5.30.2
+
+  svelte-toolbelt@0.7.1:
+    resolution: {integrity: sha512-HcBOcR17Vx9bjaOceUvxkY3nGmbBmCBBbuWLLEWO6jtmWH8f/QoWmbyUfQZrpDINH39en1b8mptfPQT9VKQ1xQ==}
+    engines: {node: '>=18', pnpm: '>=8.7.0'}
+    peerDependencies:
+      svelte: ^5.0.0
 
   svelte2tsx@0.7.45:
     resolution: {integrity: sha512-cSci+mYGygYBHIZLHlm/jYlEc1acjAHqaQaDFHdEBpUueM9kSTnPpvPtSl5VkJOU1qSJ7h1K+6F/LIUYiqC8VA==}
@@ -1928,7 +1972,7 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
-  '@lucide/svelte@0.544.0(svelte@5.39.12)':
+  '@lucide/svelte@0.561.0(svelte@5.39.12)':
     dependencies:
       svelte: 5.39.12
 
@@ -2249,6 +2293,8 @@ snapshots:
       '@tailwindcss/oxide': 4.1.14
       tailwindcss: 4.1.14
       vite: 7.1.9(@types/node@22.18.10)(jiti@2.6.1)(lightningcss@1.30.1)
+
+  '@tanstack/table-core@8.21.3': {}
 
   '@testing-library/dom@10.4.1':
     dependencies:
@@ -2745,6 +2791,12 @@ snapshots:
     dependencies:
       minipass: 7.1.2
 
+  mode-watcher@1.1.0(svelte@5.39.12):
+    dependencies:
+      runed: 0.25.0(svelte@5.39.12)
+      svelte: 5.39.12
+      svelte-toolbelt: 0.7.1(svelte@5.39.12)
+
   mri@1.2.0: {}
 
   mrmime@2.0.1: {}
@@ -2852,6 +2904,21 @@ snapshots:
       '@rollup/rollup-win32-x64-gnu': 4.52.4
       '@rollup/rollup-win32-x64-msvc': 4.52.4
       fsevents: 2.3.3
+
+  runed@0.23.4(svelte@5.39.12):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.39.12
+
+  runed@0.25.0(svelte@5.39.12):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.39.12
+
+  runed@0.28.0(svelte@5.39.12):
+    dependencies:
+      esm-env: 1.2.2
+      svelte: 5.39.12
 
   runed@0.29.2(svelte@5.39.12):
     dependencies:
@@ -2977,10 +3044,22 @@ snapshots:
     transitivePeerDependencies:
       - picomatch
 
+  svelte-sonner@1.0.7(svelte@5.39.12):
+    dependencies:
+      runed: 0.28.0(svelte@5.39.12)
+      svelte: 5.39.12
+
   svelte-toolbelt@0.10.5(svelte@5.39.12):
     dependencies:
       clsx: 2.1.1
       runed: 0.29.2(svelte@5.39.12)
+      style-to-object: 1.0.11
+      svelte: 5.39.12
+
+  svelte-toolbelt@0.7.1(svelte@5.39.12):
+    dependencies:
+      clsx: 2.1.1
+      runed: 0.23.4(svelte@5.39.12)
       style-to-object: 1.0.11
       svelte: 5.39.12
 

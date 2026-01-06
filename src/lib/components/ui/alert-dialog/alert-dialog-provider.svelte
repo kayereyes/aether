@@ -37,9 +37,10 @@
 <script lang="ts">
 	import { AlertDialog as AlertDialogPrimitive } from "bits-ui";
 	import AlertDialogImpl from "./alert-dialog-impl.svelte";
+	import type { Snippet } from "svelte";
 
 	type Props = {
-		children: import("svelte").Snippet;
+		children: Snippet<[AlertDialogContext]>;
 	};
 
 	let { children }: Props = $props();
@@ -86,7 +87,7 @@
 </script>
 
 <AlertDialogPrimitive.Root bind:open={isOpen}>
-	{@render children()}
+	{@render children(context)}
 
 	<AlertDialogImpl
 		variant={config.variant}
