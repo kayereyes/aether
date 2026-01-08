@@ -14,6 +14,7 @@ export type {
 	RowSelectionState,
 	SortingState,
 	VisibilityState,
+	ExpandedState,
 	Table,
 	Column,
 	Row,
@@ -28,4 +29,5 @@ export {
 	getFilteredRowModel,
 	getPaginationRowModel,
 	getSortedRowModel,
+	getExpandedRowModel,
 } from "@tanstack/table-core";

@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from "@storybook/sveltekit";
 import { createRawSnippet } from "svelte";
-import DataTable from "./data-table-root.svelte";
-import DataTableCheckbox from "./data-table-checkbox.svelte";
-import DataTableColumnHeader from "./data-table-column-header.svelte";
-import type { ColumnDef, HeaderContext, CellContext } from "./index.js";
-import { renderComponent, renderSnippet } from "./index.js";
+import DataTable from "../data-table-root.svelte";
+import DataTableCheckbox from "../data-table-checkbox.svelte";
+import DataTableColumnHeader from "../data-table-column-header.svelte";
+import DataTableActions from "../data-table-actions.svelte";
+import type { ColumnDef, HeaderContext, CellContext } from "../index.js";
+import { renderComponent, renderSnippet } from "../index.js";
 
 type Payment = {
 	id: string;
@@ -160,25 +161,25 @@ const createColumns = (): ColumnDef<Payment>[] => [
 	{
 		id: "actions",
 		enableHiding: false,
-		cell: ({ row }: CellContext<Payment, unknown>) => {
-			const actionsSnippet = createRawSnippet<[{ id: string }]>((getId) => {
-				const { id } = getId();
-				return {
-					render: () => `
-						<div class="text-center">
-							<button 
-								class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-8 w-8 p-0"
-								onclick="navigator.clipboard.writeText('${id}')"
-								title="Copy ID"
-							>
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
-							</button>
-						</div>
-					`
-				};
-			});
-			return renderSnippet(actionsSnippet, { id: row.original.id });
-		}
+		cell: ({ row }: CellContext<Payment, unknown>) =>
+			renderComponent(DataTableActions, {
+				id: row.original.id,
+				copyLabel: "Copy payment ID",
+				actions: [
+					{
+						label: "View details",
+						onclick: () => console.log("View details for", row.original.id)
+					},
+					{
+						label: "Edit payment",
+						onclick: () => console.log("Edit payment", row.original.id)
+					},
+					{
+						label: "Delete",
+						onclick: () => console.log("Delete payment", row.original.id)
+					}
+				]
+			})
 	}
 ];
 
@@ -187,6 +188,44 @@ const meta = {
 	component: DataTable,
 	tags: ["autodocs"],
 	argTypes: {
+		variant: {
+			control: "select",
+			options: ["default", "striped", "bordered", "compact"],
+			description: "Visual style variant"
+		},
+		selectionMode: {
+			control: "select",
+			options: ["multi", "single", "none"],
+			description: "Row selection mode"
+		},
+		pageSize: {
+			control: "number",
+			description: "Number of rows per page"
+		},
+		showFilter: {
+			control: "boolean",
+			description: "Show filter input"
+		},
+		showColumnToggle: {
+			control: "boolean",
+			description: "Show column visibility toggle"
+		},
+		showPagination: {
+			control: "boolean",
+			description: "Show pagination controls"
+		},
+		showPageSizeSelector: {
+			control: "boolean",
+			description: "Show page size selector"
+		},
+		showRowSelection: {
+			control: "boolean",
+			description: "Show row selection count"
+		},
+		expandable: {
+			control: "boolean",
+			description: "Enable row expansion"
+		},
 		filterColumn: {
 			control: "text",
 			description: "The column to filter by"
@@ -206,16 +245,86 @@ export const Default: Story = {
 		data: sampleData,
 		columns: createColumns() as any,
 		filterColumn: "email",
+		filterPlaceholder: "Filter emails...",
+		pageSize: 5,
+		variant: "default",
+		selectionMode: "multi"
+	}
+};
+
+export const Striped: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		variant: "striped",
+		pageSize: 5
+	}
+};
+
+export const Bordered: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		variant: "bordered",
+		pageSize: 5
+	}
+};
+
+export const Compact: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		variant: "compact",
+		pageSize: 8
+	}
+};
+
+export const SingleSelect: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		selectionMode: "single",
+		pageSize: 5
+	}
+};
+
+export const NoSelection: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		selectionMode: "none",
+		pageSize: 5
+	}
+};
+
+export const CustomPageSize: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		pageSize: 3,
+		pageSizeOptions: [3, 5, 10, 20],
+		filterColumn: "email",
 		filterPlaceholder: "Filter emails..."
 	}
 };
 
-export const WithFewerRows: Story = {
+export const Minimal: Story = {
 	args: {
-		data: sampleData.slice(0, 5),
+		data: sampleData,
 		columns: createColumns() as any,
-		filterColumn: "email",
-		filterPlaceholder: "Filter emails..."
+		showFilter: false,
+		showColumnToggle: false,
+		showRowSelection: false,
+		pageSize: 5
+	}
+};
+
+export const NoPagination: Story = {
+	args: {
+		data: sampleData,
+		columns: createColumns() as any,
+		showPagination: false,
+		pageSize: 100
 	}
 };
 
@@ -224,6 +333,7 @@ export const StatusFilter: Story = {
 		data: sampleData,
 		columns: createColumns() as any,
 		filterColumn: "status",
-		filterPlaceholder: "Filter by status..."
+		filterPlaceholder: "Filter by status...",
+		pageSize: 5
 	}
 };

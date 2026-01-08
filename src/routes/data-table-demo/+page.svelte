@@ -203,5 +203,153 @@
 
 <div class="container mx-auto py-10">
 	<h1 class="mb-8 text-3xl font-bold">Data Table Demo</h1>
-	<DataTable {data} {columns} filterColumn="email" filterPlaceholder="Filter emails..." />
+	
+	<!-- Default table with multi-select -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Multi-Select with Page Size Selector</h2>
+		<p class="text-muted-foreground mb-4">Standard table with checkbox multi-selection and page size options</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			filterColumn="email" 
+			filterPlaceholder="Filter emails..." 
+			pageSize={5}
+			pageSizeOptions={[5, 10, 20, 50]}
+			selectionMode="multi"
+			onPageChange={(page, action) => console.log(`Page changed to: ${page}, action: ${action}`)}
+			onPageSizeChange={(size) => console.log("Page size changed to:", size)}
+			onRowSelectionChange={(selected) => console.log("Selected rows:", selected)}
+		/>
+	</section>
+
+	<!-- Single select table -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Single Select</h2>
+		<p class="text-muted-foreground mb-4">Table with single row selection (radio button behavior)</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			filterColumn="email" 
+			filterPlaceholder="Filter emails..." 
+			pageSize={5}
+			selectionMode="single"
+			onRowSelectionChange={(selected) => console.log("Selected row:", selected)}
+		/>
+	</section>
+
+	<!-- No selection table -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">No Selection</h2>
+		<p class="text-muted-foreground mb-4">Table without row selection capability</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			filterColumn="email" 
+			filterPlaceholder="Filter emails..." 
+			pageSize={5}
+			selectionMode="none"
+		/>
+	</section>
+
+	<!-- Striped variant -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Striped Variant</h2>
+		<p class="text-muted-foreground mb-4">Alternating row background colors for better readability</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			variant="striped"
+			filterColumn="email"
+			filterPlaceholder="Filter emails..."
+			pageSize={5}
+		/>
+	</section>
+
+	<!-- Bordered variant -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Bordered Variant</h2>
+		<p class="text-muted-foreground mb-4">Enhanced borders between columns and around the table</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			variant="bordered"
+			filterColumn="email"
+			filterPlaceholder="Filter emails..."
+			pageSize={5}
+		/>
+	</section>
+
+	<!-- Compact variant -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Compact Variant</h2>
+		<p class="text-muted-foreground mb-4">Reduced padding and smaller text for dense data display</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			variant="compact"
+			filterColumn="email"
+			filterPlaceholder="Filter emails..."
+			pageSize={8}
+		/>
+	</section>
+
+	<!-- Compact table without filter and column toggle -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Minimal Configuration</h2>
+		<p class="text-muted-foreground mb-4">No filter, no column toggle, larger page size</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			showFilter={false}
+			showColumnToggle={false}
+			pageSize={10}
+		/>
+	</section>
+
+	<!-- Simple table without pagination -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">No Pagination</h2>
+		<p class="text-muted-foreground mb-4">Shows all rows without pagination controls</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			showPagination={false}
+			pageSize={100}
+		/>
+	</section>
+
+	<!-- Expandable rows -->
+	<section class="mb-12">
+		<h2 class="mb-4 text-2xl font-semibold">Expandable Rows</h2>
+		<p class="text-muted-foreground mb-4">Click the chevron to expand rows and view additional details</p>
+		<DataTable 
+			{data} 
+			{columns} 
+			expandable={true}
+			pageSize={5}
+		>
+			{#snippet renderSubComponent({ row })}
+				{@const payment = row.original}
+				<div class="space-y-2 text-sm">
+					<div class="grid grid-cols-2 gap-4">
+						<div>
+							<span class="font-semibold">Payment ID:</span> {payment.id}
+						</div>
+						<div>
+							<span class="font-semibold">Status:</span> <span class="capitalize">{payment.status}</span>
+						</div>
+						<div>
+							<span class="font-semibold">Amount:</span> ${payment.amount.toFixed(2)}
+						</div>
+						<div>
+							<span class="font-semibold">Email:</span> {payment.email}
+						</div>
+					</div>
+					<div class="mt-4 p-3 bg-background rounded border">
+						<p class="text-xs text-muted-foreground">Additional payment details and transaction history would appear here.</p>
+					</div>
+				</div>
+			{/snippet}
+		</DataTable>
+	</section>
 </div>
