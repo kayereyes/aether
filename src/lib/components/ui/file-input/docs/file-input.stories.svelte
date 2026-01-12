@@ -1,14 +1,11 @@
 <script module>
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import FileInput from "../file-input.svelte";
-	import FileInputDragDrop from "../file-input-drag-drop.svelte";
-	import FileInputRegular from "../file-input-regular.svelte";
-	import FileInputButton from "../file-input-button.svelte";
 	import * as Field from '$core/components/ui/field';
 	import { Button } from '$core/components/ui/button';
 
 	const { Story } = defineMeta({
-		title: 'Components/FileInput',
+		title: 'Components/FileInput/All Modes',
 		component: FileInput,
 		tags: ['autodocs'],
 		argTypes: {
@@ -230,9 +227,15 @@
 </script>
 
 
-<!-- Basic Mode Examples -->
-<Story name="Drag & Drop Mode" args={{ mode: 'drag-drop', description: '',
-				showFileList: true }} />
+<!-- Mode Selection Examples -->
+<Story name="Drag & Drop Mode (Default)" args={{ 
+	mode: 'drag-drop',
+	dragDropProps: {
+		label: 'Drop files here or click to browse',
+		description: 'Upload your files',
+		showFileList: true
+	}
+}} />
 
 <Story name="Regular Input Mode" args={{ 
 	mode: 'regular',
@@ -255,157 +258,42 @@
 	}
 }} />
 
-
-
-<Story name="Drag Drop - Images Only" args={{ 
+<!-- Validation Examples -->
+<Story name="Images Only" args={{ 
 	mode: 'drag-drop',
 	validation: imageValidation,
 	dragDropProps: {
-		label: 'Drop images here or click to browse',
+		label: 'Drop images here',
 		description: 'PNG, JPG, GIF up to 5MB',
 		showFileList: true
 	}
 }} />
 
-<Story name="Drag Drop - Single File" args={{ 
-	mode: 'drag-drop',
+<Story name="Documents Only" args={{ 
+	mode: 'regular',
+	validation: documentValidation,
+	regularProps: {
+		label: 'Upload Documents',
+		placeholder: 'Choose up to 3 documents...',
+		showFileCount: true,
+		showFileList: true
+	}
+}} />
+
+<Story name="Single File" args={{ 
+	mode: 'button-only',
 	validation: singleFileValidation,
 	multiple: false,
-	dragDropProps: {
-		label: 'Drop a single file here',
-		description: 'Only one file allowed',
-		showFileList: true
-	}
-}} />
-
-<Story name="Drag Drop - Documents" args={{ 
-	mode: 'drag-drop',
-	validation: documentValidation,
-	dragDropProps: {
-		label: 'Drop documents here',
-		description: 'PDF, DOC, DOCX, TXT files (max 3)',
-		showFileList: true
-	}
-}} />
-
-<Story name="Drag Drop - No File List" args={{ 
-	mode: 'drag-drop',
-	dragDropProps: {
-		label: 'Drop files here or click to browse',
-		description: 'Files will be processed immediately',
-		showFileList: false
-	}
-}} />
-
-
-
-<Story name="Regular - With Label" args={{ 
-	mode: 'regular',
-	regularProps: {
-		label: 'Project Files',
-		placeholder: 'Choose project files...',
-		showFileCount: true,
-		showFileList: true
-	}
-}} />
-
-<Story name="Regular - Images Only" args={{ 
-	mode: 'regular',
-	validation: imageValidation,
-	regularProps: {
-		label: 'Profile Photos',
-		placeholder: 'Choose images...',
-		showFileCount: false,
-		showFileList: true
-	}
-}} />
-
-<Story name="Regular - Single Document" args={{ 
-	mode: 'regular',
-	validation: { ...singleFileValidation, acceptedTypes: ['.pdf'] },
-	multiple: false,
-	regularProps: {
-		label: 'Upload Resume',
-		placeholder: 'Choose PDF file...',
-		showFileCount: true,
-		showFileList: false
-	}
-}} />
-
-<Story name="Regular - Required Field" args={{ 
-	mode: 'regular',
-	required: true,
-	regularProps: {
-		label: 'Required Documents',
-		placeholder: 'Select required files...',
-		showFileCount: true,
-		showFileList: true
-	}
-}} />
-
-
-
-<Story name="Button - Default Variant" args={{ 
-	mode: 'button-only',
 	buttonProps: {
-		buttonText: 'Choose Files',
+		buttonText: 'Choose File',
 		variant: 'default',
-		size: 'default',
-		showCount: true,
-		showFileList: true
-	}
-}} />
-
-<Story name="Button - Filled Variant" args={{ 
-	mode: 'button-only',
-	buttonProps: {
-		buttonText: 'Upload Media',
-		variant: 'filled',
-		size: 'lg',
-		showCount: true,
-		showFileList: true
-	}
-}} />
-
-<Story name="Button - Ghost Variant" args={{ 
-	mode: 'button-only',
-	buttonProps: {
-		buttonText: 'Add Files',
-		variant: 'ghost',
-		size: 'sm',
 		showCount: false,
 		showFileList: true
 	}
 }} />
 
-<Story name="Button - Avatar Upload" args={{ 
-	mode: 'button-only',
-	validation: { ...imageValidation, maxFiles: 1 },
-	multiple: false,
-	buttonProps: {
-		buttonText: 'Upload Avatar',
-		variant: 'filled',
-		size: 'lg',
-		showCount: false,
-		showFileList: false
-	}
-}} />
-
-<Story name="Button - Document Upload" args={{ 
-	mode: 'button-only',
-	validation: documentValidation,
-	buttonProps: {
-		buttonText: 'Upload Documents',
-		variant: 'default',
-		size: 'default',
-		showCount: true,
-		showFileList: true
-	}
-}} />
-
-
-
-<Story name="Disabled State - Drag Drop" args={{ 
+<!-- State Examples -->
+<Story name="Disabled" args={{ 
 	mode: 'drag-drop',
 	disabled: true,
 	dragDropProps: {
@@ -415,116 +303,31 @@
 	}
 }} />
 
-<Story name="Disabled State - Regular" args={{ 
-	mode: 'regular',
-	disabled: true,
-	regularProps: {
-		label: 'Upload Disabled',
-		placeholder: 'Upload not available...',
-		showFileCount: true,
-		showFileList: true
-	}
-}} />
-
-<Story name="Disabled State - Button" args={{ 
-	mode: 'button-only',
-	disabled: true,
-	buttonProps: {
-		buttonText: 'Upload Disabled',
-		variant: 'ghost',
-		size: 'default',
-		showCount: true,
-		showFileList: true
-	}
-}} />
-
-
-
-<Story 
-	name="FileInputDragDrop Component" 
-	tags={['!autodocs']}
->
-	<FileInputDragDrop 
-		validation={imageValidation}
-		label="Drop images here"
-		description="PNG, JPG, GIF up to 5MB"
-		multiple={true}
-		onFilesChange={(files) => console.log('Files changed:', files)}
-		onError={(error) => console.log('Error:', error)}
-	/>
-</Story>
-
-<Story 
-	name="FileInputRegular Component" 
-	tags={['!autodocs']}
->
-	<FileInputRegular 
-		validation={documentValidation}
-		label="Upload Documents"
-		placeholder="Choose up to 3 files..."
-		showFileCount={true}
-		showFileList={true}
-		multiple={true}
-		onFilesChange={(files) => console.log('Files changed:', files)}
-		onError={(error) => console.log('Error:', error)}
-	/>
-</Story>
-
-<Story 
-	name="FileInputButton Component" 
-	tags={['!autodocs']}
->
-	<FileInputButton 
-		validation={singleFileValidation}
-		buttonText="Upload Avatar"
-		variant="filled"
-		size="lg"
-		showCount={false}
-		showFileList={false}
-		multiple={false}
-		onFilesChange={(files) => console.log('Files changed:', files)}
-		onError={(error) => console.log('Error:', error)}
-	/>
-</Story>
-
 <!-- With Field Component -->
-<Story name="Field with Basic FileInput">
+<Story name="Field with Drag & Drop">
 	{#snippet template()}
 		<Field.Field
 			label="Upload Documents"
-			description="Supported formats: PDF, DOC, DOCX (Max 5MB)"
+			description="Drag and drop or click to upload (Max 5MB)"
 		>
 			<FileInput 
+				mode="drag-drop"
 				validation={{
 					maxFiles: 3,
 					maxSize: 5 * 1024 * 1024,
 					acceptedTypes: ['.pdf', '.doc', '.docx']
 				}}
-			/>
-		</Field.Field>
-	{/snippet}
-</Story>
-
-<Story name="Field with Image Upload">
-	{#snippet template()}
-		<Field.Field
-			label="Profile Picture"
-			description="Upload your profile photo (JPG, PNG)"
-			required
-		>
-			<FileInput 
-				mode="drag-drop"
-				validation={{
-					maxFiles: 1,
-					maxSize: 2 * 1024 * 1024,
-					acceptedTypes: ['image/*']
+				dragDropProps={{
+					label: 'Drop files here',
+					description: 'PDF, DOC, DOCX',
+					showFileList: true
 				}}
 			/>
 		</Field.Field>
 	{/snippet}
 </Story>
 
-<Story name="Field with Regular Mode">
+<Story name="Field with Regular Input">
 	{#snippet template()}
 		<Field.Field
 			label="Resume"
@@ -539,7 +342,52 @@
 				}}
 				regularProps={{
 					placeholder: 'Choose PDF file...',
-					
+					showFileCount: false,
+					showFileList: true
+				}}
+			/>
+		</Field.Field>
+	{/snippet}
+</Story>
+
+<Story name="Field with Button">
+	{#snippet template()}
+		<Field.Field
+			label="Profile Picture"
+			description="Upload your profile photo (JPG, PNG)"
+			required
+		>
+			<FileInput 
+				mode="button-only"
+				validation={{
+					maxFiles: 1,
+					maxSize: 2 * 1024 * 1024,
+					acceptedTypes: ['image/*']
+				}}
+				buttonProps={{
+					buttonText: 'Upload Photo',
+					variant: 'filled',
+					size: 'lg',
+					showCount: false,
+					showFileList: false
+				}}
+			/>
+		</Field.Field>
+	{/snippet}
+</Story>
+
+<Story name="Field with Validation Error">
+	{#snippet template()}
+		<Field.Field
+			label="Required Document"
+			description="Please upload a valid PDF file"
+			required
+			error="This field is required"
+		>
+			<FileInput 
+				validation={{
+					maxFiles: 1,
+					acceptedTypes: ['.pdf']
 				}}
 			/>
 		</Field.Field>
