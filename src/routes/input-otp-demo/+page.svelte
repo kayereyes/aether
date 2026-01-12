@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { InputOTP } from "$lib/components/ui/input-otp/index.js";
+	import { InputOTP } from "$core/components/ui/input-otp/index.js";
 	import { REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS } from "bits-ui";
-	import type { InputOTPVariant, InputOTPSize } from "$lib/components/ui/input-otp/input-otp-root.svelte";
+	import type { InputOTPVariant, InputOTPSize } from "$core/components/ui/input-otp/input-otp-root.svelte";
     import { Field } from "$core/components/ui/field";
 
 	// Basic OTP value

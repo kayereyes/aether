@@ -10,11 +10,11 @@
 		SheetTitle,
 		SheetDescription,
 		SheetClose
-	} from "$lib/components/ui/sheet";
-	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
-	import { Label } from "$lib/components/ui/label";
-	import { Textarea } from "$lib/components/ui/textarea";
+	} from "$core/components/ui/sheet";
+	import { Button } from "$core/components/ui/button";
+	import { Input } from "$core/components/ui/input";
+	import { Label } from "$core/components/ui/label";
+	import { Textarea } from "$core/components/ui/textarea";
 	import { Menu, Settings, Bell, User, Mail, Lock, ShoppingCart } from "@lucide/svelte";
 
 	const { Story } = defineMeta({
@@ -44,7 +44,7 @@
 	});
 </script>
 
-<!-- Default (Right Side) -->
+
 <Story name="Default">
 		<SheetTrigger>
 			<Button variant="outline">Open Sheet</Button>
@@ -74,7 +74,7 @@
 		</SheetContent>
 </Story>
 
-<!-- Left Side -->
+
 <Story name="Left Side">
 	
 		<SheetTrigger>
@@ -100,7 +100,7 @@
 	
 </Story>
 
-<!-- Top Side -->
+
 <Story name="Top Side">
 	
 		<SheetTrigger>
@@ -134,7 +134,7 @@
 	
 </Story>
 
-<!-- Bottom Side -->
+
 <Story name="Bottom Side">
 	
 		<SheetTrigger>
@@ -174,7 +174,7 @@
 	
 </Story>
 
-<!-- With Form -->
+
 <Story name="With Form">
 	
 		<SheetTrigger>
@@ -211,7 +211,7 @@
 	
 </Story>
 
-<!-- Settings Panel -->
+
 <Story name="Settings Panel">
 	
 		<SheetTrigger>
@@ -257,7 +257,7 @@
 	
 </Story>
 
-<!-- Contact Form -->
+
 <Story name="Contact Form">
 	
 		<SheetTrigger>
@@ -297,7 +297,7 @@
 	
 </Story>
 
-<!-- User Profile -->
+
 <Story name="User Profile">
 	
 		<SheetTrigger>
@@ -344,7 +344,7 @@
 	
 </Story>
 
-<!-- Shopping Cart -->
+
 <Story name="Shopping Cart">
 	
 		<SheetTrigger>
@@ -399,7 +399,7 @@
 	
 </Story>
 
-<!-- Without Close Button -->
+
 <Story name="Without Close Button">
 	
 		<SheetTrigger>
@@ -432,7 +432,7 @@
 	
 </Story>
 
-<!-- Custom Width -->
+
 <Story name="Custom Width">
 	
 		<SheetTrigger>

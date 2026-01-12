@@ -29,49 +29,49 @@ export const switchVariants = tv({
 		variant: {
 			default: {
 				root: [
-					'data-[state=checked]:bg-primary data-[state=unchecked]:bg-muted',
-					'dark:data-[state=checked]:bg-primary dark:data-[state=unchecked]:bg-muted/50'
+					'data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',
+					'dark:data-[state=checked]:bg-primary dark:data-[state=unchecked]:bg-input/50'
 				],
 				thumb: [
 					'bg-background border border-border/50',
-					'data-[state=checked]:bg-primary-foreground data-[state=unchecked]:bg-background',
-					'dark:data-[state=unchecked]:bg-background dark:data-[state=checked]:bg-primary-foreground',
+					'data-[state=checked]:bg-primary-foreground data-[state=unchecked]:bg-white',
+					'dark:data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-primary-foreground',
 					'data-[state=checked]:border-transparent'
 				]
 			},
 			success: {
 				root: [
-					'data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-muted',
-					'dark:data-[state=checked]:bg-green-600 dark:data-[state=unchecked]:bg-muted/50'
+					'data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-input',
+					'dark:data-[state=checked]:bg-green-600 dark:data-[state=unchecked]:bg-input/50'
 				],
 				thumb: [
 					'bg-background border border-border/50',
-					'data-[state=checked]:bg-white data-[state=unchecked]:bg-background',
-					'dark:data-[state=unchecked]:bg-background dark:data-[state=checked]:bg-white',
+					'data-[state=checked]:bg-white data-[state=unchecked]:bg-white',
+					'dark:data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-white',
 					'data-[state=checked]:border-transparent'
 				]
 			},
 			warning: {
 				root: [
-					'data-[state=checked]:bg-orange-500 data-[state=unchecked]:bg-muted',
-					'dark:data-[state=checked]:bg-orange-600 dark:data-[state=unchecked]:bg-muted/50'
+					'data-[state=checked]:bg-orange-500 data-[state=unchecked]:bg-input',
+					'dark:data-[state=checked]:bg-orange-600 dark:data-[state=unchecked]:bg-input/50'
 				],
 				thumb: [
 					'bg-background border border-border/50',
-					'data-[state=checked]:bg-white data-[state=unchecked]:bg-background',
-					'dark:data-[state=unchecked]:bg-background dark:data-[state=checked]:bg-white',
+					'data-[state=checked]:bg-white data-[state=unchecked]:bg-white',
+					'dark:data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-white',
 					'data-[state=checked]:border-transparent'
 				]
 			},
 			danger: {
 				root: [
-					'data-[state=checked]:bg-red-500 data-[state=unchecked]:bg-muted',
-					'dark:data-[state=checked]:bg-red-600 dark:data-[state=unchecked]:bg-muted/50'
+					'data-[state=checked]:bg-red-500 data-[state=unchecked]:bg-input',
+					'dark:data-[state=checked]:bg-red-600 dark:data-[state=unchecked]:bg-input/50'
 				],
 				thumb: [
 					'bg-background border border-border/50',
-					'data-[state=checked]:bg-white data-[state=unchecked]:bg-background',
-					'dark:data-[state=unchecked]:bg-background dark:data-[state=checked]:bg-white',
+					'data-[state=checked]:bg-white data-[state=unchecked]:bg-white',
+					'dark:data-[state=unchecked]:bg-white dark:data-[state=checked]:bg-white',
 					'data-[state=checked]:border-transparent'
 				]
 			},

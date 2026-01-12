@@ -1,382 +1,498 @@
 <script lang="ts">
-	import { Input, createMask, type InputVariant, type InputSize, type MaskType } from "$core/components/ui/input/index.js";
-	import * as Field from "$core/components/ui/field/index.js";
-	
-	let basicValue = $state("");
-	let phoneValue = $state("");
-	let ssnValue = $state("");
-	let creditCardValue = $state("");
-	let dateValue = $state("");
-	let timeValue = $state("");
-	let emailValue = $state("");
-	let usernameValue = $state("");
-	
-	// Error states
-	let emailError = $derived(emailValue.length > 0 && !emailValue.includes("@"));
-	let usernameError = $derived(usernameValue.length > 0 && usernameValue.length < 3);
-	
-	const variants: InputVariant[] = ["default", "outline", "filled", "ghost", "underline"];
-	const sizes: InputSize[] = ["sm", "default", "lg"];
+	import { Input } from '$core/components/ui/input';
+	import { InputGroupButton } from '$core/components/ui/input-group';
+	import { Search, Mail, DollarSign, Lock, Eye, EyeOff, Copy, Check, Send, User, Phone, CreditCard } from '@lucide/svelte';
+	import { Card } from '$core/components/ui/card';
+
+	let searchValue = $state('');
+	let emailValue = $state('');
+	let priceValue = $state('');
+	let passwordValue = $state('');
+	let showPassword = $state(false);
+	let copiedUrl = $state(false);
+	let urlValue = $state('https://example.com');
+	let messageValue = $state('');
+	let usernameValue = $state('');
+
+	function handleCopy() {
+		navigator.clipboard.writeText(urlValue);
+		copiedUrl = true;
+		setTimeout(() => copiedUrl = false, 2000);
+	}
+
+	function handleSend() {
+		console.log('Sending message:', messageValue);
+		messageValue = '';
+	}
 </script>
 
-<div class="container mx-auto py-10 space-y-8">
-	<div class="space-y-2">
-		<h1 class="text-3xl font-bold">Input Component Demo</h1>
-		<p class="text-muted-foreground">
-			Showcasing different variants, sizes, and mask functionality for the Input component.
-		</p>
+<div class="container mx-auto p-6 space-y-8">
+	<div class="text-center space-y-2">
+		<h1 class="text-4xl font-bold">Input Component</h1>
+		<p class="text-muted-foreground">Enhanced input with built-in InputGroup addon support, masks, and variants</p>
 	</div>
 
-	<!-- Basic Variants -->
+	<!-- Basic Input -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Variants</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			{#each variants as variant}
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Basic Input</h2>
+			<p class="text-sm text-muted-foreground">Standard input without addons</p>
+		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
 				<div class="space-y-2">
-					<p class="text-sm font-medium capitalize">{variant}</p>
-					<Input 
-						{variant}
-						placeholder="Enter text..."
-						bind:value={basicValue}
+					<label for="basic-text" class="text-sm font-medium">Text Input</label>
+					<Input id="basic-text" placeholder="Enter text..." />
+				</div>
+
+				<div class="space-y-2">
+					<label for="basic-email" class="text-sm font-medium">Email Input</label>
+					<Input id="basic-email" type="email" placeholder="Enter email..." />
+				</div>
+
+				<div class="space-y-2">
+					<label for="basic-password" class="text-sm font-medium">Password Input</label>
+					<Input id="basic-password" type="password" placeholder="Enter password..." />
+				</div>
+
+				<div class="space-y-2">
+					<label for="basic-number" class="text-sm font-medium">Number Input</label>
+					<Input id="basic-number" type="number" placeholder="Enter number..." />
+				</div>
+			</div>
+		</Card>
+	</section>
+
+	<!-- Icon Addons -->
+	<section class="space-y-4">
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Icon Addons</h2>
+			<p class="text-sm text-muted-foreground">Add icons to enhance visual clarity</p>
+		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- Start Icon -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Search (Start Icon)</label>
+					<Input
+						bind:value={searchValue}
+						placeholder="Search..."
+					>
+						{#snippet startIcon()}
+							<Search class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- End Icon -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Email (End Icon)</label>
+					<Input
+						bind:value={emailValue}
+						type="email"
+						placeholder="Enter your email"
+					>
+						{#snippet endIcon()}
+							<Mail class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Both Icons -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Price (Both Icons)</label>
+					<Input
+						bind:value={priceValue}
+						type="number"
+						placeholder="0.00"
+					>
+						{#snippet startIcon()}
+							<DollarSign class="size-4" />
+						{/snippet}
+						{#snippet endIcon()}
+							<span class="text-xs text-muted-foreground">USD</span>
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Password with Toggle -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Password (Interactive Icon)</label>
+					<Input
+						bind:value={passwordValue}
+						type={showPassword ? "text" : "password"}
+						placeholder="Enter password"
+					>
+						{#snippet startIcon()}
+							<Lock class="size-4" />
+						{/snippet}
+						{#snippet endButton()}
+							<InputGroupButton
+								size="icon-xs"
+								variant="ghost"
+								onclick={() => showPassword = !showPassword}
+								aria-label={showPassword ? "Hide password" : "Show password"}
+							>
+								{#if showPassword}
+									<EyeOff class="size-4" />
+								{:else}
+									<Eye class="size-4" />
+								{/if}
+							</InputGroupButton>
+						{/snippet}
+					</Input>
+				</div>
+			</div>
+		</Card>
+	</section>
+
+	<!-- Text Addons -->
+	<section class="space-y-4">
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Text Addons</h2>
+			<p class="text-sm text-muted-foreground">Display additional text context</p>
+		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- URL Prefix -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Website URL</label>
+					<Input
+						placeholder="example.com"
+						startText="https://"
+						endText=".com"
 					/>
 				</div>
-			{/each}
-		</div>
-	</section>
 
-	<!-- Sizes -->
-	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Sizes</h2>
-		<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-			{#each sizes as size}
+				<!-- Currency -->
 				<div class="space-y-2">
-					<p class="text-sm font-medium capitalize">{size}</p>
-					<Input 
-						{size}
-						placeholder="Enter text..."
-						bind:value={basicValue}
+					<label class="text-sm font-medium">Price</label>
+					<Input
+						type="number"
+						placeholder="0.00"
+						startText="$"
+						endText="USD"
 					/>
 				</div>
-			{/each}
-		</div>
+
+				<!-- Email Domain -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Company Email</label>
+					<Input
+						bind:value={usernameValue}
+						placeholder="username"
+						endText="@company.com"
+					>
+						{#snippet startIcon()}
+							<User class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Unit Suffix -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Weight</label>
+					<Input
+						type="number"
+						placeholder="0"
+						endText="kg"
+					/>
+				</div>
+			</div>
+		</Card>
 	</section>
 
-	<!-- Masked Inputs -->
+	<!-- Button Addons -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Masked Inputs</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<Field.Field label="Phone Number">
-				<Input 
-					mask="phone"
-					bind:value={phoneValue}
-				/>
-				{#if phoneValue}
-					<Field.Description>Value: {phoneValue}</Field.Description>
-				{/if}
-			</Field.Field>
-
-			<Field.Field label="Social Security Number">
-				<Input 
-					mask="ssn"
-					bind:value={ssnValue}
-				/>
-				{#if ssnValue}
-					<Field.Description>Value: {ssnValue}</Field.Description>
-				{/if}
-			</Field.Field>
-
-			<Field.Field label="Credit Card">
-				<Input 
-					mask="creditCard"
-					bind:value={creditCardValue}
-				/>
-				{#if creditCardValue}
-					<Field.Description>Value: {creditCardValue}</Field.Description>
-				{/if}
-			</Field.Field>
-
-			<Field.Field label="Date">
-				<Input 
-					mask="date"
-					bind:value={dateValue}
-				/>
-				{#if dateValue}
-					<Field.Description>Value: {dateValue}</Field.Description>
-				{/if}
-			</Field.Field>
-
-			<Field.Field label="Time">
-				<Input 
-					mask="time"
-					bind:value={timeValue}
-				/>
-				{#if timeValue}
-					<Field.Description>Value: {timeValue}</Field.Description>
-				{/if}
-			</Field.Field>
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Button Addons</h2>
+			<p class="text-sm text-muted-foreground">Add interactive buttons for actions</p>
 		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- Copy Button -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Share URL</label>
+					<Input
+						bind:value={urlValue}
+						readonly
+					>
+						{#snippet endButton()}
+							<InputGroupButton
+								size="icon-xs"
+								onclick={handleCopy}
+								aria-label="Copy URL"
+							>
+								{#if copiedUrl}
+									<Check class="size-4 text-green-500" />
+								{:else}
+									<Copy class="size-4" />
+								{/if}
+							</InputGroupButton>
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Search Button -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Search</label>
+					<Input
+						placeholder="Type to search..."
+					>
+						{#snippet startIcon()}
+							<Search class="size-4" />
+						{/snippet}
+						{#snippet endButton()}
+							<InputGroupButton size="xs" variant="default">
+								Search
+							</InputGroupButton>
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Send Message -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Quick Message</label>
+					<Input
+						bind:value={messageValue}
+						placeholder="Type your message..."
+					>
+						{#snippet endButton()}
+							<InputGroupButton
+								size="icon-xs"
+								variant="default"
+								onclick={handleSend}
+								disabled={!messageValue}
+								aria-label="Send message"
+							>
+								<Send class="size-4" />
+							</InputGroupButton>
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Clear Button -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Clearable Input</label>
+					<Input
+						bind:value={searchValue}
+						placeholder="Type something..."
+					>
+						{#if searchValue}
+							{#snippet endButton()}
+								<InputGroupButton
+									size="icon-xs"
+									variant="ghost"
+									onclick={() => searchValue = ''}
+									aria-label="Clear"
+								>
+									<span class="text-lg">×</span>
+								</InputGroupButton>
+							{/snippet}
+						{/if}
+					</Input>
+				</div>
+			</div>
+		</Card>
 	</section>
 
-	<!-- Error States -->
+	<!-- Input Masks -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Error States</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			<Field.Field 
-				label="Email Address"
-				error={emailError ? "Please enter a valid email address" : undefined}
-				required
-			>
-				<Input 
-					placeholder="Email address..."
-					bind:value={emailValue}
-					error={emailError}
-					type="email"
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="Username"
-				error={usernameError ? "Username must be at least 3 characters" : undefined}
-				required
-			>
-				<Input 
-					variant="outline"
-					placeholder="Username..."
-					bind:value={usernameValue}
-					error={usernameError}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="Phone Number"
-				error="Invalid phone number format"
-			>
-				<Input 
-					mask="phone"
-					error={true}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="Large Input"
-				error="This field cannot be empty"
-			>
-				<Input 
-					size="lg"
-					placeholder="Large input with error..."
-					error={true}
-				/>
-			</Field.Field>
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Input Masks</h2>
+			<p class="text-sm text-muted-foreground">Automatic formatting with input masks</p>
 		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- Phone -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Phone Number</label>
+					<Input
+						mask="phone"
+						placeholder="(555) 555-5555"
+					>
+						{#snippet startIcon()}
+							<Phone class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Credit Card -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Credit Card</label>
+					<Input
+						mask="creditCard"
+						placeholder="1234 5678 9012 3456"
+					>
+						{#snippet startIcon()}
+							<CreditCard class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- SSN -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">SSN</label>
+					<Input
+						mask="ssn"
+						placeholder="123-45-6789"
+					/>
+				</div>
+
+				<!-- Date -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Date</label>
+					<Input
+						mask="date"
+						placeholder="MM/DD/YYYY"
+					/>
+				</div>
+			</div>
+		</Card>
 	</section>
 
-	<!-- Combined Examples -->
+	<!-- Combined Features -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Combined Variants & Masks</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-			<Field.Field label="Large Outlined Phone Input">
-				<Input 
-					variant="outline"
-					size="lg"
-					mask="phone"
-					bind:value={phoneValue}
-				/>
-			</Field.Field>
-
-			<Field.Field label="Small Filled Date Input">
-				<Input 
-					variant="filled"
-					size="sm"
-					mask="date"
-					bind:value={dateValue}
-				/>
-			</Field.Field>
-
-			<Field.Field label="Ghost SSN Input">
-				<Input 
-					variant="ghost"
-					mask="ssn"
-					bind:value={ssnValue}
-				/>
-			</Field.Field>
-
-			<Field.Field label="Underline Credit Card Input">
-				<Input 
-					variant="underline"
-					mask="creditCard"
-					bind:value={creditCardValue}
-				/>
-			</Field.Field>
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Combined Features</h2>
+			<p class="text-sm text-muted-foreground">Mix addons with masks and other features</p>
 		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- Phone with Icon and Mask -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Contact Number</label>
+					<Input
+						mask="phone"
+						placeholder="(555) 555-5555"
+					>
+						{#snippet startIcon()}
+							<Phone class="size-4" />
+						{/snippet}
+						{#snippet endButton()}
+							<InputGroupButton size="icon-xs" variant="ghost">
+								<Copy class="size-4" />
+							</InputGroupButton>
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Price with Icons and Text -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Secure Payment</label>
+					<Input
+						type="number"
+						placeholder="0.00"
+						startText="$"
+					>
+						{#snippet endIcon()}
+							<Lock class="size-4 text-green-600" />
+						{/snippet}
+						{#snippet endText()}
+							<span class="text-xs text-muted-foreground">Secure</span>
+						{/snippet}
+					</Input>
+				</div>
+			</div>
+		</Card>
 	</section>
 
 	<!-- States -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">States</h2>
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-			<Field.Field label="Disabled">
-				<Input 
-					placeholder="Disabled input"
-					disabled
-					value="Cannot edit this"
-				/>
-			</Field.Field>
-
-			<Field.Field label="Read-only">
-				<Input 
-					placeholder="Read-only input"
-					readonly
-					value="Read-only value"
-				/>
-			</Field.Field>
-
-			<Field.Field label="Required" required>
-				<Input 
-					placeholder="Required input"
-					required
-					bind:value={basicValue}
-				/>
-			</Field.Field>
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Input States</h2>
+			<p class="text-sm text-muted-foreground">Different input states with addons</p>
 		</div>
+
+		<Card class="p-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
+				<!-- Error State -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Error State</label>
+					<Input
+						value="invalid@"
+						error={true}
+						placeholder="Enter email"
+					>
+						{#snippet startIcon()}
+							<Mail class="size-4" />
+						{/snippet}
+					</Input>
+					<p class="text-xs text-destructive">Please enter a valid email address</p>
+				</div>
+
+				<!-- Disabled State -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Disabled State</label>
+					<Input
+						value="Disabled input"
+						disabled
+					>
+						{#snippet startIcon()}
+							<Lock class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+
+				<!-- Readonly State -->
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Readonly State</label>
+					<Input
+						value="Read-only value"
+						readonly
+					>
+						{#snippet endIcon()}
+							<Eye class="size-4" />
+						{/snippet}
+					</Input>
+				</div>
+			</div>
+		</Card>
 	</section>
 
-	<!-- Custom Masks -->
+	<!-- Custom Addons -->
 	<section class="space-y-4">
-		<h2 class="text-2xl font-semibold">Custom Masks</h2>
-		<p class="text-muted-foreground">
-			Examples of custom mask patterns for specialized input formats.
-		</p>
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-			<Field.Field 
-				label="License Plate"
-				description="Format: ABC-1234"
-			>
-				<Input 
-					mask={{
-						pattern: /^[A-Z0-9\-\s]*$/,
-						placeholder: 'ABC-1234',
-						maxLength: 8,
-						transform: (value) => {
-							const clean = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-							return clean.length > 3 ? `${clean.slice(0, 3)}-${clean.slice(3)}` : clean;
-						}
-					}}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="Product Code"
-				description="Format: PROD-12345"
-			>
-				<Input 
-					mask={{
-						pattern: /^[A-Z0-9\-]*$/,
-						placeholder: 'PROD-12345',
-						maxLength: 10,
-						transform: (value) => {
-							const clean = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-							return clean.length > 0 ? `PROD-${clean}` : clean;
-						}
-					}}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="Hex Color"
-				description="Format: #FF5733"
-			>
-				<Input 
-					mask={{
-						pattern: /^#[A-Fa-f0-9]*$/,
-						placeholder: '#FF5733',
-						maxLength: 7,
-						transform: (value) => {
-							let clean = value.replace(/[^A-Fa-f0-9]/g, '');
-							if (clean.length > 0 && !value.startsWith('#')) {
-								clean = '#' + clean;
-							}
-							return clean.toUpperCase();
-						}
-					}}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="IP Address"
-				description="Format: 192.168.1.1"
-			>
-				<Input 
-					mask={{
-						pattern: /^[\d\.]*$/,
-						placeholder: '192.168.1.1',
-						maxLength: 15,
-						transform: (value) => {
-							const parts = value.split('.');
-							return parts.map(part => {
-								const num = parseInt(part);
-								return isNaN(num) || num > 255 ? part.slice(0, -1) : part;
-							}).join('.');
-						}
-					}}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="MAC Address"
-				description="Format: AA:BB:CC:DD:EE:FF"
-			>
-				<Input 
-					mask={{
-						pattern: /^[A-Fa-f0-9:]*$/,
-						placeholder: 'AA:BB:CC:DD:EE:FF',
-						maxLength: 17,
-						transform: (value) => {
-							const clean = value.toUpperCase().replace(/[^A-F0-9]/g, '');
-							return clean.replace(/(.{2})(?=.)/g, '$1:');
-						}
-					}}
-				/>
-			</Field.Field>
-
-			<Field.Field 
-				label="ISBN"
-				description="Format: 978-0-123456-78-9"
-			>
-				<Input 
-					mask={{
-						pattern: /^[\d\-]*$/,
-						placeholder: '978-0-123456-78-9',
-						maxLength: 17,
-						transform: (value) => {
-							const digits = value.replace(/\D/g, '');
-							if (digits.length <= 3) return digits;
-							if (digits.length <= 4) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
-							if (digits.length <= 10) return `${digits.slice(0, 3)}-${digits.slice(3, 4)}-${digits.slice(4)}`;
-							if (digits.length <= 12) return `${digits.slice(0, 3)}-${digits.slice(3, 4)}-${digits.slice(4, 10)}-${digits.slice(10)}`;
-							return `${digits.slice(0, 3)}-${digits.slice(3, 4)}-${digits.slice(4, 10)}-${digits.slice(10, 12)}-${digits.slice(12, 13)}`;
-						}
-					}}
-				/>
-			</Field.Field>
+		<div class="space-y-1">
+			<h2 class="text-2xl font-semibold">Custom Addons</h2>
+			<p class="text-sm text-muted-foreground">Use custom snippets for complete control</p>
 		</div>
 
-		<div class="mt-6 p-4 bg-muted rounded-lg">
-			<h3 class="font-semibold mb-2">Custom Mask Usage:</h3>
-			<pre class="text-sm"><code>{`<Input 
-  mask={{
-    pattern: /^[A-Z0-9\\-]*$/,
-    placeholder: 'ABC-1234',
-    maxLength: 8,
-    transform: (value) => {
-      const clean = value.toUpperCase();
-      return clean.length > 3 
-        ? \`\${clean.slice(0, 3)}-\${clean.slice(3)}\` 
-        : clean;
-    }
-  }}
-/>`}</code></pre>
-		</div>
+		<Card class="p-6">
+			<div class="grid grid-cols-1 gap-6 max-w-2xl">
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Custom Start Addon</label>
+					<Input placeholder="Enter value">
+						{#snippet startAddon()}
+							<div class="flex items-center gap-2">
+								<div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+								<span class="text-xs font-medium">Live</span>
+							</div>
+						{/snippet}
+					</Input>
+				</div>
+
+				<div class="space-y-2">
+					<label class="text-sm font-medium">Custom End Addon</label>
+					<Input placeholder="Type your message...">
+						{#snippet endAddon()}
+							<div class="flex items-center gap-1">
+								<InputGroupButton size="icon-xs" variant="ghost">
+									<span>😀</span>
+								</InputGroupButton>
+								<InputGroupButton size="icon-xs" variant="default">
+									<Send class="size-4" />
+								</InputGroupButton>
+							</div>
+						{/snippet}
+					</Input>
+				</div>
+			</div>
+		</Card>
 	</section>
-
-
 </div>

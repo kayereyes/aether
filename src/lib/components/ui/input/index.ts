@@ -1,17 +1,19 @@
 import Root from "./input.svelte";
 
 // Export types and utilities
-export type { 
-	InputVariant, 
-	InputSize, 
-	MaskType, 
-	MaskPattern, 
+export type {
+	InputVariant,
+	InputSize,
+	MaskType,
+	MaskPattern,
 	MaskConfig,
-	InputProps
+	InputProps,
+	InputWithAddonsProps,
+	InputGroupAddonAlign
 } from "./utils/input-types";
 
 // Export mask configurations
-export { 
+export {
 	createMask,
 	validateMask,
 	applyMaskTransform,

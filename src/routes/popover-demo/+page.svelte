@@ -5,11 +5,11 @@
 		PopoverContent,
 		PopoverClose,
 		PopoverArrow
-	} from "$lib/components/ui/popover";
-	import { Card } from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
-	import { Input } from "$lib/components/ui/input";
-	import { Label } from "$lib/components/ui/label";
+	} from "$core/components/ui/popover";
+	import { Card } from "$core/components/ui/card";
+	import { Button } from "$core/components/ui/button";
+	import { Input } from "$core/components/ui/input";
+	import { Label } from "$core/components/ui/label";
 	import {
 		Settings,
 		User,

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Tabs, TabsList, TabsTrigger, TabsContent } from "$lib/components/ui/tabs";
-	import { Card } from "$lib/components/ui/card";
+	import { Tabs, TabsList, TabsTrigger, TabsContent } from "$core/components/ui/tabs";
+	import { Card } from "$core/components/ui/card";
 	import { Home, User, Settings, Bell, Mail, Calendar } from "@lucide/svelte";
 </script>
 

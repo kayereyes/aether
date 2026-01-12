@@ -10,6 +10,12 @@
 	import {Select } from "$core/components/ui/select/index.js";
 	import * as Field from "$core/components/ui/field/index.js";
 	import {Card} from "$core/components/ui/card/index.js";
+	import { Slider } from "$core/components/ui/slider/index.js";
+	import  {InputOTP} from "$core/components/ui/input-otp/index.js";
+	import { NumberSpinner } from "$core/components/ui/number-spinner/index.js";
+	import { FileInput } from "$core/components/ui/file-input/index.js";
+	import { DatePicker } from "$core/components/ui/date-picker/index.js";
+	import type { DateValue } from "@internationalized/date";
     // import Select from "$core/components/ui/select/select.svelte";
 
 	// Form state
@@ -29,6 +35,12 @@
 	let agreeToTerms = $state(false);
 	let darkMode = $state(false);
 
+	// Label position demo state
+	let acceptTerms = $state(false);
+	let enableNotifications = $state(false);
+	let subscribeNewsletter = $state(false);
+	let receiveMarketing = $state(false);
+
 	// CheckboxGroup state
 	let selectedFeatures = $state<string[]>([]);
 	let selectedPreferences = $state<string[]>(["email"]);
@@ -41,6 +53,15 @@
 	let selectedPayment = $state("");
 	let selectedSize = $state("medium");
 	let selectedCluster = $state("kubernetes");
+
+	// Additional form component state
+	let volume = $state(50);
+	let priceRange = $state([100, 500]);
+	let otpCode = $state("");
+	let quantity = $state(1);
+	let deliveryDate = $state<DateValue | undefined>(undefined);
+	let uploadedFiles = $state<File[]>([]);
+	let uploadedImages = $state<File[]>([]);
 
 	// Validation state
 	let errors = $state<Record<string, string>>({});
@@ -1014,5 +1035,428 @@
 				{/snippet}
 			</Card>
 		</div>
+	</section>
+
+	<!-- Slider Field Examples -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Slider with Field Component</h2>
+			<p class="text-muted-foreground">Range slider controls with Field wrapper</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-2">
+			<Card>
+				<Field.Field
+					label="Volume"
+					description={`Current volume: ${volume}%`}
+				>
+					<Slider type="single" bind:value={volume} min={0} max={100} step={1} />
+				</Field.Field>
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="Price Range"
+					description={`$${priceRange[0]} - $${priceRange[1]}`}
+				>
+					<Slider type="multiple" bind:value={priceRange} min={0} max={1000} step={10} />
+				</Field.Field>
+			</Card>
+		</div>
+	</section>
+
+	<!-- InputOTP Field Examples -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Input OTP with Field Component</h2>
+			<p class="text-muted-foreground">One-time password inputs with Field wrapper</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-2">
+			<Card>
+				<Field.Field
+					label="Verification Code"
+					description="Enter the 6-digit code sent to your email"
+				>
+					<InputOTP maxlength={6} groups={2} bind:value={otpCode} />
+				</Field.Field>
+				{#if otpCode}
+					<div class="mt-4 rounded-md bg-muted p-3">
+						<p class="text-sm font-medium">Code: {otpCode}</p>
+					</div>
+				{/if}
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="PIN Code"
+					description="Enter your 4-digit PIN"
+					required
+				>
+					<InputOTP maxlength={4} groups={2}  />
+				</Field.Field>
+			</Card>
+		</div>
+	</section>
+
+	<!-- NumberSpinner Field Examples -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Number Spinner with Field Component</h2>
+			<p class="text-muted-foreground">Numeric spinners with Field wrapper</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-3">
+			<Card>
+				<Field.Field
+					label="Quantity"
+					description="Select the number of items"
+				>
+					<NumberSpinner bind:value={quantity} min={1} max={100} />
+				</Field.Field>
+				<div class="mt-4 rounded-md bg-muted p-3">
+					<p class="text-sm font-medium">Selected: {quantity}</p>
+				</div>
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="Amount"
+					description="Increments of $10"
+				>
+					<NumberSpinner value={50} min={0} max={1000} step={10} />
+				</Field.Field>
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="Age"
+					description="Your age in years"
+					required
+				>
+					<NumberSpinner value={25} min={18} max={120} />
+				</Field.Field>
+			</Card>
+		</div>
+	</section>
+
+	<!-- FileInput Field Examples -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">File Input with Field Component</h2>
+			<p class="text-muted-foreground">File upload controls with Field wrapper</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-2">
+			<Card>
+				<Field.Field
+					label="Upload Document"
+					description="PDF or Word document (max 5MB)"
+				>
+					<FileInput
+						mode="regular"
+						validation={{ 
+						maxFiles: 3,
+						acceptedTypes: ['.doc', '.docx', '.txt'] 
+					}}
+					/>
+				</Field.Field>
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="Upload Images"
+					description="Drag and drop or click to browse"
+				>
+					<FileInput
+						mode="drag-drop"
+        				 validation={{ 
+						maxSize: 10 * 1024 * 1024, 
+						acceptedTypes: ['image/*', '.pdf'],
+            
+						}} 
+						dragDropProps={{
+							label: "Drop images or PDFs here",
+							description: "Max 10MB per file",
+							showFileList: true
+						}}
+          				/>
+				</Field.Field>
+			</Card>
+		</div>
+
+		<Card>
+			 <Field.Field label="Upload document" error="File size exceeds 5MB limit">
+				<FileInput mode="regular" validation={{ 
+									maxSize: 5 * 1024 * 1024, 
+									acceptedTypes: ['application/pdf'] 
+								}}  />
+				</Field.Field>
+		</Card>
+	</section>
+
+	<!-- DatePicker Field Examples -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Date Picker with Field Component</h2>
+			<p class="text-muted-foreground">Date selection with Field wrapper</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-2">
+			<Card>
+				<Field.Field
+					label="Date of Birth"
+					description="Select your birth date"
+				>
+					<DatePicker />
+				</Field.Field>
+			</Card>
+
+			<Card>
+				<Field.Field
+					label="Delivery Date"
+					description="Choose your preferred delivery date"
+					required
+				>
+					<DatePicker bind:value={deliveryDate} />
+				</Field.Field>
+				{#if deliveryDate}
+					<div class="mt-4 rounded-md bg-muted p-3">
+						<p class="text-sm font-medium">Selected: {deliveryDate.toDate}</p>
+					</div>
+				{/if}
+			</Card>
+		</div>
+	</section>
+
+	<!-- Label Position Examples Section -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Label Position</h2>
+			<p class="text-muted-foreground">Control label placement with labelPosition prop - useful for Checkbox and Switch components</p>
+		</div>
+
+		<div class="grid gap-6 md:grid-cols-2">
+			<!-- Checkbox with label after -->
+			<Card>
+				<div class="space-y-4">
+					<div>
+						<h3 class="text-lg font-medium mb-2">Checkbox - Label After</h3>
+						<p class="text-sm text-muted-foreground">Control appears before label (common pattern for checkboxes)</p>
+					</div>
+
+					<Field.Field
+						label="Accept terms and conditions"
+						description="You must accept to continue"
+						labelPosition="after"
+						orientation="horizontal"
+					>
+						<Checkbox id="terms-after" bind:checked={acceptTerms} />
+					</Field.Field>
+				</div>
+			</Card>
+
+			<!-- Switch with label after -->
+			<Card>
+				<div class="space-y-4">
+					<div>
+						<h3 class="text-lg font-medium mb-2">Switch - Label After</h3>
+						<p class="text-sm text-muted-foreground">Toggle appears before label</p>
+					</div>
+
+					<Field.Field
+						label="Enable notifications"
+						description="Receive email updates"
+						labelPosition="after"
+						orientation="horizontal"
+					>
+						<Switch id="notifications-after" bind:checked={enableNotifications} />
+					</Field.Field>
+				</div>
+			</Card>
+
+			<!-- Multiple checkboxes with label after -->
+			<Card>
+				<div class="space-y-4">
+					<div>
+						<h3 class="text-lg font-medium mb-2">Multiple Checkboxes</h3>
+						<p class="text-sm text-muted-foreground">Group of checkboxes with labels after</p>
+					</div>
+
+					<div class="space-y-3">
+						<Field.Field
+							label="Subscribe to newsletter"
+							description="Receive weekly updates and news"
+							labelPosition="after"
+							orientation="horizontal"
+						>
+							<Checkbox id="newsletter-after" bind:checked={subscribeNewsletter} />
+						</Field.Field>
+
+						<Field.Field
+							label="Receive marketing emails"
+							description="Promotional offers and discounts"
+							labelPosition="after"
+							orientation="horizontal"
+						>
+							<Checkbox id="marketing-after" bind:checked={receiveMarketing} />
+						</Field.Field>
+					</div>
+				</div>
+			</Card>
+
+			<!-- Label Position Comparison -->
+			<Card>
+				<div class="space-y-4">
+					<div>
+						<h3 class="text-lg font-medium mb-2">Before vs After Comparison</h3>
+						<p class="text-sm text-muted-foreground">Visual comparison of label positions</p>
+					</div>
+
+					<div class="space-y-6">
+						<div>
+							<p class="text-xs font-medium text-muted-foreground mb-2">Label Before (Default)</p>
+							<Field.Field
+								label="Enable feature"
+								description="Turn on this feature"
+								labelPosition="before"
+								orientation="horizontal"
+							>
+								<Switch id="feature-before" />
+							</Field.Field>
+						</div>
+
+						<div>
+							<p class="text-xs font-medium text-muted-foreground mb-2">Label After</p>
+							<Field.Field
+								label="Enable feature"
+								description="Turn on this feature"
+								labelPosition="after"
+								orientation="horizontal"
+							>
+								<Switch id="feature-after" />
+							</Field.Field>
+						</div>
+					</div>
+				</div>
+			</Card>
+		</div>
+
+		<!-- Vertical orientation with label after -->
+		<Card>
+			<div class="space-y-4">
+				<div>
+					<h3 class="text-lg font-medium mb-2">Vertical Orientation with Label After</h3>
+					<p class="text-sm text-muted-foreground">Label after also works with vertical layouts</p>
+				</div>
+
+				<Field.Field
+					label="Accept terms and conditions"
+					description="Please read and accept our terms of service"
+					labelPosition="after"
+					orientation="vertical"
+				>
+					<Checkbox id="terms-vertical" bind:checked={acceptTerms} />
+				</Field.Field>
+			</div>
+		</Card>
+	</section>
+
+	<!-- Complete Order Form Example -->
+	<section class="space-y-6">
+		<div>
+			<h2 class="text-2xl font-bold">Complete Order Form</h2>
+			<p class="text-muted-foreground">Comprehensive form with all advanced components</p>
+		</div>
+
+		<Card class="bg-muted/50">
+			<Field.Set>
+				<Field.Legend>Place Your Order</Field.Legend>
+				<Field.Description>
+					Fill out the order form with all the necessary details
+				</Field.Description>
+
+				<Field.Separator />
+
+				<Field.Group class="gap-6">
+					<div class="grid gap-6 md:grid-cols-2">
+						<Field.Field
+							label="Quantity"
+							description="Number of items to order"
+							required
+						>
+							<NumberSpinner bind:value={quantity} min={1} max={100} />
+						</Field.Field>
+
+						<Field.Field
+							label="Delivery Date"
+							description="When should we deliver?"
+							required
+						>
+							<DatePicker bind:value={deliveryDate} />
+						</Field.Field>
+					</div>
+
+					<Field.Field
+						label="Volume Level"
+						description={`Set notification volume: ${volume}%`}
+					>
+						<Slider type="single" bind:value={volume} min={0} max={100} step={1} />
+					</Field.Field>
+
+					<Field.Field
+						label="Verification Code"
+						description="Enter the code from your email"
+						required
+					>
+						<InputOTP maxlength={6} groups={2} bind:value={otpCode} />
+					</Field.Field>
+
+					<Field.Field
+						label="Upload Receipt"
+						description="Upload proof of payment (PDF, max 5MB)"
+					>
+						<FileInput
+							mode="regular"
+							validation={{ 
+								maxSize: 5 * 1024 * 1024, 
+								acceptedTypes: ['application/pdf'] 
+							}} 
+						/>
+					</Field.Field>
+
+					<Field.Field
+						label="Product Images"
+						description="Drag and drop product images"
+					>
+						<FileInput
+							mode="drag-drop"
+							validation={{ 
+								maxSize: 10 * 1024 * 1024, 
+								acceptedTypes: ['image/*'] 
+							}} 
+							dragDropProps={{
+								label: "Drop images here",
+								description: "Max 10MB per image",
+								showFileList: true
+							}}
+		  				/>
+					</Field.Field>
+
+					<Field.Field
+						label="Enable Rush Delivery"
+						description="Get your order within 24 hours"
+						orientation="horizontal"
+					>
+						<Switch id="rush-delivery" />
+					</Field.Field>
+				</Field.Group>
+
+				<div class="flex gap-4 pt-4">
+					<Button>Place Order</Button>
+					<Button variant="outline">Cancel</Button>
+				</div>
+			</Field.Set>
+		</Card>
 	</section>
 </div>

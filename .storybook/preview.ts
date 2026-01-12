@@ -29,7 +29,7 @@ const preview: Preview = {
       },
     },
     docs: {
-      theme: themes.light,
+      theme: themes.dark,
     },
     backgrounds: {
       default: 'light',
@@ -64,7 +64,7 @@ const preview: Preview = {
   decorators: [withDarkMode],
 
   initialGlobals: {
-    darkMode: 'light',
+    darkMode: 'dark',
   },
 }
 

@@ -1,7 +1,19 @@
 <script module>
     import { defineMeta } from '@storybook/addon-svelte-csf';
     import Input from "../input.svelte";
-    
+    import { InputGroupButton } from '$core/components/ui/input-group';
+    import Search from '@lucide/svelte/icons/search';
+    import Mail from '@lucide/svelte/icons/mail';
+    import Lock from '@lucide/svelte/icons/lock';
+    import Phone from '@lucide/svelte/icons/phone';
+    import CreditCard from '@lucide/svelte/icons/credit-card';
+    import Copy from '@lucide/svelte/icons/copy';
+    import Send from '@lucide/svelte/icons/send';
+    import Eye from '@lucide/svelte/icons/eye';
+    import EyeOff from '@lucide/svelte/icons/eye-off';
+    import X from '@lucide/svelte/icons/x';
+    import { Field } from '$core/components/ui/field';
+
     const { Story } = defineMeta({
         title: 'Components/Input',
         component: Input,
@@ -139,32 +151,30 @@
 
 </script>
 
-<!-- Basic States -->
 <Story name="Default" args={{}} />
 <Story name="Disabled" args={{ disabled: true, value: 'Cannot edit this', placeholder: 'Disabled input' }} />
 <Story name="Error State" args={{ error: true, placeholder: 'This field has an error' }} />
 <Story name="Error with Value" args={{ error: true, value: 'invalid@email', placeholder: 'Email address' }} />
 
-<!-- Variants -->
 <Story name="Default Variant" args={{ variant: 'default', placeholder: 'Default variant' }} />
 <Story name="Outline Variant" args={{ variant: 'outline', placeholder: 'Outline variant' }} />
 <Story name="Filled Variant" args={{ variant: 'filled', placeholder: 'Filled variant' }} />
 <Story name="Ghost Variant" args={{ variant: 'ghost', placeholder: 'Ghost variant' }} />
 <Story name="Underline Variant" args={{ variant: 'underline', placeholder: 'Underline variant' }} />
 
-<!-- Sizes -->
+
 <Story name="Small Size" args={{ size: 'sm', placeholder: 'Small input' }} />
 <Story name="Default Size" args={{ size: 'default', placeholder: 'Default input' }} />
 <Story name="Large Size" args={{ size: 'lg', placeholder: 'Large input' }} />
 
-<!-- Input Types -->
+
 <Story name="Email Input" args={{ type: 'email', placeholder: 'Enter email address' }} />
 <Story name="Password Input" args={{ type: 'password', placeholder: 'Enter password' }} />
 <Story name="Number Input" args={{ type: 'number', placeholder: 'Enter number' }} />
 <Story name="Telephone Input" args={{ type: 'tel', placeholder: 'Enter phone number' }} />
 <Story name="URL Input" args={{ type: 'url', placeholder: 'Enter website URL' }} />
 
-<!-- Input Masks -->
+
 <Story name="Phone Mask" args={{ mask: 'phone', placeholder: '(555) 123-4567' }} />
 <Story name="SSN Mask" args={{ mask: 'ssn', placeholder: '123-45-6789' }} />
 <Story name="Credit Card Mask" args={{ mask: 'creditCard', placeholder: '1234 5678 9012 3456' }} />
@@ -183,11 +193,254 @@
   placeholder: 'Hex color'
 }} />
 
-<Story name="Large Underline Password" args={{ 
-  variant: 'underline', 
-  size: 'lg', 
-  type: 'password', 
-  placeholder: 'Enter secure password' 
+<Story name="Large Underline Password" args={{
+  variant: 'underline',
+  size: 'lg',
+  type: 'password',
+  placeholder: 'Enter secure password'
 }} />
+
+
+<Story name="With Start Icon">
+  {#snippet template()}
+      <Input placeholder="Search...">
+        {#snippet startIcon()}
+        <Search class="size-4" />
+        {/snippet}
+    </Input>
+  {/snippet}
+
+</Story>
+
+<Story name="With End Icon">
+    {#snippet template()}
+        <Input type="email" placeholder="Enter email">
+            {#snippet endIcon()}
+            <Mail class="size-4" />
+        {/snippet}
+    </Input>
+    {/snippet}
+
+</Story>
+
+<Story name="With Both Icons">
+  {#snippet template()}
+      <Input placeholder="Secure input">
+        {#snippet startIcon()}
+        <Lock class="size-4" />
+        {/snippet}
+        {#snippet endIcon()}
+        <Lock class="size-4 text-green-600" />
+        {/snippet}
+    </Input>
+  {/snippet}
+
+</Story>
+
+<Story name="With Start Text" args={{
+  placeholder: "example.com",
+  startText: "https://"
+}} />
+
+<Story name="With End Text" args={{
+  placeholder: "username",
+  endText: "@company.com"
+}} />
+
+<Story name="With Start and End Text" args={{
+  placeholder: "example",
+  startText: "https://",
+  endText: ".com"
+}} />
+
+<Story name="Currency Input" args={{
+  type: "number",
+  placeholder: "0.00",
+  startText: "$",
+  endText: "USD"
+}} />
+
+<Story name="With Search Button">
+   {#snippet template()}
+    <Input placeholder="Search...">
+        {#snippet endButton()}
+        <InputGroupButton size="xs">
+            Search
+        </InputGroupButton>
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+<Story name="With Copy Button">
+   {#snippet template()}
+    <Input readonly value="https://example.com">
+        {#snippet endButton()}
+        <InputGroupButton size="icon-xs" variant="ghost">
+            <Copy class="size-4" />
+        </InputGroupButton>
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+<Story name="With Send Button">
+    {#snippet template()}
+    <Input placeholder="Type your message...">
+        {#snippet endButton()}
+        <InputGroupButton size="icon-xs">
+            <Send class="size-4" />
+        </InputGroupButton>
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+
+<Story name="Phone with Icon and Mask">
+   {#snippet template()}
+    <Input mask="phone" placeholder="(555) 555-5555">
+        {#snippet startIcon()}
+        <Phone class="size-4" />
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+<Story name="Credit Card with Icon and Mask">
+  {#snippet template()}  
+    <Input mask="creditCard" placeholder="1234 5678 9012 3456">
+        {#snippet startIcon()}
+        <CreditCard class="size-4" />
+        {/snippet}
+    </Input>
+    {/snippet}
+</Story>
+
+<Story name="API Key with Icon and Copy">
+  {#snippet template()}
+    <Input value="sk_live_1234567890abcdef" readonly>
+        {#snippet startIcon()}
+        <Lock class="size-4" />
+        {/snippet}
+        {#snippet endButton()}
+        <InputGroupButton size="icon-xs" variant="ghost">
+            <Copy class="size-4" />
+        </InputGroupButton>
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+<Story name="Price Input with Icon and Text">
+   {#snippet template()}
+    <Input type="number" placeholder="0.00">
+        {#snippet startIcon()}
+        <span class="text-lg">$</span>
+        {/snippet}
+        {#snippet endText()}
+        <span class="text-xs text-muted-foreground">USD</span>
+        {/snippet}
+    </Input>
+    {/snippet}
+</Story>
+
+
+
+
+<script>
+  let showPassword = $state(false);
+  let searchValue = $state('');
+</script>
+
+<Story name="Password Toggle">
+    {#snippet template()}
+        <Input
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter password"
+        >
+            {#snippet startIcon()}
+            <Lock class="size-4" />
+            {/snippet}
+            {#snippet endButton()}
+            <InputGroupButton
+                size="icon-xs"
+                variant="ghost"
+                onclick={() => showPassword = !showPassword}
+            >
+                {#if showPassword}
+                <EyeOff class="size-4" />
+                {:else}
+                <Eye class="size-4" />
+                {/if}
+            </InputGroupButton>
+            {/snippet}
+        </Input>
+    {/snippet}
+</Story>
+
+<Story name="Clearable Search">
+    {#snippet template()}
+    <Input bind:value={searchValue} placeholder="Type to search...">
+        {#snippet startIcon()}
+        <Search class="size-4" />
+        {/snippet}
+        {#if searchValue}
+        {#snippet endButton()}
+            <InputGroupButton
+            size="icon-xs"
+            variant="ghost"
+            onclick={() => searchValue = ''}
+            >
+            <X class="size-4" />
+            </InputGroupButton>
+        {/snippet}
+        {/if}
+    </Input>
+  {/snippet}
+</Story>
+
+
+<Story name="Custom Addon with Status">
+    {#snippet template()}
+    <Input placeholder="Enter value">
+        {#snippet startAddon()}
+        <div class="flex items-center gap-2">
+            <div class="size-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span class="text-xs font-medium">Live</span>
+        </div>
+        {/snippet}
+    </Input>
+  {/snippet}
+</Story>
+
+<Story name="Custom Addon with Multiple Buttons">
+  {#snippet template()} 
+    <Input placeholder="Type your message...">
+        {#snippet endAddon()}
+        <div class="flex items-center gap-1">
+            <InputGroupButton size="icon-xs" variant="ghost">
+            <span>😀</span>
+            </InputGroupButton>
+            <InputGroupButton size="icon-xs" variant="default">
+            <Send class="size-4" />
+            </InputGroupButton>
+        </div>
+        {/snippet}
+    </Input>
+    {/snippet}
+</Story>
+
+<Story name="With Field Error">
+    {#snippet template()}
+    <Field label="Email" error="Invalid email address">
+        <Input error={true} value="invalid@" placeholder="Enter email">
+            {#snippet startIcon()}
+            <Mail class="size-4" />
+            {/snippet}
+        </Input>
+  </Field>
+  {/snippet}
+</Story>
 
 

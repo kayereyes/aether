@@ -24,9 +24,9 @@
 		SidebarSeparator,
 		SidebarTrigger,
 		useSidebar
-	} from "$lib/components/ui/sidebar";
-	import { Card } from "$lib/components/ui/card";
-	import { Button } from "$lib/components/ui/button";
+	} from "$core/components/ui/sidebar";
+	import { Card } from "$core/components/ui/card";
+	import { Button } from "$core/components/ui/button";
 	import {
 		Home,
 		Inbox,

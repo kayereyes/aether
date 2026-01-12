@@ -2,7 +2,8 @@
 	import { cn } from "$core/utils.js";
 	import { inputVariants } from './utils/input-variants.js';
 	import { useMaskedInput } from './utils/input-hooks.js';
-	import type { InputProps } from './utils/input-types.js';
+	import type { InputWithAddonsProps } from './utils/input-types.js';
+	import { InputGroup, InputGroupInput, InputGroupAddon, InputGroupButton, InputGroupText } from '$core/components/ui/input-group';
 
 	let {
 		ref = $bindable(null),
@@ -15,8 +16,20 @@
 		onError,
 		class: className,
 		"data-slot": dataSlot = "input",
+		// Input Group Addon Props
+		startIcon,
+		endIcon,
+		startText,
+		endText,
+		startButton,
+		endButton,
+		startAddon,
+		endAddon,
+		startAddonAlign = "inline-start",
+		endAddonAlign = "inline-end",
+		groupClassName,
 		...restProps
-	}: InputProps = $props();
+	}: InputWithAddonsProps = $props();
 
 	const classes = $derived(inputVariants({ variant, size }));
 	const { handleInput, getPlaceholder } = useMaskedInput(mask);
@@ -37,16 +50,90 @@
 
 	// Get placeholder - use mask placeholder if available
 	const placeholderText = $derived(() => getPlaceholder(restProps.placeholder || undefined));
+
+	// Determine if we need to wrap with InputGroup
+	const needsWrapper = $derived(
+		!!(startIcon || endIcon || startText || endText || startButton || endButton || startAddon || endAddon)
+	);
 </script>
 
-<input
-	bind:this={ref}
-	data-slot={dataSlot}
-	class={cn(classes, className)}
-	{type}
-	bind:value
-	placeholder={placeholderText()}
-	oninput={onInput}
-	aria-invalid={error}
-	{...restProps}
-/>
+{#if needsWrapper}
+	<InputGroup
+		class={cn(
+			"transition-all",
+			error && "border-destructive ring-destructive/20",
+			groupClassName
+		)}
+	>
+		<!-- Start Addons -->
+		{#if startAddon}
+			<InputGroupAddon align={startAddonAlign}>
+				{@render startAddon()}
+			</InputGroupAddon>
+		{:else if startIcon || startText || startButton}
+			<InputGroupAddon align={startAddonAlign}>
+				{#if startIcon}
+					{@render startIcon()}
+				{/if}
+				{#if startText}
+					{#if typeof startText === 'string'}
+						<InputGroupText>{startText}</InputGroupText>
+					{:else}
+						{@render startText()}
+					{/if}
+				{/if}
+				{#if startButton}
+					{@render startButton()}
+				{/if}
+			</InputGroupAddon>
+		{/if}
+
+		<!-- Input -->
+		<InputGroupInput
+			bind:ref
+			class={cn(className)}
+			{type}
+			bind:value
+			placeholder={placeholderText()}
+			oninput={onInput}
+			aria-invalid={error}
+			{...restProps}
+		/>
+
+		<!-- End Addons -->
+		{#if endAddon}
+			<InputGroupAddon align={endAddonAlign}>
+				{@render endAddon()}
+			</InputGroupAddon>
+		{:else if endIcon || endText || endButton}
+			<InputGroupAddon align={endAddonAlign}>
+				{#if endIcon}
+					{@render endIcon()}
+				{/if}
+				{#if endText}
+					{#if typeof endText === 'string'}
+						<InputGroupText>{endText}</InputGroupText>
+					{:else}
+						{@render endText()}
+					{/if}
+				{/if}
+				{#if endButton}
+					{@render endButton()}
+				{/if}
+			</InputGroupAddon>
+		{/if}
+	</InputGroup>
+{:else}
+	<!-- Standard Input without wrapper -->
+	<input
+		bind:this={ref}
+		data-slot={dataSlot}
+		class={cn(classes, className)}
+		{type}
+		bind:value
+		placeholder={placeholderText()}
+		oninput={onInput}
+		aria-invalid={error}
+		{...restProps}
+	/>
+{/if}

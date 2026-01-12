@@ -14,6 +14,12 @@
 		required?: boolean;
 		disabled?: boolean;
 		orientation?: FieldOrientation;
+		/**
+		 * Position of the label relative to the form control
+		 * - 'before': Label appears before the control (default)
+		 * - 'after': Label appears after the control (useful for Checkbox, Switch, etc.)
+		 */
+		labelPosition?: 'before' | 'after';
 		class?: string;
 		/**
 		 * The form control to render (Input, Textarea, Checkbox, Switch, Select, etc.)
@@ -32,6 +38,7 @@
 		required = false,
 		disabled = false,
 		orientation = "vertical",
+		labelPosition = "before",
 		class: className,
 		children,
 		beforeLabel
@@ -44,13 +51,12 @@
 	const useContent = $derived(
 		orientation === "horizontal" || (orientation === "responsive" && description)
 	);
+
+
 </script>
 
-<Root {orientation} data-invalid={isInvalid} data-disabled={disabled} class={className}>
-	{#if beforeLabel}
-		{@render beforeLabel()}
-	{/if}
 
+{#snippet labelDescription()}
 	{#if useContent}
 		<Content>
 			<Label>
@@ -70,8 +76,20 @@
 			<Description>{description}</Description>
 		{/if}
 	{/if}
+{/snippet}
 
-	{@render children()}
+<Root {orientation} data-invalid={isInvalid} data-disabled={disabled} class={className}>
+	{#if beforeLabel}
+		{@render beforeLabel()}
+	{/if}
+
+	{#if labelPosition === 'before'}
+		{@render labelDescription()}
+		{@render children()}
+	{:else}
+		{@render children()}
+		{@render labelDescription()}
+	{/if}
 
 	{#if hasError}
 		<Error>{error}</Error>

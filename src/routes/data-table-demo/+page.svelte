@@ -10,7 +10,7 @@
 		DataTableActions,
 		renderComponent,
 		renderSnippet
-	} from "$lib/components/ui/data-table/index.js";
+	} from "$core/components/ui/data-table/index.js";
 
 	type Payment = {
 		id: string;

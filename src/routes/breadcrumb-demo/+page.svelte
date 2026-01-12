@@ -7,8 +7,8 @@
 		BreadcrumbSeparator,
 		BreadcrumbPage,
 		BreadcrumbEllipsis
-	} from "$lib/components/ui/breadcrumb";
-	import { Card } from "$lib/components/ui/card";
+	} from "$core/components/ui/breadcrumb";
+	import { Card } from "$core/components/ui/card";
 	import { Home, Folder, File, Package, Settings, User } from "@lucide/svelte";
 
 	// Dynamic breadcrumb example

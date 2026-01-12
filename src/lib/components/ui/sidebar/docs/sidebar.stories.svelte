@@ -24,7 +24,7 @@
 		SidebarRail,
 		SidebarSeparator,
 		SidebarTrigger
-	} from "$lib/components/ui/sidebar";
+	} from "$core/components/ui/sidebar";
 	import {
 		Home,
 		Inbox,
@@ -85,7 +85,7 @@
 	});
 </script>
 
-<!-- Default Sidebar -->
+
 <Story name="Default">
 	<SidebarProvider>
 		<Sidebar>
@@ -145,7 +145,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Icon Collapsible -->
+
 <Story name="Icon Collapsible">
 	<SidebarProvider>
 		<Sidebar collapsible="icon">
@@ -193,7 +193,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- With Submenus -->
+
 <Story name="With Submenus">
 	<SidebarProvider>
 		<Sidebar>
@@ -264,7 +264,6 @@
 	</SidebarProvider>
 </Story>
 
-<!-- With Actions and Badges -->
 <Story name="With Actions and Badges">
 	<SidebarProvider>
 		<Sidebar>
@@ -319,7 +318,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- With Header and Footer -->
+
 <Story name="With Header and Footer">
 	<SidebarProvider>
 		<Sidebar>
@@ -392,7 +391,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- With Search -->
+
 <Story name="With Search">
 	<SidebarProvider>
 		<Sidebar>
@@ -444,7 +443,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Multiple Groups -->
+
 <Story name="Multiple Groups">
 	<SidebarProvider>
 		<Sidebar>
@@ -527,7 +526,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Floating Variant -->
+
 <Story name="Floating Variant">
 	<SidebarProvider>
 		<Sidebar variant="floating">
@@ -573,7 +572,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Inset Variant -->
+
 <Story name="Inset Variant">
 	<SidebarProvider>
 		<Sidebar variant="inset">
@@ -619,7 +618,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Loading State -->
+
 <Story name="Loading State">
 	<SidebarProvider>
 		<Sidebar>
@@ -652,7 +651,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Active States -->
+
 <Story name="Active States">
 	<SidebarProvider>
 		<Sidebar>
@@ -698,7 +697,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Different Button Sizes -->
+
 <Story name="Different Button Sizes">
 	<SidebarProvider>
 		<Sidebar>
@@ -758,7 +757,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- Outline Variant -->
+
 <Story name="Outline Variant">
 	<SidebarProvider>
 		<Sidebar>
@@ -804,7 +803,7 @@
 	</SidebarProvider>
 </Story>
 
-<!-- With Links (Child Snippet Pattern) -->
+
 <Story name="With Links">
 	<SidebarProvider>
 		<Sidebar>
