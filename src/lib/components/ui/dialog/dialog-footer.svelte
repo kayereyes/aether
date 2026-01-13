@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn, type WithElementRef } from "$core/utils.js";
 	import type { HTMLAttributes } from "svelte/elements";
+	import { dialogVariants } from "./dialog-variants.js";
 
 	let {
 		ref = $bindable(null),
@@ -8,12 +9,14 @@
 		children,
 		...restProps
 	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
+
+	const variants = dialogVariants();
 </script>
 
 <div
 	bind:this={ref}
 	data-slot="dialog-footer"
-	class={cn("flex flex-col-reverse gap-2 sm:flex-row sm:justify-end", className)}
+	class={cn(variants.footer(), className)}
 	{...restProps}
 >
 	{@render children?.()}

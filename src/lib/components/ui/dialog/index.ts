@@ -35,3 +35,5 @@ export {
 	Description as DialogDescription,
 	Close as DialogClose,
 };
+
+export type { DialogSize, DialogVariant, DialogVariants } from "./dialog-variants.js";

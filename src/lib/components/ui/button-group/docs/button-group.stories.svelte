@@ -4,6 +4,7 @@
   import { Button } from "$core/components/ui/button";
   import { fn } from 'storybook/test';
   import type { ButtonGroupVariant } from "$core/components/ui/button-group/button-group.svelte";
+    import { type Args } from 'storybook/internal/types';
 
   const { Story } = defineMeta({
     title: 'Components/ButtonGroup',
@@ -53,18 +54,21 @@
 </script>
 
 <Story name="Default">
-  <ButtonGroup variant="bg" orientation="horizontal">
+  {#snippet template(args: Args)}
+  <ButtonGroup {...args} variant="bg" orientation="horizontal">
     <Button variant="outline">First</Button>
     <Button variant="outline">Second</Button>
     <Button variant="outline">Third</Button>
   </ButtonGroup>
+    {/snippet}
 </Story>
 
 <Story name="Ghost Variant">
+  {#snippet template(args: Args)}
   <div class="space-y-4">
     <div>
       <h3 class="mb-2 text-sm font-medium">Background Variant</h3>
-      <ButtonGroup variant="bg">
+      <ButtonGroup {...args} variant="bg">
         <Button variant="outline">Copy</Button>
         <Button variant="outline">Paste</Button>
         <Button variant="outline">Cut</Button>
@@ -72,26 +76,30 @@
     </div>
     <div>
       <h3 class="mb-2 text-sm font-medium">Ghost Variant</h3>
-      <ButtonGroup variant="ghost">
+      <ButtonGroup {...args} variant="ghost">
         <Button variant="ghost">Copy</Button>
         <Button variant="ghost">Paste</Button>
         <Button variant="ghost">Cut</Button>
       </ButtonGroup>
     </div>
   </div>
+    {/snippet}
 </Story>
 
 <Story name="With Text Labels">
-  <ButtonGroup variant="bg">
+  {#snippet template(args: Args)}
+  <ButtonGroup {...args} variant="bg">
     <ButtonGroupText variant="bg">Actions</ButtonGroupText>
     <Button variant="outline">Save</Button>
     <Button variant="outline">Delete</Button>
     <Button variant="outline">Cancel</Button>
   </ButtonGroup>
+    {/snippet}
 </Story>
 
 <Story name="With Separators">
-  <ButtonGroup variant="bg">
+  {#snippet template(args: Args)}
+  <ButtonGroup {...args} variant="bg">
     <Button variant="outline">File</Button>
     <ButtonGroupSeparator />
     <Button variant="outline">Edit</Button>
@@ -99,21 +107,25 @@
     <ButtonGroupSeparator />
     <Button variant="outline">Help</Button>
   </ButtonGroup>
+    {/snippet}
 </Story>
 
 <Story name="Vertical Orientation">
+  {#snippet template(args: Args)}
   <ButtonGroup orientation="vertical" variant="bg">
     <Button variant="outline">Top</Button>
     <Button variant="outline">Middle</Button>
     <Button variant="outline">Bottom</Button>
   </ButtonGroup>
+    {/snippet}
 </Story>
 
 <Story name="Complex Example">
+  {#snippet template(args: Args)}
   <div class="space-y-4">
     <div>
       <h3 class="mb-2 text-sm font-medium">Toolbar with Text and Separators</h3>
-      <ButtonGroup variant="bg">
+      <ButtonGroup {...args} variant="bg">
         <ButtonGroupText variant="bg">Format</ButtonGroupText>
         <Button variant="outline" size="sm">Bold</Button>
         <Button variant="outline" size="sm">Italic</Button>
@@ -125,7 +137,7 @@
     </div>
     <div>
       <h3 class="mb-2 text-sm font-medium">Ghost Variant with Icons</h3>
-      <ButtonGroup variant="ghost">
+      <ButtonGroup {...args} variant="ghost">
         <ButtonGroupText variant="ghost">Tools</ButtonGroupText>
         <Button variant="ghost" size="sm">🔧</Button>
         <Button variant="ghost" size="sm">⚙️</Button>
@@ -133,12 +145,15 @@
       </ButtonGroup>
     </div>
   </div>
+  {/snippet}
 </Story>
 
 <Story name="Mixed Button Variants">
-  <ButtonGroup variant="bg">
+  {#snippet template(args: Args)}
+  <ButtonGroup {...args} variant="bg">
     <Button variant="default">Primary</Button>
     <Button variant="outline">Secondary</Button>
     <Button variant="ghost">Tertiary</Button>
   </ButtonGroup>
+  {/snippet}
 </Story>

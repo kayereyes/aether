@@ -1,4 +1,4 @@
-<script module>
+<script module lang="ts">
   import { defineMeta } from '@storybook/addon-svelte-csf';
 	import {Card} from "$core/components/ui/card";
 	import { Button } from "$core/components/ui/button";
@@ -6,7 +6,7 @@
 	import { Input } from "$core/components/ui/input";
 	import { Switch } from "$core/components/ui/switch";
 	import {Field} from "$core/components/ui/field";
-  import { fn } from 'storybook/test';
+    import {type Args } from 'storybook/internal/types';
 
   const { Story } = defineMeta({
     title: 'Components/Card',
@@ -86,7 +86,7 @@
       },
     },
     args: {
-      onclick: fn(),
+      // onclick: fn(),
     },
     
     // Disable automatic prop extraction
@@ -154,7 +154,8 @@
 
 <!-- Cards with Header Actions -->
 <Story name="With Header Action">
-  <Card title="Edit Profile" description="Update your personal information">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Edit Profile" description="Update your personal information">
     {#snippet headerAction()}
       <Button variant="ghost" size="sm">Edit</Button>
     {/snippet}
@@ -167,10 +168,12 @@
       </Field>
     </div>
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="With Badge Action">
-  <Card title="Notifications" description="Control your notification preferences">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Notifications" description="Control your notification preferences">
     {#snippet headerAction()}
       <Badge>3 New</Badge>
     {/snippet}
@@ -183,11 +186,13 @@
       </Field>
     </div>
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Cards with Footers -->
 <Story name="With Footer">
-  <Card title="Confirm Action" description="This action requires confirmation">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Confirm Action" description="This action requires confirmation">
     <p class="text-sm text-muted-foreground">
       Are you sure you want to proceed? This action cannot be undone.
     </p>
@@ -196,10 +201,12 @@
       <Button variant="destructive" size="sm">Confirm</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Footer with Info">
-  <Card title="Save Changes" description="Update your preferences">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Save Changes" description="Update your preferences">
     <Field label="Username">
       <Input id="username-save" value="johndoe" />
     </Field>
@@ -209,11 +216,14 @@
       <Button size="sm">Save</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Complex Examples -->
 <Story name="Subscription Card">
+  {#snippet template(args: Args)}
   <Card 
+    {...args}
     title="Subscription Plan" 
     description="Manage your subscription and billing"
     variant="elevated"
@@ -224,14 +234,13 @@
     {/snippet}
 
     <div class="space-y-4">
-      <Field.Impl label="Current Plan">
+      <Field label="Current Plan">
         <Input id="current-plan" value="Pro Plan" disabled />
-      </Field.Impl>
+      </Field>
 
-      <Field.Impl label="Auto-renew subscription" orientation="horizontal">
+      <Field label="Auto-renew subscription" orientation="horizontal">
         <Switch id="auto-renew" checked={true} />
-      </Field.Impl>
-
+      </Field>
       <div class="rounded bg-muted p-4 space-y-1">
         <div class="flex justify-between text-sm">
           <span>Subtotal</span>
@@ -257,10 +266,13 @@
       <Button size="sm">Upgrade</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Settings Card">
+  {#snippet template(args: Args)}
   <Card 
+    {...args}
     title="Project Settings" 
     description="Configure your project preferences"
     variant="outline"
@@ -271,21 +283,20 @@
     {/snippet}
 
     <div class="space-y-4">
-      <Field.Impl label="Project Name">
+      <Field label="Project Name">
         <Input id="project-name" value="My Awesome Project" />
-      </Field.Impl>
+      </Field>
 
-      <Field.Impl label="Description">
+      <Field label="Description">
         <Input id="project-desc" value="A description of the project" />
-      </Field.Impl>
-
+      </Field>
       <div class="space-y-2">
-        <Field.Impl label="Enable analytics" orientation="horizontal">
+        <Field label="Enable analytics" orientation="horizontal">
           <Switch id="analytics" checked={true} />
-        </Field.Impl>
-        <Field.Impl label="Allow comments" orientation="horizontal">
+        </Field>
+        <Field label="Allow comments" orientation="horizontal">
           <Switch id="comments" checked={true} />
-        </Field.Impl>
+        </Field>
       </div>
     </div>
 
@@ -295,20 +306,25 @@
       <Button size="sm">Save Settings</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Stats Card">
-  <Card variant="elevated" padding="lg">
+  {#snippet template(args: Args)}
+  <Card {...args} variant="elevated" padding="lg">
     <div class="text-center">
       <p class="text-sm text-muted-foreground">Total Users</p>
       <p class="text-4xl font-bold mt-2">12,345</p>
       <p class="text-xs text-green-600 mt-1">↑ 12% from last month</p>
     </div>
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Product Card">
+  {#snippet template(args: Args)}
   <Card 
+    {...args}
     title="Premium Plan" 
     description="Best for teams"
     variant="outline"
@@ -327,59 +343,75 @@
       <Button class="w-full">Get Started</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Variant Combinations -->
 <Story name="Ghost + Small Padding">
-  <Card variant="ghost" padding="sm" title="Compact Ghost">
+  {#snippet template(args: Args)}
+  <Card {...args} variant="ghost" padding="sm" title="Compact Ghost">
     <p class="text-sm">Minimal card with compact padding.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Outline + Large + Hover">
-  <Card variant="outline" padding="lg" hover={true} title="Spacious Outline">
+  {#snippet template(args: Args)}
+  <Card {...args} variant="outline" padding="lg" hover={true} title="Spacious Outline">
     <p class="text-sm">Emphasized border with spacious padding and hover effect.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Elevated + Interactive">
-  <Card variant="elevated" interactive={true} title="Clickable Elevated">
+  {#snippet template(args: Args)}
+  <Card {...args} variant="elevated" interactive={true} title="Clickable Elevated">
     <p class="text-sm">Lifted appearance with full interactivity.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <Story name="Filled + No Padding">
-  <Card variant="filled" padding="none" title="Full Bleed Filled">
+  {#snippet template(args: Args)}
+  <Card {...args} variant="filled" padding="none" title="Full Bleed Filled">
     <div class="bg-primary/5 p-4 rounded">
       <p class="text-sm">Filled background with custom internal padding.</p>
     </div>
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Only Title -->
 <Story name="Title Only">
-  <Card title="Simple Title Card">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Simple Title Card">
     <p class="text-sm">A card with only a title, no description.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Only Description -->
 <Story name="Description Only">
-  <Card description="This card has only a description">
+  {#snippet template(args: Args)}
+  <Card {...args} description="This card has only a description">
     <p class="text-sm">No title, just content with description.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <!-- No Header -->
 <Story name="Content Only">
-  <Card>
+  {#snippet template(args: Args)}
+  <Card {...args}>
     <p class="text-sm">A simple card with just content, no header or footer.</p>
   </Card>
+    {/snippet}
 </Story>
 
 <!-- Team Members Card -->
 <Story name="Team Members">
-  <Card title="Team Members" description="Manage your team">
+  {#snippet template(args: Args)}
+  <Card {...args} title="Team Members" description="Manage your team">
     <div class="space-y-2">
       <div class="flex items-center gap-3">
         <div class="h-10 w-10 rounded-full bg-primary/10"></div>
@@ -400,11 +432,13 @@
       <Button variant="outline" size="sm" class="w-full">Invite Member</Button>
     {/snippet}
   </Card>
+    {/snippet}
 </Story>
 
 <!-- API Key Card -->
 <Story name="API Key">
-  <Card title="API Key" description="Manage your API credentials">
+  {#snippet template(args: Args)}
+  <Card {...args} title="API Key" description="Manage your API credentials">
     {#snippet headerAction()}
       <Button variant="outline" size="sm">Regenerate</Button>
     {/snippet}
@@ -417,4 +451,5 @@
       </p>
     </div>
   </Card>
+    {/snippet}
 </Story>
